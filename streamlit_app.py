@@ -210,7 +210,7 @@ def tampilkan_hasil(nama_variabel, angka, satuan=""):
 if st.session_state.menu_aktif == "Start":
     st.markdown("""
     <div class="welcome-outer">
-        <div class="welcome-header"><h1>HALLO👋</h1></div>
+        <div class="welcome-header"><h1>Selamat Datang👋</h1></div>
         <div class="welcome-body">
             <p class="welcome-desc">Aplikasi Kalkulator Kimia Analitik Kuantitatif</p>
         </div>
