@@ -1,816 +1,259 @@
 import streamlit as st
 import math
 
+# Set up halaman standar (tanpa aneh-aneh)
 st.set_page_config(
     page_title="Kalkulator Kimia Analitik",
     page_icon="🧪",
-    layout="wide",
-    initial_sidebar_state="collapsed"
+    layout="centered"  # Diubah ke centered biar lebih umum digunakan
 )
 
-# hasil
-def kartu_hasil(label, value, unit=""):
-    return f"""
-    <div class="result-card">
-        <p class="result-label">{label}</p>
-        <p class="result-value">{value} <span style="font-size:16px; color:#e8a045;">{unit}</span></p>
-    </div>
-    """
+# Judul Utama menggunakan komponen standar Streamlit
+st.title("Kalkulator Analisis Kuantitatif")
+st.write("Aplikasi untuk membantu perhitungan laboratorium kimia analitik.")
+st.markdown("---")
 
-# langkah penyelesaian
-def tampilkan_langkah(judul_rumus, langkah_list, catatan_kaki=""):
-    isi = "".join(f"<p style='margin: 0 0 8px 0;'>{l}</p>" for l in langkah_list)
-    catatan = ""
-    if catatan_kaki:
-        catatan = f"<p style='margin: 10px 0 0 0; font-size: 11px; color: #9e9e9e; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px;'>{catatan_kaki}</p>"
-    st.markdown(
-        f"""
-        <div style="background: rgba(255,255,255,0.04); padding: 20px; border-radius: 10px;
-                    border: 1px dashed rgba(232,160,69,0.4); font-family: 'Courier New', monospace; margin-top: 15px;">
-            <p style="margin: 0 0 12px 0; color: #e8a045; font-weight: 600; font-size: 13px;">
-                📋 Penyelesaian ({judul_rumus}):
-            </p>
-            <div style="font-size: 13px; color: #cfcfcf; line-height: 1.7; padding-left: 5px;">
-                {isi}
-            </div>
-            {catatan}
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-st.markdown("""
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
-
-.stApp {
-    background: #1a1a2e !important;
-    background-image: radial-gradient(ellipse at top left, #16213e 0%, #1a1a2e 60%, #0f3460 100%) !important;
-    background-attachment: fixed;
-    color: #f0f0f0 !important;
-}
-
-html, body, [class*="css"] {
-    font-family: 'Space Grotesk', sans-serif;
-}
-
-.stMarkdown, p, label, .stSlider, .stRadio, div[data-baseweb="checkbox"] {
-    color: #f0f0f0 !important;
-}
-
-/* input field text color fix */
-div[data-testid="stNumberInput"] input,
-div[data-testid="stTextInput"] input,
-div[data-testid="stTextArea"] textarea,
-div[data-baseweb="select"] div {
-    color: #1a1a2e !important;
-    font-weight: 500 !important;
-}
-div[data-shaded="true"], ul[role="listbox"] li {
-    color: #1a1a2e !important;
-}
-
-/* tab styling */
-button[data-baseweb="tab"] p { color: #9e9e9e !important; }
-button[data-baseweb="tab"][aria-selected="true"] p {
-    color: #e8a045 !important;
-    font-weight: 700 !important;
-}
-
-.badge-label {
-    display: inline-block;
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: #e8a045;
-    border: 1.5px solid #e8a045;
-    border-radius: 4px;
-    padding: 3px 12px;
-    margin-bottom: 1rem;
-    background: rgba(232,160,69,0.08);
-}
-
-.main-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 38px;
-    font-weight: 600;
-    line-height: 1.2;
-    color: #ffffff;
-    margin: 0 0 .4rem;
-}
-.main-title em {
-    font-style: normal;
-    color: #e8a045;
-}
-.subtitle {
-    font-size: 14px;
-    color: #9e9e9e;
-    line-height: 1.6;
-    max-width: 560px;
-    margin-bottom: 1.5rem;
-}
-
-.formula-box {
-    background: rgba(232,160,69,0.07);
-    border: 1px solid rgba(232,160,69,0.5);
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    color: #e8a045;
-    text-align: center;
-    margin: 1rem 0;
-}
-
-/* halaman welcome */
-.welcome-outer {
-    max-width: 700px;
-    margin: 2.5rem auto 2rem;
-    background: rgba(255,255,255,0.03);
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.08);
-}
-.welcome-header {
-    background: linear-gradient(135deg, #0f3460, #16213e);
-    padding: 2.5rem;
-    text-align: center;
-    border-bottom: 2px solid #e8a045;
-}
-.welcome-header h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 36px;
-    font-weight: 600;
-    margin: 0;
-    color: #fff;
-}
-.welcome-body {
-    padding: 2rem 2rem;
-    text-align: center;
-    color: #cfcfcf;
-}
-.welcome-desc {
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1.5;
-    margin: 0 auto;
-    max-width: 560px;
-}
-
-.info-card {
-    background: rgba(255,255,255,0.04);
-    border-radius: 12px;
-    padding: 1.4rem;
-    height: 100%;
-    border: 1px solid rgba(255,255,255,0.07);
-    border-top: 4px solid #e8a045;
-}
-.info-card h4 {
-    margin-top: 0;
-    font-size: 16px;
-    margin-bottom: 0.6rem;
-    color: #e8a045;
-}
-.info-card ul {
-    margin: 0;
-    padding-left: 1.2rem;
-    font-size: 14px;
-    color: #b0b0b0;
-    line-height: 1.7;
-}
-
-/* menu cards */
-.menu-card {
-    background: rgba(255,255,255,0.04);
-    border-radius: 10px;
-    padding: 1.4rem;
-    min-height: 180px;
-    border: 1px solid rgba(255,255,255,0.06);
-    transition: background 0.2s ease, transform 0.15s ease;
-}
-.menu-card:hover {
-    background: rgba(255,255,255,0.07);
-    transform: translateY(-2px);
-}
-.card-p1 { border-left: 4px solid #e8a045; }
-.card-p2 { border-left: 4px solid #4fc3f7; }
-.card-p3 { border-left: 4px solid #81c784; }
-.card-p4 { border-left: 4px solid #ce93d8; }
-.card-p5 { border-left: 4px solid #ef9a9a; }
-
-.menu-icon  { font-size: 22px; margin-bottom: 0.4rem; }
-.menu-title { font-size: 16px; font-weight: 600; margin-top: 0.2rem; margin-bottom: 0.4rem; color: #f0f0f0; }
-.menu-desc  { font-size: 12px; color: #9e9e9e; line-height: 1.5; }
-
-/* tombol */
-div.stButton > button {
-    background: #e8a045 !important;
-    color: #1a1a2e !important;
-    border: none !important;
-    border-radius: 6px !important;
-    padding: 0.55rem 1.4rem !important;
-    font-weight: 700 !important;
-    font-family: 'Space Grotesk', sans-serif !important;
-    letter-spacing: 0.02em !important;
-    transition: opacity 0.15s;
-}
-div.stButton > button:hover {
-    opacity: 0.88;
-}
-
-/* kotak hasil */
-.result-card {
-    background: rgba(232,160,69,0.07);
-    border-radius: 10px;
-    padding: 1rem 1.4rem;
-    margin-top: .75rem;
-    border: 1px solid rgba(232,160,69,0.3);
-}
-.result-label {
-    font-size: 10px;
-    font-family: 'Space Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    margin: 0 0 4px;
-    color: #9e9e9e;
-}
-.result-value {
-    font-size: 24px;
-    font-weight: 600;
-    margin: 0;
-    font-family: 'Space Mono', monospace;
-    color: #e8a045;
-}
-
-div[data-testid="stNumberInput"],
-div[data-testid="stSelectbox"],
-div[data-testid="stTextInput"],
-div[data-testid="stTextArea"] {
-    background-color: rgba(255,255,255,0.04) !important;
-    border-radius: 6px !important;
-}
-input, select, textarea { color: white !important; }
-</style>
-""", unsafe_allow_html=True)
-
-# session state buat navigasi antar halaman
-if 'menu_aktif' not in st.session_state:
-    st.session_state.menu_aktif = "Start"
-
-def pindah_ke(nama_modul):
-    st.session_state.menu_aktif = nama_modul
-
-SATUAN_KONSENTRASI = ["Molaritas (M)", "% massa/volume (% m/v)", "ppm (mg/L)", "ppb (µg/L)", "mg/mL", "Molalitas (m)"]
-
-def ke_mgL(val, satuan, mr, rho=1.0):
-    tabel = {
-        "Molaritas (M)":           val * mr * 1000,
-        "% massa/volume (% m/v)":  val * 10000,
-        "ppm (mg/L)":              val,
-        "ppb (µg/L)":              val / 1000,
-        "mg/mL":                   val * 1000,
-        "Molalitas (m)":           val * mr * rho * 1000,
-    }
-    return tabel.get(satuan, val)
-
-def dari_mgL(mgL, satuan, mr, rho=1.0):
-    tabel = {
-        "Molaritas (M)":           mgL / (mr * 1000),
-        "% massa/volume (% m/v)":  mgL / 10000,
-        "ppm (mg/L)":              mgL,
-        "ppb (µg/L)":              mgL * 1000,
-        "mg/mL":                   mgL / 1000,
-        "Molalitas (m)":           mgL / (mr * rho * 1000),
-    }
-    return tabel.get(satuan, mgL)
+# Inisialisasi menu navigasi menggunakan sidebar standar
+menu = st.sidebar.selectbox(
+    "Pilih Modul Kalkulator:",
+    ["Home", "Pengenceran Larutan", "Konsentrasi & Stoikiometri", "Kesetimbangan & pH", "Larutan Buffer", "Galat & Statistik"]
+)
 
 # ---------------------------------------------------------------
-# HALAMAN START
+# HALAMAN HOME
 # ---------------------------------------------------------------
-if st.session_state.menu_aktif == "Start":
-    st.markdown("""
-    <div class="welcome-outer">
-        <div class="welcome-header">
-            <h1>Selamat Datang 👋</h1>
-        </div>
-        <div class="welcome-body">
-            <p class="welcome-desc">Aplikasi Kalkulator Kimia Analitik Kuantitatif</p>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    _, col_btn, _ = st.columns([1.2, 1, 1.2])
-    with col_btn:
-        if st.button("Masuk ke Aplikasi →", key="btn_start", use_container_width=True):
-            pindah_ke("Dashboard")
-            st.rerun()
-
-    st.write("<br><br>", unsafe_allow_html=True)
-
-    col_tujuan, col_manfaat = st.columns(2)
-    with col_tujuan:
-        st.markdown("""
-        <div class="info-card">
-            <h4>🎯 Tujuan Aplikasi</h4>
-            <ul>
-                <li>Menyediakan platform hitung laboratorium yang mudah dipahami.</li>
-                <li>Mengecek kekeliruan pengerjaan angka desimal berkat otomasi kalkulasi analitis.</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-    with col_manfaat:
-        st.markdown("""
-        <div class="info-card">
-            <h4>✨ Manfaat Aplikasi</h4>
-            <ul>
-                <li><b>Cepat & Efisien:</b> Memproses rumus C₁V₁=C₂V₂ dan stoikiometri dalam hitungan detik.</li>
-                <li><b>Transparan:</b> Dilengkapi langkah penyelesaian lengkap dan hitung galat SD/RSD.</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
-# ---------------------------------------------------------------
-# DASHBOARD
-# ---------------------------------------------------------------
-elif st.session_state.menu_aktif == "Dashboard":
-    st.markdown('<div class="badge-label">🧪 Kimia Analitik</div>', unsafe_allow_html=True)
-    st.markdown("""
-    <h1 class="main-title">Kalkulator <em>Analisis</em> Kuantitatif</h1>
-    <p class="subtitle">Pilih salah satu modul kalkulator di bawah ini untuk memulai:</p>
-    """, unsafe_allow_html=True)
-    st.divider()
-
-    col1, col2, col3 = st.columns(3)
+if menu == "Home":
+    st.subheader("Selamat Datang di Aplikasi Kalkulator Kimia")
+    st.write("Aplikasi ini dibuat untuk mempermudah perhitungan analisis kuantitatif di laboratorium.")
+    
+    col1, col2 = st.columns(2)
     with col1:
-        st.markdown('<div class="menu-card card-p1"><div class="menu-icon">💧</div><div class="menu-title">Pengenceran Larutan</div><div class="menu-desc">Kalkulator pengenceran tunggal, serial/bertingkat, dan penentuan faktor pengenceran sampel.</div></div>', unsafe_allow_html=True)
-        if st.button("Buka Modul 01 →", key="btn_m1", use_container_width=True):
-            pindah_ke("Pengenceran")
-            st.rerun()
+        st.info("**🎯 Tujuan**\n\nMenyediakan alat hitung cepat untuk meminimalisir kesalahan desimal saat praktikum.")
     with col2:
-        st.markdown('<div class="menu-card card-p2"><div class="menu-icon">🔄</div><div class="menu-title">Konsentrasi & Stoikiometri</div><div class="menu-desc">Konversi antar satuan kimia (M, %, ppm, ppb) dan hitung stoikiometri reaksi mol.</div></div>', unsafe_allow_html=True)
-        if st.button("Buka Modul 02 →", key="btn_m2", use_container_width=True):
-            pindah_ke("Stoikiometri")
-            st.rerun()
-    with col3:
-        st.markdown('<div class="menu-card card-p3"><div class="menu-icon">🌈</div><div class="menu-title">Kesetimbangan & pH</div><div class="menu-desc">Prediksi pH sistem asam-basa kuat/lemah dan perhitungan Ka/Kb tetapan larutan.</div></div>', unsafe_allow_html=True)
-        if st.button("Buka Modul 03 →", key="btn_m3", use_container_width=True):
-            pindah_ke("pH")
-            st.rerun()
-
-    st.write("")
-    col4, col5, _ = st.columns(3)
-    with col4:
-        st.markdown('<div class="menu-card card-p4"><div class="menu-icon">🧪</div><div class="menu-title">Larutan Buffer</div><div class="menu-desc">Desain sistem penyangga menggunakan persamaan Henderson-Hasselbalch.</div></div>', unsafe_allow_html=True)
-        if st.button("Buka Modul 04 →", key="btn_m4", use_container_width=True):
-            pindah_ke("Buffer")
-            st.rerun()
-    with col5:
-        st.markdown('<div class="menu-card card-p5"><div class="menu-icon">📊</div><div class="menu-title">Galat & Propagasi</div><div class="menu-desc">Hitung ketidakpastian, deviasi standar (SD), dan nilai RSD data pengukuran.</div></div>', unsafe_allow_html=True)
-        if st.button("Buka Modul 05 →", key="btn_m5", use_container_width=True):
-            pindah_ke("Galat")
-            st.rerun()
+        st.success("**✨ Manfaat**\n\nMembantu verifikasi data hasil pengenceran, titrasi, dan perhitungan statistik galat.")
 
 # ---------------------------------------------------------------
-# MODUL-MODUL KALKULATOR
+# MODUL PENGENCERAN
 # ---------------------------------------------------------------
-else:
-    if st.button("← Kembali ke Menu Utama", key="btn_kembali"):
-        pindah_ke("Dashboard")
-        st.rerun()
-    st.divider()
-
-    # PENGENCERAN
-    if st.session_state.menu_aktif == "Pengenceran":
-        st.markdown("### 💧 Pengenceran Larutan")
-        tab_cv, tab_serial, tab_fp = st.tabs(["C₁V₁ = C₂V₂", "Serial / Bertingkat", "Faktor Pengenceran"])
-
-        with tab_cv:
-            st.markdown('<div class="formula-box">C₁ × V₁ = C₂ × V₂</div>', unsafe_allow_html=True)
-            cari = st.selectbox("Variabel yang dicari:", [
-                "C₂ — Konsentrasi akhir",
-                "V₂ — Volume akhir",
-                "C₁ — Konsentrasi awal",
-                "V₁ — Volume awal"
-            ], key="e_cari")
-            satuan = st.selectbox("Satuan konsentrasi:", ["M", "mM", "µM", "mg/mL", "ppm", "ppb"], key="e_sat")
-            col1, col2 = st.columns(2)
-
-            if cari == "C₂ — Konsentrasi akhir":
-                with col1:
-                    c1 = st.number_input("C₁ — Konsentrasi awal", 0.0, value=1.0, format="%.5f", key="ec1a")
-                    v1 = st.number_input("V₁ — Volume awal (mL)", 0.0, value=10.0, format="%.3f", key="ev1a")
-                with col2:
-                    v2 = st.number_input("V₂ — Volume akhir (mL)", 1e-9, value=100.0, format="%.3f", key="ev2a")
+elif menu == "Pengenceran Larutan":
+    st.subheader("💧 Modul Pengenceran Larutan")
+    
+    pilihan_sub = st.radio("Metode Pengenceran:", ["Rumus C1.V1 = C2.V2", "Pengenceran Serial", "Faktor Pengenceran"])
+    
+    if pilihan_sub == "Rumus C1.V1 = C2.V2":
+        st.write("**Rumus Dasarnya:** $C_1 \\times V_1 = C_2 \\times V_2$")
+        
+        cari = st.selectbox("Variabel yang ingin dicari:", ["C2 (Konsentrasi Akhir)", "V2 (Volume Akhir)", "C1 (Konsentrasi Awal)", "V1 (Volume Awal)"])
+        satuan_kons = st.text_input("Masukkan Satuan Konsentrasi (misal: M, ppm, %):", value="M")
+        
+        col1, col2 = st.columns(2)
+        
+        if cari == "C2 (Konsentrasi Akhir)":
+            with col1:
+                c1 = col1.number_input("C1 (Konsentrasi awal):", value=1.0, format="%.4f")
+                v1 = col1.number_input("V1 (Volume awal dalam mL):", value=10.0, format="%.2f")
+            with col2:
+                v2 = col2.number_input("V2 (Volume akhir dalam mL):", value=100.0, format="%.2f")
+            
+            if v2 > 0:
                 hasil = (c1 * v1) / v2
-                st.markdown(kartu_hasil("C₂ — Konsentrasi akhir", f"{hasil:.6g}", satuan), unsafe_allow_html=True)
-                tampilkan_langkah("C₂ = (C₁ × V₁) / V₂", [
-                    f"C₂ = ({c1} × {v1}) / {v2}",
-                    f"C₂ = {c1 * v1} / {v2}",
-                    f"C₂ = <b>{hasil:.6g} {satuan}</b>"
-                ])
-
-            elif cari == "V₂ — Volume akhir":
-                with col1:
-                    c1 = st.number_input("C₁ — Konsentrasi awal", 0.0, value=1.0, format="%.5f", key="ec1b")
-                    v1 = st.number_input("V₁ — Volume awal (mL)", 0.0, value=10.0, format="%.3f", key="ev1b")
-                with col2:
-                    c2 = st.number_input("C₂ — Konsentrasi akhir", 1e-9, value=0.1, format="%.5f", key="ec2b")
+                st.success(f"**Hasil Perhitungan C2:** {hasil:.6f} {satuan_kons}")
+                st.code(f"Langkah Kerja:\nC2 = (C1 x V1) / V2\nC2 = ({c1} x {v1}) / {v2}\nC2 = {hasil:.6f}")
+                
+        elif cari == "V2 (Volume Akhir)":
+            with col1:
+                c1 = col1.number_input("C1 (Konsentrasi awal):", value=1.0, format="%.4f")
+                v1 = col1.number_input("V1 (Volume awal dalam mL):", value=10.0, format="%.2f")
+            with col2:
+                c2 = col2.number_input("C2 (Konsentrasi akhir):", value=0.1, format="%.4f")
+                
+            if c2 > 0:
                 hasil = (c1 * v1) / c2
-                st.markdown(kartu_hasil("V₂ — Volume akhir", f"{hasil:.5g}", "mL"), unsafe_allow_html=True)
-                tampilkan_langkah("V₂ = (C₁ × V₁) / C₂", [
-                    f"V₂ = ({c1} × {v1}) / {c2}",
-                    f"V₂ = {c1 * v1} / {c2}",
-                    f"V₂ = <b>{hasil:.5g} mL</b>"
-                ])
+                st.success(f"**Hasil Perhitungan V2:** {hasil:.2f} mL")
+                st.code(f"Langkah Kerja:\nV2 = (C1 x V1) / C2\nV2 = ({c1} x {v1}) / {c2}\nV2 = {hasil:.2f} mL")
 
-            elif cari == "C₁ — Konsentrasi awal":
-                with col1:
-                    v1 = st.number_input("V₁ — Volume awal (mL)", 1e-9, value=10.0, format="%.3f", key="ev1c")
-                    c2 = st.number_input("C₂ — Konsentrasi akhir", 0.0, value=0.1, format="%.5f", key="ec2c")
-                with col2:
-                    v2 = st.number_input("V₂ — Volume akhir (mL)", 1e-9, value=100.0, format="%.3f", key="ev2c")
+        elif cari == "C1 (Konsentrasi Awal)":
+            with col1:
+                v1 = col1.number_input("V1 (Volume awal dalam mL):", value=10.0, format="%.2f")
+                c2 = col1.number_input("C2 (Konsentrasi akhir):", value=0.1, format="%.4f")
+            with col2:
+                v2 = col2.number_input("V2 (Volume akhir dalam mL):", value=100.0, format="%.2f")
+                
+            if v1 > 0:
                 hasil = (c2 * v2) / v1
-                st.markdown(kartu_hasil("C₁ — Konsentrasi awal", f"{hasil:.6g}", satuan), unsafe_allow_html=True)
-                tampilkan_langkah("C₁ = (C₂ × V₂) / V₁", [
-                    f"C₁ = ({c2} × {v2}) / {v1}",
-                    f"C₁ = {c2 * v2} / {v1}",
-                    f"C₁ = <b>{hasil:.6g} {satuan}</b>"
-                ])
+                st.success(f"**Hasil Perhitungan C1:** {hasil:.6f} {satuan_kons}")
+                st.code(f"Langkah Kerja:\nC1 = (C2 x V2) / V1\nC1 = ({c2} x {v2}) / {v1}\nC1 = {hasil:.6f}")
 
-            else:
-                with col1:
-                    c1 = st.number_input("C₁ — Konsentrasi awal", 1e-9, value=1.0, format="%.5f", key="ec1d")
-                    c2 = st.number_input("C₂ — Konsentrasi akhir", 0.0, value=0.1, format="%.5f", key="ec2d")
-                with col2:
-                    v2 = st.number_input("V₂ — Volume akhir (mL)", 1e-9, value=100.0, format="%.3f", key="ev2d")
+        elif cari == "V1 (Volume Awal)":
+            with col1:
+                c1 = col1.number_input("C1 (Konsentrasi awal):", value=1.0, format="%.4f")
+                c2 = col1.number_input("C2 (Konsentrasi akhir):", value=0.1, format="%.4f")
+            with col2:
+                v2 = col2.number_input("V2 (Volume akhir dalam mL):", value=100.0, format="%.2f")
+                
+            if c1 > 0:
                 hasil = (c2 * v2) / c1
-                st.markdown(kartu_hasil("V₁ — Volume awal", f"{hasil:.5g}", "mL"), unsafe_allow_html=True)
-                tampilkan_langkah("V₁ = (C₂ × V₂) / C₁", [
-                    f"V₁ = ({c2} × {v2}) / {c1}",
-                    f"V₁ = {c2 * v2} / {c1}",
-                    f"V₁ = <b>{hasil:.5g} mL</b>"
-                ])
+                st.success(f"**Hasil Perhitungan V1 (Volume yang harus dipipet):** {hasil:.2f} mL")
+                st.code(f"Langkah Kerja:\nV1 = (C2 x V2) / C1\nV1 = ({c2} x {v2}) / {c1}\nV1 = {hasil:.2f} mL")
 
-        with tab_serial:
-            st.markdown('<div class="formula-box">Cₙ = C₀ × (V_aliquot / V_total)ⁿ</div>', unsafe_allow_html=True)
-            col1, col2 = st.columns(2)
-            with col1:
-                c0    = st.number_input("C₀ — Konsentrasi stok", 0.0, value=1.0, format="%.5f", key="s_c0")
-                nstep = st.number_input("Jumlah langkah", 1, 15, value=5, key="s_n")
-            with col2:
-                va_s  = st.number_input("Volume aliquot (mL)", 0.001, value=1.0, format="%.3f", key="s_va")
-                vt_s  = st.number_input("Volume total tiap tabung (mL)", 0.001, value=10.0, format="%.3f", key="s_vt")
-                sat_s = st.selectbox("Satuan", ["M", "mM", "µM", "mg/mL", "ppm"], key="s_sat")
+    elif pilihan_sub == "Pengenceran Serial":
+        st.write("Perhitungan pengenceran bertingkat (serial dilution).")
+        c0 = st.number_input("Konsentrasi Larutan Induk (Stok):", value=100.0)
+        n_tabung = st.number_input("Jumlah Tabung Pengenceran:", min_value=1, max_value=10, value=5)
+        v_aliquot = st.number_input("Volume sampel yang dipindahkan (mL):", value=1.0)
+        v_total = st.number_input("Volume total campuran di tabung (mL):", value=10.0)
+        
+        if v_aliquot >= v_total:
+            st.error("Error: Volume aliquot tidak boleh lebih besar atau sama dengan volume total!")
+        else:
+            faktor = v_aliquot / v_total
+            data_tabel = []
+            
+            # Perulangan manual ala mahasiswa
+            kons_sekarang = c0
+            data_tabel.append({"Tabung": "Induk (Stok)", "Konsentrasi": kons_sekarang})
+            
+            for i in range(1, n_tabung + 1):
+                kons_sekarang = kons_sekarang * faktor
+                data_tabel.append({"Tabung": f"Tabung {i}", "Konsentrasi": float(f"{kons_sekarang:.4f}")})
+                
+            st.write("**Hasil Konsentrasi Tiap Tabung:**")
+            st.table(data_tabel)  # Menggunakan tabel bawaan streamlit yang standar
 
-            if va_s >= vt_s:
-                st.warning("Volume aliquot harus lebih kecil dari volume total.")
-            else:
-                f = va_s / vt_s
-                rows = "".join(
-                    f"<tr>"
-                    f"<td style='padding:6px 10px; border-bottom:1px solid rgba(255,255,255,0.07)'>{'Stok' if i == 0 else f'Langkah {i}'}</td>"
-                    f"<td style='padding:6px 10px; font-family:Space Mono,monospace; color:#e8a045; border-bottom:1px solid rgba(255,255,255,0.07)'>{c0 * (f ** i):.4e}</td>"
-                    f"<td style='padding:6px 10px; color:#9e9e9e; border-bottom:1px solid rgba(255,255,255,0.07)'>{sat_s}</td>"
-                    f"</tr>"
-                    for i in range(int(nstep) + 1)
-                )
-                st.markdown(
-                    f"""<table style="width:100%;border-collapse:collapse;border:1px solid rgba(232,160,69,0.2);
-                        font-size:13px;margin-top:.5rem;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden">
-                        <thead><tr style="background:rgba(232,160,69,0.08)">
-                            <th style="padding:8px 10px;text-align:left;color:#e8a045">Tabung</th>
-                            <th style="padding:8px 10px;text-align:left;color:#e8a045">Konsentrasi</th>
-                            <th style="padding:8px 10px;text-align:left;color:#e8a045">Satuan</th>
-                        </tr></thead><tbody>{rows}</tbody></table>""",
-                    unsafe_allow_html=True
-                )
-                tampilkan_langkah("Faktor Pengenceran Serial", [
-                    f"Faktor per tabung = {va_s} mL / {vt_s} mL = <b>{f:.4f}</b>",
-                    f"Cₙ = {c0} × ({f:.4f})ⁿ"
-                ])
+    elif pilihan_sub == "Faktor Pengenceran":
+        v_awal = st.number_input("Volume Awal Sampel (mL):", value=2.0)
+        v_akhir = st.number_input("Volume Akhir Setelah Diencerkan (mL):", value=50.0)
+        
+        if v_awal > 0:
+            fp = v_akhir / v_awal
+            st.success(f"Faktor Pengenceran (FP) = **{fp:.2f} kali**")
+            st.info(f"Artinya sampel diencerkan dengan perbandingan 1 : {fp:.2f}")
 
-        with tab_fp:
-            col1, col2 = st.columns(2)
-            with col1:
-                va_fp = st.number_input("Volume awal (mL)", 0.001, value=1.0, format="%.3f", key="fp_va")
-                vb_fp = st.number_input("Volume akhir (mL)", 0.001, value=100.0, format="%.3f", key="fp_vb")
-            with col2:
-                ca_fp = st.number_input("Konsentrasi awal (opsional)", 0.0, value=1.0, format="%.5f", key="fp_ca")
-            fp = vb_fp / va_fp
-            st.markdown(kartu_hasil("Faktor Pengenceran", f"1 : {fp:.4f}", ""), unsafe_allow_html=True)
-            st.markdown(kartu_hasil("Konsentrasi Akhir", f"{ca_fp / fp:.5g}", ""), unsafe_allow_html=True)
-            tampilkan_langkah("Faktor Pengenceran (FP)", [
-                f"FP = Volume Akhir / Volume Awal = {vb_fp} / {va_fp} = <b>{fp:.4f}</b>",
-                f"Konsentrasi Akhir = C_awal / FP = {ca_fp} / {fp:.4f} = <b>{ca_fp / fp:.5g}</b>"
-            ])
+# ---------------------------------------------------------------
+# MODUL STOIKIOMETRI & KONVERSI
+# ---------------------------------------------------------------
+elif menu == "Konsentrasi & Stoikiometri":
+    st.subheader("🔄 Modul Satuan Konsentrasi & Stoikiometri")
+    
+    tab1, tab2 = st.tabs(["Konversi Satuan", "Hitung Mol Dasar"])
+    
+    with tab1:
+        st.write("Fitur konversi sederhana antara Molaritas dan ppm.")
+        pilihan_konv = st.selectbox("Jenis Konversi:", ["Molaritas (M) ke ppm (mg/L)", "ppm (mg/L) ke Molaritas (M)"])
+        nilai_input = st.number_input("Masukkan Nilai Konsentrasi:", value=0.1, format="%.4f")
+        mr_zat = st.number_input("Berat Molekul / Mr Zat (g/mol):", value=58.44)
+        
+        if pilihan_konv == "Molaritas (M) ke ppm (mg/L)":
+            # Rumus manual: M * Mr * 1000
+            hasil_ppm = nilai_input * mr_zat * 1000
+            st.success(f"Hasil Konversi: **{hasil_ppm:.2f} ppm (mg/L)**")
+        else:
+            # Rumus manual: ppm / (Mr * 1000)
+            hasil_m = nilai_input / (mr_zat * 1000)
+            st.success(f"Hasil Konversi: **{hasil_m:.6f} M**")
+            
+    with tab2:
+        opsi_mol = st.selectbox("Pilih Parameter yang Diketahui:", ["Mencari Mol dari Massa", "Mencari Massa dari Mol"])
+        if opsi_mol == "Mencari Mol dari Massa":
+            massa = st.number_input("Massa Zat (gram):", value=5.85)
+            mr = st.number_input("Mr Zat (g/mol):", value=58.44, key="mr_mol")
+            if mr > 0:
+                mol = massa / mr
+                st.success(f"Jumlah Mol = **{mol:.4f} mol**")
+        else:
+            mol_input = st.number_input("Jumlah Mol:", value=0.1)
+            mr = st.number_input("Mr Zat (g/mol):", value=58.44, key="mr_massa")
+            massa_hasil = mol_input * mr
+            st.success(f"Massa Zat = **{massa_hasil:.4f} gram**")
 
-    # STOKIOMETRI
-    elif st.session_state.menu_aktif == "Stoikiometri":
-        st.markdown("### 🔄 Satuan Konsentrasi & Stoikiometri")
-        tab_konv, tab_mol, tab_reaksi = st.tabs(["🔄 Konversi Satuan", "⚖️ Mol & Massa", "🧮 Stoikiometri Reaksi"])
+# ---------------------------------------------------------------
+# MODUL PH
+# ---------------------------------------------------------------
+elif menu == "Kesetimbangan & pH":
+    st.subheader("🌈 Modul Perhitungan pH Larutan")
+    
+    Kategori = st.selectbox("Sifat Larutan:", ["Asam Kuat", "Asam Lemah", "Basa Kuat", "Basa Lemah"])
+    konsetrasi_zat = st.number_input("Konsentrasi Larutan (M):", value=0.01, format="%.5f")
+    
+    if Kategori == "Asam Kuat":
+        if konsetrasi_zat > 0:
+            ph = -math.log10(konsetrasi_zat)
+            st.success(f"pH Larutan Asam Kuat = **{ph:.2f}**")
+            
+    elif Kategori == "Asam Lemah":
+        ka = st.number_input("Nilai Tetapan Asam (Ka):", value=1.8e-5, format="%.2e")
+        if konsetrasi_zat > 0 and ka > 0:
+            h_plus = math.sqrt(ka * konsetrasi_zat)
+            ph = -math.log10(h_plus)
+            st.success(f"pH Larutan Asam Lemah = **{ph:.2f}**")
+            st.write(f"Konsentrasi [H+] = {h_plus:.2e} M")
+            
+    elif Kategori == "Basa Kuat":
+        if konsetrasi_zat > 0:
+            poh = -math.log10(konsetrasi_zat)
+            ph = 14 - poh
+            st.success(f"pH Larutan Basa Kuat = **{ph:.2f}**")
+            
+    elif Kategori == "Basa Lemah":
+        kb = st.number_input("Nilai Tetapan Basa (Kb):", value=1.8e-5, format="%.2e")
+        if konsetrasi_zat > 0 and kb > 0:
+            oh_min = math.sqrt(kb * konsetrasi_zat)
+            poh = -math.log10(oh_min)
+            ph = 14 - poh
+            st.success(f"pH Larutan Basa Lemah = **{ph:.2f}**")
 
-        with tab_konv:
-            col1, col2 = st.columns(2)
-            with col1:
-                satuan_dari = st.selectbox("Dari satuan:", SATUAN_KONSENTRASI, index=0, key="k_dari")
-                nilai       = st.number_input("Nilai", 0.0, value=1.0, format="%.6f", key="k_val")
-                mr_k        = st.number_input("Mr zat (g/mol)", 0.001, value=58.44, key="k_mr")
-            with col2:
-                satuan_ke = st.selectbox("Ke satuan:", SATUAN_KONSENTRASI, index=2, key="k_ke")
-                rho       = st.number_input("Densitas ρ (g/mL)", 0.001, value=1.0, key="k_rho")
+# ---------------------------------------------------------------
+# MODUL BUFFER
+# ---------------------------------------------------------------
+elif menu == "Larutan Buffer":
+    st.subheader("🧪 Perhitungan pH Buffer (Henderson-Hasselbalch)")
+    
+    pka = st.number_input("Masukkan pKa Asam Lemah:", value=4.74)
+    mol_basa_konj = st.number_input("Konsentrasi / Mol Basa Konjugasi [A-]:", value=0.1)
+    mol_asam_lemah = st.number_input("Konsentrasi / Mol Asam Lemah [HA]:", value=0.1)
+    
+    if mol_basa_konj > 0 and mol_asam_lemah > 0:
+        log_bagian = math.log10(mol_basa_konj / mol_asam_lemah)
+        ph_buffer = pka + log_bagian
+        st.success(f"pH Larutan Penyangga (Buffer) = **{ph_buffer:.2f}**")
+        st.code(f"Rumus: pH = pKa + log([Basa Konjugat] / [Asam])\npH = {pka} + log({mol_basa_konj} / {mol_asam_lemah})\npH = {ph_buffer:.2f}")
 
-            if satuan_dari == satuan_ke:
-                st.warning("Pilih satuan yang berbeda.")
-            else:
-                mgL   = ke_mgL(nilai, satuan_dari, mr_k, rho)
-                hasil = dari_mgL(mgL, satuan_ke, mr_k, rho)
-                st.markdown(kartu_hasil("Hasil Konversi", f"{hasil:.6g}", satuan_ke), unsafe_allow_html=True)
-                tampilkan_langkah("Alur Jembatan Konversi", [
-                    f"Tahap 1: '{satuan_dari}' → basis standar ppm (mg/L):",
-                    f"&nbsp;&nbsp;&nbsp;→ <b>{mgL:.4e} mg/L</b>",
-                    f"Tahap 2: mg/L → target '{satuan_ke}':",
-                    f"&nbsp;&nbsp;&nbsp;→ <b>{hasil:.6g} {satuan_ke}</b>"
-                ], f"Tetapan: Mr = {mr_k} g/mol | Density = {rho} g/mL")
+# ---------------------------------------------------------------
+# MODUL GALAT
+# ---------------------------------------------------------------
+elif menu == "Galat & Statistik":
+    st.subheader("📊 Modul Perhitungan Statistik Laboratorium")
+    
+    st.write("Masukkan data hasil pengamatan Anda untuk mencari rata-rata, SD, dan RSD.")
+    input_data = st.text_area("Masukkan data angka (pisahkan dengan koma saja, contoh: 10.1, 10.2, 9.9, 10.0):", value="9.87, 9.92, 9.85, 9.90, 9.88")
+    
+    # Proses pemisahan string data manual ala mahasiswa
+    try:
+        list_angka = [float(x.strip()) for x in input_data.split(",") if x.strip() != ""]
+        
+        if len(list_angka) >= 2:
+            n = len(list_angka)
+            rata_rata = sum(list_angka) / n
+            
+            # Hitung Standar Deviasi (SD) manual sampel (n-1)
+            jumlah_kuadrat_selisih = sum((bi - rata_rata) ** 2 for bi in list_angka)
+            sd = math.sqrt(jumlah_kuadrat_selisih / (n - 1))
+            
+            # Hitung RSD
+            rsd = (sd / rata_rata) * 100
+            
+            st.write("---")
+            st.info(f"Jumlah Data (n) = {n}")
+            st.success(f"Rata-rata Pengukuran = **{rata_rata:.4f}**")
+            st.success(f"Standar Deviasi (SD) = **{sd:.4f}**")
+            st.success(f"Relative Standard Deviation (RSD) = **{rsd:.3f} %**")
+        else:
+            st.warning("Mohon masukkan minimal 2 data data agar bisa dihitung standar deviasinya.")
+    except ValueError:
+        st.error("Format data salah! Pastikan hanya memasukkan angka yang dipisahkan oleh tanda koma.")
 
-        with tab_mol:
-            pilihan_mol = st.selectbox("Cari:", [
-                "Mol (n) dari massa & Mr",
-                "Mol (n) dari M & V",
-                "Massa (g) dari n & Mr",
-                "Molaritas (M) dari n & V",
-                "Volume (mL) dari n & M"
-            ], key="mol_cari")
-            col1, col2 = st.columns(2)
-
-            if "massa & Mr" in pilihan_mol:
-                with col1: massa = st.number_input("Massa (gram)", 0.0, value=5.85, format="%.4f", key="mol_ma")
-                with col2: mr2   = st.number_input("Mr (g/mol)", 0.001, value=58.44, key="mol_mr")
-                hasil = massa / mr2
-                st.markdown(kartu_hasil("Mol (n)", f"{hasil:.5g}", "mol"), unsafe_allow_html=True)
-                tampilkan_langkah("n = gram / Mr", [f"n = {massa} / {mr2}", f"n = <b>{hasil:.5g} mol</b>"])
-
-            elif "M & V" in pilihan_mol:
-                with col1: Mm = st.number_input("Molaritas (M)", 0.0, value=1.0, key="mol_Mm")
-                with col2: Vm = st.number_input("Volume (mL)", 0.0, value=100.0, key="mol_Vm")
-                hasil = Mm * (Vm / 1000)
-                st.markdown(kartu_hasil("Mol (n)", f"{hasil:.5g}", "mol"), unsafe_allow_html=True)
-                tampilkan_langkah("n = M × (V / 1000)", [f"n = {Mm} × ({Vm} / 1000)", f"n = <b>{hasil:.5g} mol</b>"])
-
-            elif "Massa (g)" in pilihan_mol:
-                with col1: nm  = st.number_input("Mol (n)", 0.0, value=0.1, key="mol_nm")
-                with col2: mr3 = st.number_input("Mr (g/mol)", 0.001, value=58.44, key="mol_mr3")
-                hasil = nm * mr3
-                st.markdown(kartu_hasil("Massa (m)", f"{hasil:.5g}", "gram"), unsafe_allow_html=True)
-                tampilkan_langkah("gram = n × Mr", [f"gram = {nm} × {mr3}", f"gram = <b>{hasil:.5g} gram</b>"])
-
-            elif "Molaritas" in pilihan_mol:
-                with col1: nm  = st.number_input("Mol (n)", 0.0, value=0.1, key="mol_nm2")
-                with col2: Vm2 = st.number_input("Volume (mL)", 0.001, value=100.0, key="mol_Vm2")
-                hasil = nm / (Vm2 / 1000)
-                st.markdown(kartu_hasil("Molaritas (M)", f"{hasil:.5g}", "mol/L"), unsafe_allow_html=True)
-                tampilkan_langkah("M = n / (V / 1000)", [f"M = {nm} / ({Vm2} / 1000)", f"M = <b>{hasil:.5g} M</b>"])
-
-            else:
-                with col1: nm2 = st.number_input("Mol (n)", 0.0, value=0.1, key="mol_nm3")
-                with col2: Mm3 = st.number_input("Molaritas (M)", 0.001, value=1.0, key="mol_Mm3")
-                hasil = (nm2 / Mm3) * 1000
-                st.markdown(kartu_hasil("Volume (V)", f"{hasil:.5g}", "mL"), unsafe_allow_html=True)
-                tampilkan_langkah("V (mL) = (n / M) × 1000", [f"V = ({nm2} / {Mm3}) × 1000", f"V = <b>{hasil:.5g} mL</b>"])
-
-        with tab_reaksi:
-            col1, col2, col3, col4 = st.columns(4)
-            with col1:
-                kA = st.number_input("Koef A", 1, value=1)
-                nA = st.text_input("Nama A", "HCl")
-                mA = st.number_input("Mr A", 0.001, value=36.46)
-            with col2:
-                kB = st.number_input("Koef B", 1, value=1)
-                nB = st.text_input("Nama B", "NaOH")
-                mB = st.number_input("Mr B", 0.001, value=40.00)
-            with col3:
-                kC = st.number_input("Koef C", 1, value=1)
-                nC = st.text_input("Nama C", "NaCl")
-                mC = st.number_input("Mr C", 0.001, value=58.44)
-            with col4:
-                kD = st.number_input("Koef D", 1, value=1)
-                nD = st.text_input("Nama D", "H₂O")
-                mD = st.number_input("Mr D", 0.001, value=18.02)
-
-            st.info(f"**Reaksi:** {kA} {nA} + {kB} {nB} → {kC} {nC} + {kD} {nD}")
-            zat_r = st.selectbox("Reaktan pembatas:", [nA, nB])
-            n_ref = st.number_input("Mol Reaktan Pembatas", 0.0, value=0.1)
-            k_ref = kA if zat_r == nA else kB
-
-            nC_mol = n_ref * (kC / k_ref)
-            st.markdown(kartu_hasil(f"Hasil {nC}", f"{nC_mol:.5g} mol ({nC_mol * mC:.5g} g)", ""), unsafe_allow_html=True)
-            tampilkan_langkah("Perbandingan Koefisien Reaksi", [
-                f"Mol {nC} = (Koef {nC} / Koef Pembatas) × Mol Pembatas",
-                f"Mol {nC} = ({kC} / {k_ref}) × {n_ref} = <b>{nC_mol:.5g} mol</b>",
-                f"Massa {nC} = Mol × Mr = {nC_mol:.5g} × {mC} = <b>{nC_mol * mC:.5g} gram</b>"
-            ])
-
-    # pH
-    elif st.session_state.menu_aktif == "pH":
-        st.markdown("### 🌈 Kesetimbangan & Perubahan pH")
-        tab_asam, tab_basa, tab_ka, tab_dilusi = st.tabs([
-            "🔴 pH Asam", "🔵 pH Basa", "🔬 Hitung Ka/Kb", "📉 ΔpH Pengenceran"
-        ])
-
-        with tab_asam:
-            jenis_a = st.radio("Jenis asam:", ["Asam Kuat", "Asam Lemah"], horizontal=True)
-            Ca = st.number_input("Konsentrasi C (M)", 1e-14, value=0.1, key="as_C")
-            if jenis_a == "Asam Kuat":
-                pH = -math.log10(max(Ca, 1e-14))
-                st.markdown(kartu_hasil("pH Larutan", f"{pH:.4f}", ""), unsafe_allow_html=True)
-                tampilkan_langkah("pH = -log[H⁺]", [
-                    f"[H⁺] = Molaritas Asam Kuat = {Ca} M",
-                    f"pH = -log({Ca}) = <b>{pH:.4f}</b>"
-                ])
-            else:
-                Ka_a   = st.number_input("Ka", 1e-20, value=1.8e-5, key="as_Ka")
-                h_plus = math.sqrt(Ka_a * Ca)
-                pH     = -math.log10(h_plus)
-                st.markdown(kartu_hasil("pH Larutan", f"{pH:.4f}", ""), unsafe_allow_html=True)
-                tampilkan_langkah("pH Asam Lemah", [
-                    f"[H⁺] = √(Ka × Ca) = √({Ka_a} × {Ca}) = {h_plus:.4e} M",
-                    f"pH = -log({h_plus:.4e}) = <b>{pH:.4f}</b>"
-                ])
-
-        with tab_basa:
-            jenis_b = st.radio("Jenis basa:", ["Basa Kuat", "Basa Lemah"], horizontal=True)
-            Cb = st.number_input("Konsentrasi C (M)", 1e-14, value=0.1, key="bs_C")
-            if jenis_b == "Basa Kuat":
-                pH = 14 + math.log10(Cb)
-                st.markdown(kartu_hasil("pH Larutan", f"{pH:.4f}", ""), unsafe_allow_html=True)
-                tampilkan_langkah("pH = 14 - pOH", [
-                    f"[OH⁻] = {Cb} M",
-                    f"pOH = -log({Cb}) = {-math.log10(Cb):.4f}",
-                    f"pH = 14 - pOH = <b>{pH:.4f}</b>"
-                ])
-            else:
-                Kb_b   = st.number_input("Kb", 1e-20, value=1.8e-5, key="bs_Kb")
-                oh_min = math.sqrt(Kb_b * Cb)
-                pH     = 14 + math.log10(oh_min)
-                st.markdown(kartu_hasil("pH Larutan", f"{pH:.4f}", ""), unsafe_allow_html=True)
-                tampilkan_langkah("pH Basa Lemah", [
-                    f"[OH⁻] = √(Kb × Cb) = √({Kb_b} × {Cb}) = {oh_min:.4e} M",
-                    f"pOH = -log({oh_min:.4e}) = {-math.log10(oh_min):.4f}",
-                    f"pH = 14 - pOH = <b>{pH:.4f}</b>"
-                ])
-
-        with tab_ka:
-            Ck  = st.number_input("Konsentrasi C (M)", 1e-10, value=0.1, key="kk_C")
-            pHk = st.number_input("pH terukur", 0.0, 14.0, value=2.87, key="kk_pH")
-            H   = 10 ** (-pHk)
-            if Ck > H:
-                ka_pred = H ** 2 / (Ck - H)
-                st.markdown(kartu_hasil("Ka Prediksi", f"{ka_pred:.4e}", ""), unsafe_allow_html=True)
-                tampilkan_langkah("Ka = [H⁺]² / (C - [H⁺])", [
-                    f"[H⁺] = 10^(-pH) = 10^(-{pHk}) = {H:.4e} M",
-                    f"Ka = ({H:.4e})² / ({Ck} - {H:.4e})",
-                    f"Ka = <b>{ka_pred:.4e}</b>"
-                ])
-
-        with tab_dilusi:
-            jenis_d = st.radio("Jenis larutan:", ["Asam Kuat", "Asam Lemah", "Basa Kuat", "Basa Lemah"], horizontal=True, key="dp_j")
-
-            def hitung_ph(jenis, c, k=None):
-                c = max(c, 1e-14)
-                if jenis == "Asam Kuat":  return -math.log10(c)
-                if jenis == "Asam Lemah": return -math.log10(math.sqrt(k * c))
-                if jenis == "Basa Kuat":  return 14 + math.log10(c)
-                if jenis == "Basa Lemah": return 14 + math.log10(math.sqrt(k * c))
-
-            C1d = st.number_input("C₁ (M)", 1e-14, value=0.1, key="dp_C1")
-            V1d = st.number_input("V₁ (mL)", 0.001, value=10.0, key="dp_V1")
-            V2d = st.number_input("V₂ (mL)", 0.001, value=100.0, key="dp_V2")
-            Kd  = st.number_input("Ka / Kb", 1e-20, value=1.8e-5, key="dp_K") if "Lemah" in jenis_d else None
-
-            pH1 = hitung_ph(jenis_d, C1d, Kd)
-            C2d = C1d * V1d / V2d
-            pH2 = hitung_ph(jenis_d, C2d, Kd)
-
-            st.markdown(kartu_hasil("pH Akhir", f"{pH2:.4f} (Awal: {pH1:.4f})", ""), unsafe_allow_html=True)
-            tampilkan_langkah("Efek Dilusi Terhadap pH", [
-                f"1. C₂ baru = (C₁ × V₁) / V₂ = ({C1d} × {V1d}) / {V2d} = <b>{C2d:.4e} M</b>",
-                f"2. pH awal (C₁) → <b>pH₁ = {pH1:.4f}</b>",
-                f"3. pH akhir (C₂) → <b>pH₂ = {pH2:.4f}</b>",
-                f"4. ΔpH = <b>{abs(pH2 - pH1):.4f}</b>"
-            ])
-
-    # BUFFER
-    elif st.session_state.menu_aktif == "Buffer":
-        st.markdown("### 🧪 Pembuatan Larutan Buffer")
-        tab_ph_buf, tab_rasio, tab_beta = st.tabs([
-            "🧮 Hitung pH Buffer", "⚖️ Hitung Rasio [A⁻]/[HA]", "📊 Kapasitas Buffer (β)"
-        ])
-
-        with tab_ph_buf:
-            pKa_b  = st.number_input("pKa asam", 0.0, 14.0, value=4.74)
-            ab     = st.number_input("[A⁻] Basa Konjugat (M)", 0.0001, value=0.1)
-            ha     = st.number_input("[HA] Asam (M)", 0.0001, value=0.1)
-            ph_buf = pKa_b + math.log10(ab / ha)
-            st.markdown(kartu_hasil("pH Buffer", f"{ph_buf:.4f}", ""), unsafe_allow_html=True)
-            tampilkan_langkah("Henderson-Hasselbalch", [
-                "pH = pKa + log([A⁻] / [HA])",
-                f"pH = {pKa_b} + log({ab} / {ha})",
-                f"pH = {pKa_b} + {math.log10(ab / ha):.4f}",
-                f"pH = <b>{ph_buf:.4f}</b>"
-            ])
-
-        with tab_rasio:
-            pHt    = st.number_input("pH target", 0.0, 14.0, value=5.0)
-            pKa_r  = st.number_input("pKa asam", 0.0, 14.0, value=4.74, key="br_pka")
-            Ctot   = st.number_input("Konsentrasi total (M)", 0.001, value=0.2)
-            ratio  = 10 ** (pHt - pKa_r)
-            a_min  = Ctot * ratio / (1 + ratio)
-            ha_val = Ctot / (1 + ratio)
-            st.markdown(kartu_hasil("Rasio [A⁻]/[HA]", f"{ratio:.5f}", f"([A⁻]={a_min:.4f}M)"), unsafe_allow_html=True)
-            tampilkan_langkah("Persamaan Komposisi Rasio", [
-                f"[A⁻]/[HA] = 10^(pH - pKa) = 10^({pHt} - {pKa_r}) = <b>{ratio:.5f}</b>",
-                "Fraksi komponen:",
-                f"&nbsp;&nbsp;• [A⁻] = ({ratio:.5f} / (1 + {ratio:.5f})) × {Ctot} M = <b>{a_min:.4f} M</b>",
-                f"&nbsp;&nbsp;• [HA] = {Ctot} - {a_min:.4f} = <b>{ha_val:.4f} M</b>"
-            ])
-
-        with tab_beta:
-            Cbc    = st.number_input("Konsentrasi total (M)", 0.0001, value=0.1, key="bc_C")
-            Ka_bc  = st.number_input("Ka", 1e-20, value=1.8e-5, key="bc_Ka")
-            pH_bc  = st.number_input("pH larutan", 0.0, 14.0, value=4.74, key="bc_pH")
-            H_bc   = 10 ** (-pH_bc)
-            beta   = 2.303 * Cbc * (Ka_bc * H_bc) / (Ka_bc + H_bc) ** 2
-            st.markdown(kartu_hasil("Kapasitas Buffer (β)", f"{beta:.4e}", ""), unsafe_allow_html=True)
-            tampilkan_langkah("Van Slyke Equation", [
-                "β = 2.303 × C_tot × (Ka × [H⁺]) / (Ka + [H⁺])²",
-                f"[H⁺] = 10^(-{pH_bc}) = {H_bc:.4e} M",
-                f"β = 2.303 × {Cbc} × ({Ka_bc:.2e} × {H_bc:.2e}) / ({Ka_bc:.2e} + {H_bc:.2e})²",
-                f"β = <b>{beta:.4e}</b>"
-            ])
-
-    # GALAT
-    elif st.session_state.menu_aktif == "Galat":
-        st.markdown("### 📊 Galat & Propagasi Error")
-        tab_ga, tab_prop, tab_stat = st.tabs([
-            "📏 Galat Absolut & Relatif", "⚡ Propagasi Error", "📊 Statistik (SD & RSD)"
-        ])
-
-        with tab_ga:
-            xu    = st.number_input("Nilai terukur", value=9.87)
-            xb    = st.number_input("Nilai benar", value=10.00)
-            g_abs = abs(xu - xb)
-            g_rel = (g_abs / xb) * 100
-            st.markdown(kartu_hasil("Galat Absolut", f"{g_abs:.5g}", ""), unsafe_allow_html=True)
-            tampilkan_langkah("Akurasi Pengukuran", [
-                f"Galat Absolut = |Nilai Terukur - Nilai Benar| = |{xu} - {xb}| = <b>{g_abs:.5g}</b>",
-                f"Galat Relatif = (Galat Absolut / Nilai Benar) × 100% = ({g_abs:.5g} / {xb}) × 100 = <b>{g_rel:.3f}%</b>"
-            ])
-
-        with tab_prop:
-            op     = st.selectbox("Operasi:", [
-                "Penjumlahan / Pengurangan (x ± y)",
-                "Perkalian / Pembagian (x × y atau x/y)"
-            ])
-            x_val  = st.number_input("Nilai x", value=10.0)
-            dx_val = st.number_input("δx", value=0.05)
-            y_val  = st.number_input("Nilai y", value=5.0)
-            dy_val = st.number_input("δy", value=0.03)
-
-            if "Penjumlahan" in op:
-                unc = math.sqrt(dx_val ** 2 + dy_val ** 2)
-                st.markdown(kartu_hasil("Ketidakpastian Akhir", f"± {unc:.5g}", ""), unsafe_allow_html=True)
-                tampilkan_langkah("δz = √(δx² + δy²)", [
-                    f"δz = √({dx_val}² + {dy_val}²)",
-                    f"δz = √({dx_val**2:.5f} + {dy_val**2:.5f})",
-                    f"δz = <b>± {unc:.5g}</b>"
-                ])
-            else:
-                unc = (x_val * y_val) * math.sqrt((dx_val / x_val) ** 2 + (dy_val / y_val) ** 2)
-                st.markdown(kartu_hasil("Ketidakpastian Akhir", f"± {unc:.5g}", ""), unsafe_allow_html=True)
-                tampilkan_langkah("δz/z = √((δx/x)² + (δy/y)²)", [
-                    f"z = x × y = {x_val * y_val}",
-                    f"δz = {x_val * y_val} × √(({dx_val}/{x_val})² + ({dy_val}/{y_val})²)",
-                    f"δz = <b>± {unc:.5g}</b>"
-                ])
-
-        with tab_stat:
-            raw = st.text_area("Data pengukuran (pisahkan dengan koma):", value="9.87, 9.92, 9.85, 9.90, 9.88")
-            arr = [float(t.strip()) for t in raw.split(',') if t.strip()]
-            if len(arr) >= 2:
-                mean_s = sum(arr) / len(arr)
-                sd_s   = math.sqrt(sum((xi - mean_s) ** 2 for xi in arr) / (len(arr) - 1))
-                rsd    = (sd_s / mean_s) * 100
-                st.markdown(kartu_hasil("Rata-rata ± SD", f"{mean_s:.4g} ± {sd_s:.4g}", f"(RSD: {rsd:.3f}%)"), unsafe_allow_html=True)
-                tampilkan_langkah("Statistik Deskriptif", [
-                    f"1. Rata-rata (μ) = Σx / n = <b>{mean_s:.4g}</b>",
-                    f"2. Standar Deviasi (SD) = √(Σ(xᵢ - μ)² / (n - 1)) = <b>{sd_s:.4g}</b>",
-                    f"3. RSD = (SD / μ) × 100% = ({sd_s:.4g} / {mean_s:.4g}) × 100 = <b>{rsd:.3f}%</b>"
-                ])
-
-# footer
-st.divider()
-st.markdown(
-    '<p style="text-align:center; font-size:12px; color:#9e9e9e;">⚗️ Kalkulator Analisis Kuantitatif · Kimia Analitik</p>',
-    unsafe_allow_html=True
-)
+# ---------------------------------------------------------------
+# FOOTER STANDAR
+# ---------------------------------------------------------------
+st.markdown("---")
+st.caption("Tugas Kuliah - Aplikasi Kalkulator Kimia Analitik Kuantitatif")
