@@ -2,35 +2,35 @@ import streamlit as st
 import math
 
 st.set_page_config(
-    page_title="Kalkulator Analisis Kuantitatif",
-    page_icon="⚗️",
+    page_title="Kalkulator Kimia Analitik",
+    page_icon="🧪",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-# --- helpers UI ---
-
+# hasil
 def kartu_hasil(label, value, unit=""):
     return f"""
     <div class="result-card">
         <p class="result-label">{label}</p>
-        <p class="result-value">{value} <span style="font-size:16px; color:#00e5ff;">{unit}</span></p>
+        <p class="result-value">{value} <span style="font-size:16px; color:#e8a045;">{unit}</span></p>
     </div>
     """
 
+# langkah penyelesaian
 def tampilkan_langkah(judul_rumus, langkah_list, catatan_kaki=""):
     isi = "".join(f"<p style='margin: 0 0 8px 0;'>{l}</p>" for l in langkah_list)
     catatan = ""
     if catatan_kaki:
-        catatan = f"<p style='margin: 10px 0 0 0; font-size: 11px; color: #b0bec5; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;'>{catatan_kaki}</p>"
+        catatan = f"<p style='margin: 10px 0 0 0; font-size: 11px; color: #9e9e9e; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px;'>{catatan_kaki}</p>"
     st.markdown(
         f"""
-        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px;
-                    border: 1px dashed rgba(0,229,255,0.3); font-family: 'DM Mono', monospace; margin-top: 15px;">
-            <p style="margin: 0 0 12px 0; color: #00e5ff; font-weight: 500; font-size: 14px;">
-                📋 Langkah Penyelesaian ({judul_rumus}):
+        <div style="background: rgba(255,255,255,0.04); padding: 20px; border-radius: 10px;
+                    border: 1px dashed rgba(232,160,69,0.4); font-family: 'Courier New', monospace; margin-top: 15px;">
+            <p style="margin: 0 0 12px 0; color: #e8a045; font-weight: 600; font-size: 13px;">
+                📋 Penyelesaian ({judul_rumus}):
             </p>
-            <div style="font-size: 13px; color: #cfd8dc; line-height: 1.6; padding-left: 5px;">
+            <div style="font-size: 13px; color: #cfcfcf; line-height: 1.7; padding-left: 5px;">
                 {isi}
             </div>
             {catatan}
@@ -39,231 +39,223 @@ def tampilkan_langkah(judul_rumus, langkah_list, catatan_kaki=""):
         unsafe_allow_html=True
     )
 
-# --- CSS ---
-
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
 
 .stApp {
-    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%) !important;
+    background: #1a1a2e !important;
+    background-image: radial-gradient(ellipse at top left, #16213e 0%, #1a1a2e 60%, #0f3460 100%) !important;
     background-attachment: fixed;
-    color: #ffffff !important;
+    color: #f0f0f0 !important;
 }
-html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
+
+html, body, [class*="css"] {
+    font-family: 'Space Grotesk', sans-serif;
+}
 
 .stMarkdown, p, label, .stSlider, .stRadio, div[data-baseweb="checkbox"] {
-    color: #ffffff !important;
+    color: #f0f0f0 !important;
 }
+
+/* input field text color fix */
 div[data-testid="stNumberInput"] input,
 div[data-testid="stTextInput"] input,
 div[data-testid="stTextArea"] textarea,
 div[data-baseweb="select"] div {
-    color: #1a252c !important;
+    color: #1a1a2e !important;
     font-weight: 500 !important;
 }
-div[data-shaded="true"], ul[role="listbox"] li { color: #1a252c !important; }
-
-button[data-baseweb="tab"] p { color: #b0bec5 !important; }
-button[data-baseweb="tab"][aria-selected="true"] p {
-    color: #00e5ff !important;
-    font-weight: bold !important;
+div[data-shaded="true"], ul[role="listbox"] li {
+    color: #1a1a2e !important;
 }
 
-.badge {
+/* tab styling */
+button[data-baseweb="tab"] p { color: #9e9e9e !important; }
+button[data-baseweb="tab"][aria-selected="true"] p {
+    color: #e8a045 !important;
+    font-weight: 700 !important;
+}
+
+.badge-label {
     display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: .08em;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
     text-transform: uppercase;
-    color: #00e5ff;
-    border: 1px solid #00e5ff;
-    border-radius: 999px;
-    padding: 4px 14px;
+    color: #e8a045;
+    border: 1.5px solid #e8a045;
+    border-radius: 4px;
+    padding: 3px 12px;
     margin-bottom: 1rem;
-    background: rgba(0,229,255,0.1);
+    background: rgba(232,160,69,0.08);
 }
 
 .main-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 42px;
-    line-height: 1.15;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1.2;
     color: #ffffff;
-    margin: 0 0 .5rem;
+    margin: 0 0 .4rem;
 }
-.main-title em { font-style: italic; color: #00e5ff; }
+.main-title em {
+    font-style: normal;
+    color: #e8a045;
+}
 .subtitle {
-    font-size: 15px;
-    color: #b0bec5;
+    font-size: 14px;
+    color: #9e9e9e;
     line-height: 1.6;
-    max-width: 600px;
+    max-width: 560px;
     margin-bottom: 1.5rem;
 }
 
 .formula-box {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid #00e5ff;
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-family: 'DM Mono', monospace;
+    background: rgba(232,160,69,0.07);
+    border: 1px solid rgba(232,160,69,0.5);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-family: 'Space Mono', monospace;
     font-size: 13px;
-    color: #00e5ff;
+    color: #e8a045;
     text-align: center;
     margin: 1rem 0;
 }
 
+/* halaman welcome */
 .welcome-outer {
-    max-width: 750px;
-    margin: 3rem auto 2rem;
-    background: rgba(255,255,255,0.05);
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,229,255,0.15);
+    max-width: 700px;
+    margin: 2.5rem auto 2rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: 16px;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.08);
 }
 .welcome-header {
-    background: linear-gradient(135deg, #00e5ff, #2c5364);
+    background: linear-gradient(135deg, #0f3460, #16213e);
     padding: 2.5rem;
     text-align: center;
-    color: white;
+    border-bottom: 2px solid #e8a045;
 }
 .welcome-header h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 40px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 36px;
+    font-weight: 600;
     margin: 0;
-    letter-spacing: 0.5px;
-    text-shadow: 1px 2px 4px rgba(0,0,0,0.3);
+    color: #fff;
 }
 .welcome-body {
-    padding: 2.5rem 2rem;
+    padding: 2rem 2rem;
     text-align: center;
-    color: #ffffff;
+    color: #cfcfcf;
 }
 .welcome-desc {
-    font-size: 22px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 400;
     line-height: 1.5;
     margin: 0 auto;
-    max-width: 600px;
+    max-width: 560px;
 }
 
 .info-card {
-    background: rgba(255,255,255,0.05);
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    padding: 1.4rem;
     height: 100%;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-top: 4px solid #e8a045;
 }
-.info-card-tujuan  { border-top: 5px solid #00e5ff; }
-.info-card-manfaat { border-top: 5px solid #00e5ff; }
 .info-card h4 {
     margin-top: 0;
-    font-size: 18px;
-    margin-bottom: 0.75rem;
-    color: #00e5ff;
+    font-size: 16px;
+    margin-bottom: 0.6rem;
+    color: #e8a045;
 }
 .info-card ul {
     margin: 0;
     padding-left: 1.2rem;
     font-size: 14px;
-    color: #cfd8dc;
-    line-height: 1.6;
+    color: #b0b0b0;
+    line-height: 1.7;
 }
 
+/* menu cards */
 .menu-card {
-    background: rgba(255,255,255,0.05);
-    border-radius: 12px;
-    padding: 1.5rem;
-    height: 200px;
-    transition: all 0.2s ease;
-    border: 1px solid rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 1.4rem;
+    min-height: 180px;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.2s ease, transform 0.15s ease;
 }
-.card-p1 { border-left: 5px solid #00e5ff; }
-.card-p2 { border-left: 5px solid #00dbde; }
-.card-p3 { border-left: 5px solid #fc00ff; }
-.card-p4 { border-left: 5px solid #00ff87; }
-.card-p5 { border-left: 5px solid #ff007f; }
 .menu-card:hover {
-    box-shadow: 0 8px 20px rgba(0,229,255,0.2);
-    transform: translateY(-3px);
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.07);
+    transform: translateY(-2px);
 }
-.menu-icon  { font-size: 24px; margin-bottom: 0.5rem; }
-.menu-title { font-size: 18px; font-weight: 500; margin-top: 0.25rem; margin-bottom: 0.5rem; color: #ffffff; }
-.menu-desc  { font-size: 13px; color: #b0bec5; line-height: 1.5; }
+.card-p1 { border-left: 4px solid #e8a045; }
+.card-p2 { border-left: 4px solid #4fc3f7; }
+.card-p3 { border-left: 4px solid #81c784; }
+.card-p4 { border-left: 4px solid #ce93d8; }
+.card-p5 { border-left: 4px solid #ef9a9a; }
 
+.menu-icon  { font-size: 22px; margin-bottom: 0.4rem; }
+.menu-title { font-size: 16px; font-weight: 600; margin-top: 0.2rem; margin-bottom: 0.4rem; color: #f0f0f0; }
+.menu-desc  { font-size: 12px; color: #9e9e9e; line-height: 1.5; }
+
+/* tombol */
 div.stButton > button {
-    background: linear-gradient(135deg, #00e5ff, #00dbde) !important;
-    color: #0f2027 !important;
+    background: #e8a045 !important;
+    color: #1a1a2e !important;
     border: none !important;
-    border-radius: 25px !important;
-    padding: 0.6rem 1.5rem !important;
-    font-weight: bold !important;
-    box-shadow: 0 4px 10px rgba(0,229,255,0.3) !important;
-    transition: all 0.2s;
+    border-radius: 6px !important;
+    padding: 0.55rem 1.4rem !important;
+    font-weight: 700 !important;
+    font-family: 'Space Grotesk', sans-serif !important;
+    letter-spacing: 0.02em !important;
+    transition: opacity 0.15s;
 }
 div.stButton > button:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 15px rgba(0,229,255,0.6) !important;
-    background: linear-gradient(135deg, #ffffff, #00e5ff) !important;
+    opacity: 0.88;
 }
 
+/* kotak hasil */
 .result-card {
-    background: rgba(255,255,255,0.05);
-    border-radius: 12px;
+    background: rgba(232,160,69,0.07);
+    border-radius: 10px;
     padding: 1rem 1.4rem;
     margin-top: .75rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    border: 1px solid rgba(0,229,255,0.2);
+    border: 1px solid rgba(232,160,69,0.3);
 }
 .result-label {
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
     text-transform: uppercase;
-    letter-spacing: .07em;
+    letter-spacing: .1em;
     margin: 0 0 4px;
-    color: #b0bec5;
+    color: #9e9e9e;
 }
 .result-value {
-    font-size: 26px;
-    font-weight: 500;
+    font-size: 24px;
+    font-weight: 600;
     margin: 0;
-    font-family: 'DM Mono', monospace;
-    color: #00e5ff;
+    font-family: 'Space Mono', monospace;
+    color: #e8a045;
 }
 
 div[data-testid="stNumberInput"],
 div[data-testid="stSelectbox"],
 div[data-testid="stTextInput"],
 div[data-testid="stTextArea"] {
-    background-color: rgba(255,255,255,0.05) !important;
-    border-radius: 8px !important;
-    color: white !important;
+    background-color: rgba(255,255,255,0.04) !important;
+    border-radius: 6px !important;
 }
 input, select, textarea { color: white !important; }
-
-.stApp::before {
-    content: "🧪  ⚗️  ⚛️  H₂O  CO₂  NaCl  M₁V₁=M₂V₂  pH=-log[H⁺]  🧫  NaOH  HCl";
-    position: fixed;
-    top: 15%;
-    left: 5%;
-    font-size: 4.5rem;
-    font-family: 'Courier New', monospace;
-    opacity: 0.03;
-    white-space: pre-wrap;
-    word-spacing: 50px;
-    line-height: 2.8;
-    pointer-events: none;
-    width: 90%;
-    z-index: 0;
-}
 </style>
 """, unsafe_allow_html=True)
 
-# --- navigasi session state ---
-
+# session state buat navigasi antar halaman
 if 'menu_aktif' not in st.session_state:
     st.session_state.menu_aktif = "Start"
 
@@ -301,7 +293,7 @@ if st.session_state.menu_aktif == "Start":
     st.markdown("""
     <div class="welcome-outer">
         <div class="welcome-header">
-            <h1>Selamat Datang</h1>
+            <h1>Selamat Datang 👋</h1>
         </div>
         <div class="welcome-body">
             <p class="welcome-desc">Aplikasi Kalkulator Kimia Analitik Kuantitatif</p>
@@ -311,7 +303,7 @@ if st.session_state.menu_aktif == "Start":
 
     _, col_btn, _ = st.columns([1.2, 1, 1.2])
     with col_btn:
-        if st.button("🌟 Masuk ke Aplikasi", key="btn_start", use_container_width=True):
+        if st.button("Masuk ke Aplikasi →", key="btn_start", use_container_width=True):
             pindah_ke("Dashboard")
             st.rerun()
 
@@ -320,21 +312,21 @@ if st.session_state.menu_aktif == "Start":
     col_tujuan, col_manfaat = st.columns(2)
     with col_tujuan:
         st.markdown("""
-        <div class="info-card info-card-tujuan">
-            <h4>🎨 Tujuan Aplikasi</h4>
+        <div class="info-card">
+            <h4>🎯 Tujuan Aplikasi</h4>
             <ul>
-                <li>Menyediakan platform hitung laboratorium modern yang mudah dipahami.</li>
+                <li>Menyediakan platform hitung laboratorium yang mudah dipahami.</li>
                 <li>Mengecek kekeliruan pengerjaan angka desimal berkat otomasi kalkulasi analitis.</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
     with col_manfaat:
         st.markdown("""
-        <div class="info-card info-card-manfaat">
+        <div class="info-card">
             <h4>✨ Manfaat Aplikasi</h4>
             <ul>
                 <li><b>Cepat & Efisien:</b> Memproses rumus C₁V₁=C₂V₂ dan stoikiometri dalam hitungan detik.</li>
-                <li><b>Visual & Akurat:</b> Dilengkapi pelacak rumus transparan serta hitung galat SD/RSD.</li>
+                <li><b>Transparan:</b> Dilengkapi langkah penyelesaian lengkap dan hitung galat SD/RSD.</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -343,7 +335,7 @@ if st.session_state.menu_aktif == "Start":
 # DASHBOARD
 # ---------------------------------------------------------------
 elif st.session_state.menu_aktif == "Dashboard":
-    st.markdown('<div class="badge">🧪 Kimia Analitik</div>', unsafe_allow_html=True)
+    st.markdown('<div class="badge-label">🧪 Kimia Analitik</div>', unsafe_allow_html=True)
     st.markdown("""
     <h1 class="main-title">Kalkulator <em>Analisis</em> Kuantitatif</h1>
     <p class="subtitle">Pilih salah satu modul kalkulator di bawah ini untuk memulai:</p>
@@ -353,17 +345,17 @@ elif st.session_state.menu_aktif == "Dashboard":
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown('<div class="menu-card card-p1"><div class="menu-icon">💧</div><div class="menu-title">Pengenceran Larutan</div><div class="menu-desc">Kalkulator pengenceran tunggal, serial/bertingkat, dan penentuan faktor pengenceran sampel.</div></div>', unsafe_allow_html=True)
-        if st.button("Buka Modul 01 ➡️", key="btn_m1", use_container_width=True):
+        if st.button("Buka Modul 01 →", key="btn_m1", use_container_width=True):
             pindah_ke("Pengenceran")
             st.rerun()
     with col2:
         st.markdown('<div class="menu-card card-p2"><div class="menu-icon">🔄</div><div class="menu-title">Konsentrasi & Stoikiometri</div><div class="menu-desc">Konversi antar satuan kimia (M, %, ppm, ppb) dan hitung stoikiometri reaksi mol.</div></div>', unsafe_allow_html=True)
-        if st.button("Buka Modul 02 ➡️", key="btn_m2", use_container_width=True):
+        if st.button("Buka Modul 02 →", key="btn_m2", use_container_width=True):
             pindah_ke("Stoikiometri")
             st.rerun()
     with col3:
         st.markdown('<div class="menu-card card-p3"><div class="menu-icon">🌈</div><div class="menu-title">Kesetimbangan & pH</div><div class="menu-desc">Prediksi pH sistem asam-basa kuat/lemah dan perhitungan Ka/Kb tetapan larutan.</div></div>', unsafe_allow_html=True)
-        if st.button("Buka Modul 03 ➡️", key="btn_m3", use_container_width=True):
+        if st.button("Buka Modul 03 →", key="btn_m3", use_container_width=True):
             pindah_ke("pH")
             st.rerun()
 
@@ -371,12 +363,12 @@ elif st.session_state.menu_aktif == "Dashboard":
     col4, col5, _ = st.columns(3)
     with col4:
         st.markdown('<div class="menu-card card-p4"><div class="menu-icon">🧪</div><div class="menu-title">Larutan Buffer</div><div class="menu-desc">Desain sistem penyangga menggunakan persamaan Henderson-Hasselbalch.</div></div>', unsafe_allow_html=True)
-        if st.button("Buka Modul 04 ➡️", key="btn_m4", use_container_width=True):
+        if st.button("Buka Modul 04 →", key="btn_m4", use_container_width=True):
             pindah_ke("Buffer")
             st.rerun()
     with col5:
         st.markdown('<div class="menu-card card-p5"><div class="menu-icon">📊</div><div class="menu-title">Galat & Propagasi</div><div class="menu-desc">Hitung ketidakpastian, deviasi standar (SD), dan nilai RSD data pengukuran.</div></div>', unsafe_allow_html=True)
-        if st.button("Buka Modul 05 ➡️", key="btn_m5", use_container_width=True):
+        if st.button("Buka Modul 05 →", key="btn_m5", use_container_width=True):
             pindah_ke("Galat")
             st.rerun()
 
@@ -384,12 +376,12 @@ elif st.session_state.menu_aktif == "Dashboard":
 # MODUL-MODUL KALKULATOR
 # ---------------------------------------------------------------
 else:
-    if st.button("⬅️ Kembali ke Menu Utama", key="btn_kembali"):
+    if st.button("← Kembali ke Menu Utama", key="btn_kembali"):
         pindah_ke("Dashboard")
         st.rerun()
     st.divider()
 
-    # === MODUL 1: PENGENCERAN ===
+    # PENGENCERAN
     if st.session_state.menu_aktif == "Pengenceran":
         st.markdown("### 💧 Pengenceran Larutan")
         tab_cv, tab_serial, tab_fp = st.tabs(["C₁V₁ = C₂V₂", "Serial / Bertingkat", "Faktor Pengenceran"])
@@ -465,12 +457,12 @@ else:
             st.markdown('<div class="formula-box">Cₙ = C₀ × (V_aliquot / V_total)ⁿ</div>', unsafe_allow_html=True)
             col1, col2 = st.columns(2)
             with col1:
-                c0     = st.number_input("C₀ — Konsentrasi stok", 0.0, value=1.0, format="%.5f", key="s_c0")
-                nstep  = st.number_input("Jumlah langkah", 1, 15, value=5, key="s_n")
+                c0    = st.number_input("C₀ — Konsentrasi stok", 0.0, value=1.0, format="%.5f", key="s_c0")
+                nstep = st.number_input("Jumlah langkah", 1, 15, value=5, key="s_n")
             with col2:
-                va_s   = st.number_input("Volume aliquot (mL)", 0.001, value=1.0, format="%.3f", key="s_va")
-                vt_s   = st.number_input("Volume total tiap tabung (mL)", 0.001, value=10.0, format="%.3f", key="s_vt")
-                sat_s  = st.selectbox("Satuan", ["M", "mM", "µM", "mg/mL", "ppm"], key="s_sat")
+                va_s  = st.number_input("Volume aliquot (mL)", 0.001, value=1.0, format="%.3f", key="s_va")
+                vt_s  = st.number_input("Volume total tiap tabung (mL)", 0.001, value=10.0, format="%.3f", key="s_vt")
+                sat_s = st.selectbox("Satuan", ["M", "mM", "µM", "mg/mL", "ppm"], key="s_sat")
 
             if va_s >= vt_s:
                 st.warning("Volume aliquot harus lebih kecil dari volume total.")
@@ -478,19 +470,19 @@ else:
                 f = va_s / vt_s
                 rows = "".join(
                     f"<tr>"
-                    f"<td style='padding:6px 10px; border-bottom:1px solid rgba(255,255,255,0.1)'>{'Stok' if i == 0 else f'Langkah {i}'}</td>"
-                    f"<td style='padding:6px 10px; font-family:DM Mono,monospace; color:#00e5ff; border-bottom:1px solid rgba(255,255,255,0.1)'>{c0 * (f ** i):.4e}</td>"
-                    f"<td style='padding:6px 10px; color:#b0bec5; border-bottom:1px solid rgba(255,255,255,0.1)'>{sat_s}</td>"
+                    f"<td style='padding:6px 10px; border-bottom:1px solid rgba(255,255,255,0.07)'>{'Stok' if i == 0 else f'Langkah {i}'}</td>"
+                    f"<td style='padding:6px 10px; font-family:Space Mono,monospace; color:#e8a045; border-bottom:1px solid rgba(255,255,255,0.07)'>{c0 * (f ** i):.4e}</td>"
+                    f"<td style='padding:6px 10px; color:#9e9e9e; border-bottom:1px solid rgba(255,255,255,0.07)'>{sat_s}</td>"
                     f"</tr>"
                     for i in range(int(nstep) + 1)
                 )
                 st.markdown(
-                    f"""<table style="width:100%;border-collapse:collapse;border:1px solid rgba(0,229,255,0.2);
-                        font-size:13px;margin-top:.5rem;background:rgba(255,255,255,0.05);border-radius:10px;overflow:hidden">
-                        <thead><tr style="background:rgba(0,229,255,0.1)">
-                            <th style="padding:8px 10px;text-align:left;color:#00e5ff">Tabung</th>
-                            <th style="padding:8px 10px;text-align:left;color:#00e5ff">Konsentrasi</th>
-                            <th style="padding:8px 10px;text-align:left;color:#00e5ff">Satuan</th>
+                    f"""<table style="width:100%;border-collapse:collapse;border:1px solid rgba(232,160,69,0.2);
+                        font-size:13px;margin-top:.5rem;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden">
+                        <thead><tr style="background:rgba(232,160,69,0.08)">
+                            <th style="padding:8px 10px;text-align:left;color:#e8a045">Tabung</th>
+                            <th style="padding:8px 10px;text-align:left;color:#e8a045">Konsentrasi</th>
+                            <th style="padding:8px 10px;text-align:left;color:#e8a045">Satuan</th>
                         </tr></thead><tbody>{rows}</tbody></table>""",
                     unsafe_allow_html=True
                 )
@@ -514,7 +506,7 @@ else:
                 f"Konsentrasi Akhir = C_awal / FP = {ca_fp} / {fp:.4f} = <b>{ca_fp / fp:.5g}</b>"
             ])
 
-    # === MODUL 2: STOIKIOMETRI ===
+    # STOKIOMETRI
     elif st.session_state.menu_aktif == "Stoikiometri":
         st.markdown("### 🔄 Satuan Konsentrasi & Stoikiometri")
         tab_konv, tab_mol, tab_reaksi = st.tabs(["🔄 Konversi Satuan", "⚖️ Mol & Massa", "🧮 Stoikiometri Reaksi"])
@@ -619,7 +611,7 @@ else:
                 f"Massa {nC} = Mol × Mr = {nC_mol:.5g} × {mC} = <b>{nC_mol * mC:.5g} gram</b>"
             ])
 
-    # === MODUL 3: pH ===
+    # pH
     elif st.session_state.menu_aktif == "pH":
         st.markdown("### 🌈 Kesetimbangan & Perubahan pH")
         tab_asam, tab_basa, tab_ka, tab_dilusi = st.tabs([
@@ -708,7 +700,7 @@ else:
                 f"4. ΔpH = <b>{abs(pH2 - pH1):.4f}</b>"
             ])
 
-    # === MODUL 4: BUFFER ===
+    # BUFFER
     elif st.session_state.menu_aktif == "Buffer":
         st.markdown("### 🧪 Pembuatan Larutan Buffer")
         tab_ph_buf, tab_rasio, tab_beta = st.tabs([
@@ -757,7 +749,7 @@ else:
                 f"β = <b>{beta:.4e}</b>"
             ])
 
-    # === MODUL 5: GALAT ===
+    # GALAT
     elif st.session_state.menu_aktif == "Galat":
         st.markdown("### 📊 Galat & Propagasi Error")
         tab_ga, tab_prop, tab_stat = st.tabs([
@@ -816,9 +808,9 @@ else:
                     f"3. RSD = (SD / μ) × 100% = ({sd_s:.4g} / {mean_s:.4g}) × 100 = <b>{rsd:.3f}%</b>"
                 ])
 
-# --- footer ---
+# footer
 st.divider()
 st.markdown(
-    '<p style="text-align:center; font-size:12px; color:#00e5ff; font-weight:500;">⚗️ Kalkulator Analisis Kuantitatif · Kimia Analitik</p>',
+    '<p style="text-align:center; font-size:12px; color:#9e9e9e;">⚗️ Kalkulator Analisis Kuantitatif · Kimia Analitik</p>',
     unsafe_allow_html=True
 )
