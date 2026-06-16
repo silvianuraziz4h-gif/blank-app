@@ -166,7 +166,7 @@ MR_SENYAWA = {
     "KCl – Kalium klorida":              74.55,
     "NaHCO₃ – Natrium bikarbonat":       84.01,
     "Na₂CO₃ – Natrium karbonat":        105.99,
-    "CaCO₃ – Kalsium karbonat":         100.09,
+    "CaCO₃ – Kalsium carbonates":         100.09,
     "MgSO₄ – Magnesium sulfat":         120.37,
     "CuSO₄ – Tembaga(II) sulfat":       159.61,
     "FeSO₄ – Besi(II) sulfat":          151.91,
@@ -278,16 +278,31 @@ html, body, [class*="css"] { font-family: 'Space Grotesk', sans-serif; }
 .main-title em { font-style: normal; color: #e8a045; }
 .subtitle { font-size: 14px; color: #8aa0c0; line-height: 1.6; max-width: 560px; margin-bottom: 1.5rem; }
 
-/* Input fields dark */
+/* FIX DARK MODE INPUTS: Teks label dan input di dalam form/selectbox tetap terlihat putih/terang */
+div[data-testid="stNumberInput"] label p,
+div[data-testid="stSelectbox"] label p,
+div[data-testid="stTextInput"] label p,
+div[data-testid="stTextArea"] label p,
+div[data-testid="stRadio"] label p {
+    color: #e8e8e8 !important;
+    font-weight: 500 !important;
+}
+
+/* Mengubah teks di dalam wadah input (saat mengetik/memilih komponen) agar berwarna gelap & kontras di atas box putih */
 div[data-testid="stNumberInput"] input,
 div[data-testid="stTextInput"] input,
-div[data-testid="stTextArea"] textarea {
+div[data-testid="stTextArea"] textarea,
+div[data-baseweb="select"] div {
     color: #1a1a2e !important;
-    background: #d8e4f0 !important;
+    background-color: #ffffff !important;
     font-weight: 600 !important;
 }
-div[data-baseweb="select"] div { color: #1a1a2e !important; font-weight: 600 !important; }
-div[data-shaded="true"], ul[role="listbox"] li { color: #1a1a2e !important; }
+
+/* Mengubah pilihan dropdown list pop-up Streamlit agar terbaca tajam */
+div[role="listbox"] ul li, div[data-shaded="true"] {
+    color: #1a1a2e !important;
+    font-weight: 600 !important;
+}
 
 /* Tabs dark */
 button[data-baseweb="tab"] p { color: #aaa !important; }
@@ -296,22 +311,32 @@ button[data-baseweb="tab"][aria-selected="true"] p {
     font-weight: 700 !important;
 }
 
-/* ===== LIGHT MODE ===== */
+/* ===== LIGHT MODE AUTOMATION ===== */
 @media (prefers-color-scheme: light) {
     .stApp {
         background: #eef2f7 !important;
         background-image: radial-gradient(ellipse at top, #dce8f5 0%, #eef2f7 60%, #e0eaf5 100%) !important;
     }
 
+    div[data-testid="stNumberInput"] label p,
+    div[data-testid="stSelectbox"] label p,
+    div[data-testid="stTextInput"] label p,
+    div[data-testid="stTextArea"] label p,
+    div[data-testid="stRadio"] label p {
+        color: #0d1a33 !important;
+    }
+
     div[data-testid="stNumberInput"] input,
     div[data-testid="stTextInput"] input,
-    div[data-testid="stTextArea"] textarea {
+    div[data-testid="stTextArea"] textarea,
+    div[data-baseweb="select"] div {
         color: #0d1a33 !important;
-        background: #fff !important;
-        font-weight: 600 !important;
+        background-color: #ffffff !important;
     }
-    div[data-baseweb="select"] div { color: #0d1a33 !important; }
-    div[data-shaded="true"], ul[role="listbox"] li { color: #0d1a33 !important; }
+    
+    div[role="listbox"] ul li {
+        color: #0d1a33 !important;
+    }
 
     button[data-baseweb="tab"] p { color: #557 !important; }
     button[data-baseweb="tab"][aria-selected="true"] p { color: #b37010 !important; }
@@ -346,11 +371,6 @@ button[data-baseweb="tab"][aria-selected="true"] p {
 
     .istilah-box { background: #d0e8fa !important; border-color: #2980b9 !important; border-left-color: #1a6fa0 !important; color: #0a2a4a !important; }
     .istilah-box b { color: #0a2a4a !important; }
-
-    div[data-testid="stNumberInput"],
-    div[data-testid="stSelectbox"],
-    div[data-testid="stTextInput"],
-    div[data-testid="stTextArea"] { background: rgba(0,30,80,0.05) !important; }
 }
 
 /* ===== SHARED COMPONENTS ===== */
@@ -521,7 +541,7 @@ div[data-testid="stNumberInput"],
 div[data-testid="stSelectbox"],
 div[data-testid="stTextInput"],
 div[data-testid="stTextArea"] {
-    background-color: rgba(20,40,80,0.35) !important;
+    background-color: #ffffff !important;
     border-radius: 6px !important;
 }
 </style>
@@ -1020,11 +1040,11 @@ else:
                 sd    = math.sqrt(sum((x - rata2)**2 for x in angka_data) / (len(angka_data) - 1))
                 rsd   = (sd / rata2) * 100
                 tampilkan_hasil("Rata-rata ± SD", f"{rata2:.4g} ± {sd:.4g}", f"(RSD: {rsd:.3f}%)")
-                st.markdown(st.markdown(tampilkan_kotak("Statistik Deskriptif",
+                st.markdown(tampilkan_kotak("Statistik Deskriptif",
                     buat_baris(f"n = {len(angka_data)} data") +
                     buat_baris(f"Rata-rata (μ) = Σx / n = <b>{rata2:.4g}</b>") +
                     buat_baris(f"SD = √(Σ(xᵢ-μ)² / (n-1)) = <b>{sd:.4g}</b>") +
                     buat_baris(f"RSD = (SD / μ) × 100% = <b>{rsd:.3f}%</b>")
-                ), unsafe_allow_html=True))
+                ), unsafe_allow_html=True)
             else:
                 st.warning("Masukkan minimal 2 angka yang dipisahkan koma untuk memproses nilai presisi.")
