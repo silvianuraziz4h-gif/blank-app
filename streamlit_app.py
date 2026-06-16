@@ -166,7 +166,7 @@ MR_SENYAWA = {
     "KCl – Kalium klorida":              74.55,
     "NaHCO₃ – Natrium bikarbonat":       84.01,
     "Na₂CO₃ – Natrium karbonat":        105.99,
-    "CaCO₃ – Kalsium carbonates":         100.09,
+    "CaCO₃ – Kalsium karbonat":         100.09,
     "MgSO₄ – Magnesium sulfat":         120.37,
     "CuSO₄ – Tembaga(II) sulfat":       159.61,
     "FeSO₄ – Besi(II) sulfat":          151.91,
@@ -229,7 +229,7 @@ MR_SENYAWA = {
     "CCl₄ – Karbon tetraklorida":         153.82,
     "CH₂Cl₂ – Diklorometana":              84.93,
     "EDTA (C₁₀H₁₆N₂O₈)":               292.24,
-    "Asam salisilat (C⇋H₆O₃)":           138.12,
+    "Asam salisilat (C₇H₆O₃)":           138.12,
     "Asam askorbat (C₆H₈O₆)":            176.12,
     "Urea (CO(NH₂)₂)":                    60.06,
     "Anilin (C₆H₅NH₂)":                   93.13,
@@ -259,291 +259,330 @@ KETERANGAN_ISTILAH = {
     "Beta": "**Kapasitas Buffer (β)** — Ukuran kemampuan larutan buffer menahan perubahan pH. Dihitung dengan persamaan Van Slyke: β = 2.303 × C × Ka[H⁺]/(Ka+[H⁺])².",
 }
 
-# styling custom (Bekerja adaptif dan jelas di dark maupun light mode)
+# styling custom (dark & light mode)
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
 
-/* ===== BASE / DARK MODE ===== */
+/* ==============================================
+   FONT
+   ============================================== */
 html, body, [class*="css"] { font-family: 'Space Grotesk', sans-serif; }
 
+/* ==============================================
+   DARK MODE  — [data-theme="dark"]  +  default
+   ============================================== */
+
+/* Background */
+[data-theme="dark"] .stApp,
 .stApp {
-    background: #1a1a2e !important;
-    background-image: radial-gradient(ellipse at top left, #16213e 0%, #1a1a2e 60%, #0f3460 100%) !important;
-    background-attachment: fixed;
+    background: #111827 !important;
+    background-image: radial-gradient(ellipse at top left, #0f1f3d 0%, #111827 60%, #0a1628 100%) !important;
 }
 
-/* Teks dan judul bertema dark */
-.main-title { font-size: 38px; font-weight: 600; line-height: 1.2; color: #e8e8e8; margin: 0 0 .4rem; }
-.main-title em { font-style: normal; color: #e8a045; }
-.subtitle { font-size: 14px; color: #8aa0c0; line-height: 1.6; max-width: 560px; margin-bottom: 1.5rem; }
+/* Semua teks generik dark */
+[data-theme="dark"] p,
+[data-theme="dark"] span,
+[data-theme="dark"] li,
+[data-theme="dark"] label,
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] small,
+[data-theme="dark"] .stMarkdown,
+[data-theme="dark"] [data-testid="stMarkdownContainer"] p,
+[data-theme="dark"] [data-testid="stMarkdownContainer"] span,
+[data-theme="dark"] [data-testid="stWidgetLabel"] p,
+[data-theme="dark"] [data-testid="stWidgetLabel"] label,
+[data-theme="dark"] div[data-baseweb="checkbox"] label,
+p, span, li, label,
+.stMarkdown,
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] span,
+[data-testid="stWidgetLabel"] p,
+[data-testid="stWidgetLabel"] label {
+    color: #e2eaf8 !important;
+}
 
-/* FIX DARK MODE INPUTS: Teks label dan input di dalam form/selectbox tetap terlihat putih/terang */
-div[data-testid="stNumberInput"] label p,
-div[data-testid="stSelectbox"] label p,
-div[data-testid="stTextInput"] label p,
-div[data-testid="stTextArea"] label p,
-div[data-testid="stRadio"] label p {
-    color: #e8e8e8 !important;
+/* Radio labels dark */
+[data-theme="dark"] div[data-testid="stRadio"] span,
+[data-theme="dark"] div[data-testid="stRadio"] p,
+[data-theme="dark"] div[data-testid="stRadio"] label,
+div[data-testid="stRadio"] span,
+div[data-testid="stRadio"] p,
+div[data-testid="stRadio"] label { color: #e2eaf8 !important; }
+
+/* Slider dark */
+[data-theme="dark"] div[data-testid="stSlider"] span,
+[data-theme="dark"] div[data-testid="stSlider"] p,
+[data-theme="dark"] div[data-testid="stSlider"] label,
+div[data-testid="stSlider"] span,
+div[data-testid="stSlider"] p,
+div[data-testid="stSlider"] label { color: #e2eaf8 !important; }
+
+/* Number / text input  — teks DALAM kotak input harus gelap di atas background terang */
+[data-theme="dark"] input[type="number"],
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] textarea,
+input[type="number"],
+input[type="text"],
+textarea {
+    color: #0d1428 !important;
+    background-color: #c2d8f0 !important;
+    font-weight: 600 !important;
+    caret-color: #0d1428 !important;
+}
+
+/* Selectbox — teks yang tampil di kotak pilih */
+[data-theme="dark"] div[data-baseweb="select"] div[class*="ValueContainer"] span,
+[data-theme="dark"] div[data-baseweb="select"] div[class*="singleValue"],
+[data-theme="dark"] div[data-baseweb="select"] div[class*="placeholder"],
+[data-theme="dark"] div[data-baseweb="select"] input,
+div[data-baseweb="select"] div[class*="ValueContainer"] span,
+div[data-baseweb="select"] div[class*="singleValue"],
+div[data-baseweb="select"] div[class*="placeholder"],
+div[data-baseweb="select"] input {
+    color: #0d1428 !important;
+    font-weight: 600 !important;
+}
+
+/* Selectbox dropdown list items */
+[data-theme="dark"] ul[role="listbox"] li,
+[data-theme="dark"] ul[role="listbox"] span,
+[data-theme="dark"] li[role="option"],
+[data-theme="dark"] li[role="option"] span,
+[data-theme="dark"] li[role="option"] p,
+[data-theme="dark"] [data-testid="stSelectboxVirtualDropdown"] *,
+ul[role="listbox"] li,
+ul[role="listbox"] span,
+li[role="option"],
+li[role="option"] span,
+li[role="option"] p,
+[data-testid="stSelectboxVirtualDropdown"] * {
+    color: #0d1428 !important;
     font-weight: 500 !important;
 }
 
-/* Mengubah teks di dalam wadah input (saat mengetik/memilih komponen) agar berwarna gelap & kontras di atas box putih */
-div[data-testid="stNumberInput"] input,
-div[data-testid="stTextInput"] input,
-div[data-testid="stTextArea"] textarea,
-div[data-baseweb="select"] div {
-    color: #1a1a2e !important;
+/* Tabs */
+[data-theme="dark"] button[data-baseweb="tab"] p,
+[data-theme="dark"] button[data-baseweb="tab"] span,
+button[data-baseweb="tab"] p,
+button[data-baseweb="tab"] span { color: #7a96c0 !important; font-weight: 500 !important; }
+
+[data-theme="dark"] button[data-baseweb="tab"][aria-selected="true"] p,
+[data-theme="dark"] button[data-baseweb="tab"][aria-selected="true"] span,
+button[data-baseweb="tab"][aria-selected="true"] p,
+button[data-baseweb="tab"][aria-selected="true"] span {
+    color: #e8a045 !important; font-weight: 700 !important;
+}
+
+/* st.info / st.warning */
+[data-theme="dark"] [data-testid="stAlert"] p,
+[data-theme="dark"] [data-testid="stAlert"] span,
+[data-testid="stAlert"] p,
+[data-testid="stAlert"] span { color: #0d1428 !important; font-weight: 500 !important; }
+
+/* ==============================================
+   LIGHT MODE  — [data-theme="light"]
+   ============================================== */
+[data-theme="light"] .stApp {
+    background: #e4edf8 !important;
+    background-image: radial-gradient(ellipse at top, #ccdff5 0%, #e4edf8 70%) !important;
+}
+
+[data-theme="light"] p,
+[data-theme="light"] span,
+[data-theme="light"] li,
+[data-theme="light"] label,
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] small,
+[data-theme="light"] .stMarkdown,
+[data-theme="light"] [data-testid="stMarkdownContainer"] p,
+[data-theme="light"] [data-testid="stMarkdownContainer"] span,
+[data-theme="light"] [data-testid="stWidgetLabel"] p,
+[data-theme="light"] [data-testid="stWidgetLabel"] label,
+[data-theme="light"] div[data-baseweb="checkbox"] label {
+    color: #0d1428 !important;
+}
+
+[data-theme="light"] div[data-testid="stRadio"] span,
+[data-theme="light"] div[data-testid="stRadio"] p,
+[data-theme="light"] div[data-testid="stRadio"] label { color: #0d1428 !important; }
+
+[data-theme="light"] div[data-testid="stSlider"] span,
+[data-theme="light"] div[data-testid="stSlider"] p,
+[data-theme="light"] div[data-testid="stSlider"] label { color: #0d1428 !important; }
+
+[data-theme="light"] input[type="number"],
+[data-theme="light"] input[type="text"],
+[data-theme="light"] textarea {
+    color: #0d1428 !important;
     background-color: #ffffff !important;
     font-weight: 600 !important;
 }
 
-/* Mengubah pilihan dropdown list pop-up Streamlit agar terbaca tajam */
-div[role="listbox"] ul li, div[data-shaded="true"] {
-    color: #1a1a2e !important;
-    font-weight: 600 !important;
-}
+[data-theme="light"] div[data-baseweb="select"] div[class*="ValueContainer"] span,
+[data-theme="light"] div[data-baseweb="select"] div[class*="singleValue"],
+[data-theme="light"] div[data-baseweb="select"] div[class*="placeholder"],
+[data-theme="light"] div[data-baseweb="select"] input,
+[data-theme="light"] ul[role="listbox"] li,
+[data-theme="light"] ul[role="listbox"] span,
+[data-theme="light"] li[role="option"],
+[data-theme="light"] li[role="option"] span { color: #0d1428 !important; font-weight: 600 !important; }
 
-/* Tabs dark */
-button[data-baseweb="tab"] p { color: #aaa !important; }
-button[data-baseweb="tab"][aria-selected="true"] p {
-    color: #e8a045 !important;
-    font-weight: 700 !important;
-}
+[data-theme="light"] button[data-baseweb="tab"] p,
+[data-theme="light"] button[data-baseweb="tab"] span { color: #2a3a5a !important; }
+[data-theme="light"] button[data-baseweb="tab"][aria-selected="true"] p,
+[data-theme="light"] button[data-baseweb="tab"][aria-selected="true"] span { color: #b37010 !important; font-weight: 700 !important; }
 
-/* ===== LIGHT MODE AUTOMATION ===== */
-@media (prefers-color-scheme: light) {
-    .stApp {
-        background: #eef2f7 !important;
-        background-image: radial-gradient(ellipse at top, #dce8f5 0%, #eef2f7 60%, #e0eaf5 100%) !important;
-    }
+[data-theme="light"] .main-title { color: #0d1428 !important; }
+[data-theme="light"] .main-title em { color: #b37010 !important; }
+[data-theme="light"] .subtitle { color: #2a3a5a !important; }
+[data-theme="light"] .badge { color: #b37010 !important; border-color: #b37010 !important; background: rgba(180,120,20,0.10) !important; }
+[data-theme="light"] .formula-box { color: #7a4e00 !important; background: rgba(180,120,20,0.09) !important; border-color: rgba(180,120,20,0.45) !important; }
+[data-theme="light"] .menu-card { background: #ccdaee !important; border-color: #99bbdd !important; }
+[data-theme="light"] .menu-card:hover { background: #b8cce4 !important; }
+[data-theme="light"] .menu-title { color: #0d1428 !important; }
+[data-theme="light"] .menu-desc { color: #2a3a5a !important; }
+[data-theme="light"] .info-card { background: #ccdaee !important; border-color: #99bbdd !important; }
+[data-theme="light"] .info-card h4 { color: #b37010 !important; }
+[data-theme="light"] .info-card ul, [data-theme="light"] .info-card li { color: #0d1428 !important; }
+[data-theme="light"] .result-card { background: rgba(180,120,20,0.12) !important; border-color: rgba(180,120,20,0.45) !important; }
+[data-theme="light"] .result-label { color: #2a3a5a !important; }
+[data-theme="light"] .result-value { color: #7a4e00 !important; }
+[data-theme="light"] .istilah-box { background: #bbddf5 !important; border-color: #2980b9 !important; border-left-color: #1a6fa0 !important; color: #0a1e38 !important; }
+[data-theme="light"] .istilah-box b { color: #0a1e38 !important; }
+[data-theme="light"] .welcome-outer { background: #d8e8f8 !important; border-color: #99bbd8 !important; }
+[data-theme="light"] .welcome-body { background: #d8e8f8 !important; }
+[data-theme="light"] .welcome-desc { color: #0d1428 !important; }
+[data-theme="light"] [data-testid="stAlert"] p,
+[data-theme="light"] [data-testid="stAlert"] span { color: #0d1428 !important; }
 
-    div[data-testid="stNumberInput"] label p,
-    div[data-testid="stSelectbox"] label p,
-    div[data-testid="stTextInput"] label p,
-    div[data-testid="stTextArea"] label p,
-    div[data-testid="stRadio"] label p {
-        color: #0d1a33 !important;
-    }
-
-    div[data-testid="stNumberInput"] input,
-    div[data-testid="stTextInput"] input,
-    div[data-testid="stTextArea"] textarea,
-    div[data-baseweb="select"] div {
-        color: #0d1a33 !important;
-        background-color: #ffffff !important;
-    }
-    
-    div[role="listbox"] ul li {
-        color: #0d1a33 !important;
-    }
-
-    button[data-baseweb="tab"] p { color: #557 !important; }
-    button[data-baseweb="tab"][aria-selected="true"] p { color: #b37010 !important; }
-
-    .main-title { color: #0d1a33 !important; }
-    .main-title em { color: #b37010 !important; }
-    .subtitle { color: #3a4a6a !important; }
-    .badge { color: #b37010 !important; border-color: #b37010 !important; background: rgba(180,120,20,0.10) !important; }
-    .formula-box { color: #7a4e00 !important; background: rgba(180,120,20,0.09) !important; border-color: rgba(180,120,20,0.45) !important; }
-
-    .identitas-box { background: linear-gradient(135deg, #2a4080, #1a2e6a) !important; border-color: rgba(232,160,69,0.6) !important; }
-    .identitas-title { color: #f8d48a !important; }
-    .identitas-name { color: #e8f0ff !important; }
-
-    .welcome-outer { background: #f0f5ff !important; border-color: #c0cce0 !important; }
-    .welcome-header { background: linear-gradient(135deg, #1a3a7a, #0f2460) !important; }
-    .welcome-body { color: #2a3a5a !important; }
-    .welcome-desc { color: #2a3a5a !important; }
-
-    .info-card { background: #dce8f7 !important; border-color: #b0c8e0 !important; }
-    .info-card h4 { color: #b37010 !important; }
-    .info-card ul { color: #1a2744 !important; }
-
-    .menu-card { background: #dce8f7 !important; border-color: #b0c8e0 !important; }
-    .menu-card:hover { background: #ccdaee !important; }
-    .menu-title { color: #0d1a33 !important; }
-    .menu-desc { color: #3a4a6a !important; }
-
-    .result-card { background: rgba(180,120,20,0.10) !important; border-color: rgba(180,120,20,0.4) !important; }
-    .result-label { color: #3a4a6a !important; }
-    .result-value { color: #7a4e00 !important; }
-
-    .istilah-box { background: #d0e8fa !important; border-color: #2980b9 !important; border-left-color: #1a6fa0 !important; color: #0a2a4a !important; }
-    .istilah-box b { color: #0a2a4a !important; }
-}
-
-/* ===== SHARED COMPONENTS ===== */
+/* ==============================================
+   KOMPONEN BERSAMA (dark + light)
+   ============================================== */
 .badge {
     display: inline-block;
     font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: #e8a045;
-    border: 1.5px solid #e8a045;
-    border-radius: 4px;
-    padding: 3px 12px;
-    margin-bottom: 1rem;
-    background: rgba(232,160,69,0.10);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: #e8a045; border: 1.5px solid #e8a045;
+    border-radius: 4px; padding: 3px 12px;
+    margin-bottom: 1rem; background: rgba(232,160,69,0.10);
 }
+.main-title { font-size: 38px; font-weight: 600; line-height: 1.2; color: #dce8ff; margin: 0 0 .4rem; }
+.main-title em { font-style: normal; color: #e8a045; }
+.subtitle { font-size: 14px; color: #7a96c0; line-height: 1.6; max-width: 560px; margin-bottom: 1.5rem; }
 
 .formula-box {
-    background: rgba(232,160,69,0.08);
-    border: 1px solid rgba(232,160,69,0.5);
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    color: #f0c070;
-    text-align: center;
-    margin: 1rem 0;
+    background: rgba(232,160,69,0.08); border: 1px solid rgba(232,160,69,0.5);
+    border-radius: 8px; padding: 10px 16px;
+    font-family: 'Space Mono', monospace; font-size: 13px;
+    color: #f0c070; text-align: center; margin: 1rem 0;
 }
 
-/* ===== IDENTITAS TIM ===== */
+/* IDENTITAS */
 .identitas-box {
-    max-width: 420px;
-    margin: 1.2rem auto 1.5rem;
-    background: linear-gradient(135deg, #0f2a60, #1a1a3e);
-    border: 1.5px solid rgba(232,160,69,0.5);
-    border-radius: 14px;
-    padding: 1.4rem 2rem 1.6rem;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    max-width: 360px; margin: 1.2rem auto 1.6rem;
+    background: linear-gradient(135deg, #0e2558, #161636);
+    border: 1.5px solid rgba(232,160,69,0.55);
+    border-radius: 14px; padding: 1.4rem 2rem 1.6rem;
+    text-align: center; box-shadow: 0 4px 24px rgba(0,0,0,0.45);
 }
 .identitas-title {
-    font-size: 11px;
-    font-family: 'Space Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: .14em;
-    color: #e8a045;
-    margin-bottom: 1rem;
+    font-size: 11px; font-family: 'Space Mono', monospace;
+    text-transform: uppercase; letter-spacing: .14em;
+    color: #e8a045; margin-bottom: 0.5rem;
 }
 .identitas-divider {
-    width: 40px;
-    height: 2px;
+    width: 40px; height: 2px;
     background: linear-gradient(90deg, transparent, #e8a045, transparent);
-    margin: 0.5rem auto 1rem;
+    margin: 0.4rem auto 0.9rem;
 }
-.identitas-name {
-    font-size: 15px;
-    font-weight: 500;
-    color: #d8e8ff;
-    line-height: 2;
-    letter-spacing: 0.03em;
-}
+.identitas-name { font-size: 15px; font-weight: 500; color: #d0e4ff; line-height: 2.2; letter-spacing: 0.03em; }
 
-/* ===== KETERANGAN ISTILAH ===== */
+/* KETERANGAN ISTILAH */
 .istilah-box {
-    background: rgba(52,152,219,0.12);
-    border: 1px solid rgba(52,152,219,0.40);
-    border-left: 4px solid #3498db;
-    border-radius: 6px;
-    padding: 10px 14px;
-    font-size: 12.5px;
-    color: #a8d4f0;
-    margin: 0.5rem 0 1rem;
-    line-height: 1.7;
+    background: rgba(40,130,210,0.14); border: 1px solid rgba(60,150,220,0.40);
+    border-left: 4px solid #4aa8e8; border-radius: 6px;
+    padding: 10px 14px; font-size: 12.5px; color: #a8d4f0;
+    margin: 0.5rem 0 1rem; line-height: 1.7;
 }
 
-/* ===== WELCOME PAGE ===== */
+/* WELCOME */
 .welcome-outer {
-    max-width: 680px;
-    margin: 2rem auto 2rem;
-    background: rgba(255,255,255,0.03);
-    border-radius: 18px;
-    overflow: hidden;
-    border: 1px solid rgba(232,160,69,0.25);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    max-width: 680px; margin: 2rem auto;
+    background: rgba(15,28,58,0.65); border-radius: 18px;
+    overflow: hidden; border: 1px solid rgba(232,160,69,0.28);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
 }
 .welcome-header {
     background: linear-gradient(135deg, #0f3460, #16213e);
-    padding: 2.5rem;
-    text-align: center;
-    border-bottom: 2px solid #e8a045;
+    padding: 2.5rem; text-align: center; border-bottom: 2px solid #e8a045;
 }
-.welcome-header h1 { font-size: 34px; font-weight: 600; margin: 0; color: #f0f0f0; }
+.welcome-header h1 { font-size: 34px; font-weight: 600; margin: 0; color: #dce8ff; }
 .welcome-body { padding: 1.8rem 2rem; text-align: center; }
-.welcome-desc { font-size: 16px; line-height: 1.6; color: #b0c8e0; margin: 0 auto; max-width: 500px; }
+.welcome-desc { font-size: 16px; line-height: 1.6; color: #a8c4e0; margin: 0 auto; max-width: 500px; }
 
-/* ===== INFO CARDS ===== */
+/* INFO CARDS */
 .info-card {
-    background: rgba(30,50,90,0.5);
-    border-radius: 12px;
-    padding: 1.4rem;
-    height: 100%;
-    border: 1px solid rgba(100,140,200,0.25);
-    border-top: 4px solid #e8a045;
+    background: rgba(20,40,88,0.58); border-radius: 12px; padding: 1.4rem;
+    height: 100%; border: 1px solid rgba(90,130,210,0.28); border-top: 4px solid #e8a045;
 }
 .info-card h4 { margin-top: 0; font-size: 15px; margin-bottom: 0.6rem; color: #e8a045; }
-.info-card ul { margin: 0; padding-left: 1.2rem; font-size: 13.5px; color: #b0c8e0; line-height: 1.8; }
+.info-card ul { margin: 0; padding-left: 1.2rem; font-size: 13.5px; color: #a8c4e0; line-height: 1.8; }
+.info-card li { color: #a8c4e0 !important; }
 
-/* ===== MENU CARDS ===== */
+/* MENU CARDS */
 .menu-card {
-    background: rgba(30,50,90,0.45);
-    border-radius: 10px;
-    padding: 1.4rem;
-    min-height: 180px;
-    border: 1px solid rgba(100,140,200,0.20);
+    background: rgba(20,40,88,0.52); border-radius: 10px; padding: 1.4rem;
+    min-height: 180px; border: 1px solid rgba(90,130,210,0.22);
     transition: background 0.2s ease, transform 0.15s ease;
 }
-.menu-card:hover { background: rgba(40,70,120,0.65); transform: translateY(-2px); }
+.menu-card:hover { background: rgba(30,60,120,0.75); transform: translateY(-2px); }
 .card-p1 { border-left: 4px solid #e8a045; }
 .card-p2 { border-left: 4px solid #4fc3f7; }
 .card-p3 { border-left: 4px solid #81c784; }
 .card-p4 { border-left: 4px solid #ce93d8; }
 .card-p5 { border-left: 4px solid #ef9a9a; }
-.menu-icon  { font-size: 22px; margin-bottom: 0.4rem; }
-.menu-title { font-size: 15px; font-weight: 600; margin: 0.2rem 0 0.4rem; color: #d8e8ff; }
-.menu-desc  { font-size: 12px; color: #8aa0c0; line-height: 1.5; }
+.menu-icon { font-size: 22px; margin-bottom: 0.4rem; }
+.menu-title { font-size: 15px; font-weight: 600; margin: 0.2rem 0 0.4rem; color: #d8eaff; }
+.menu-desc  { font-size: 12px; color: #7a98c0; line-height: 1.5; }
 
-/* ===== BUTTON ===== */
+/* BUTTON */
 div.stButton > button {
-    background: #e8a045 !important;
-    color: #1a1a2e !important;
-    border: none !important;
-    border-radius: 6px !important;
-    padding: 0.55rem 1.4rem !important;
-    font-weight: 700 !important;
+    background: #e8a045 !important; color: #0d1428 !important;
+    border: none !important; border-radius: 6px !important;
+    padding: 0.55rem 1.4rem !important; font-weight: 700 !important;
     font-family: 'Space Grotesk', sans-serif !important;
-    letter-spacing: 0.02em !important;
-    transition: opacity 0.15s;
+    letter-spacing: 0.02em !important; transition: opacity 0.15s;
 }
 div.stButton > button:hover { opacity: 0.85; }
 
-/* ===== RESULT CARD ===== */
+/* RESULT CARD */
 .result-card {
-    background: rgba(232,160,69,0.09);
-    border-radius: 10px;
-    padding: 1rem 1.4rem;
-    margin-top: .75rem;
-    border: 1px solid rgba(232,160,69,0.35);
+    background: rgba(232,160,69,0.09); border-radius: 10px;
+    padding: 1rem 1.4rem; margin-top: .75rem;
+    border: 1px solid rgba(232,160,69,0.38);
 }
-.result-label {
-    font-size: 10px;
-    font-family: 'Space Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    margin: 0 0 4px;
-    color: #8aa0c0;
-}
-.result-value {
-    font-size: 24px;
-    font-weight: 600;
-    margin: 0;
-    font-family: 'Space Mono', monospace;
-    color: #f0c070;
-}
+.result-label { font-size: 10px; font-family: 'Space Mono', monospace; text-transform: uppercase; letter-spacing: .1em; margin: 0 0 4px; color: #7a96c0; }
+.result-value { font-size: 24px; font-weight: 600; margin: 0; font-family: 'Space Mono', monospace; color: #f0c070; }
 
-/* ===== INPUT CONTAINERS ===== */
+/* INPUT containers */
 div[data-testid="stNumberInput"],
 div[data-testid="stSelectbox"],
 div[data-testid="stTextInput"],
 div[data-testid="stTextArea"] {
-    background-color: #ffffff !important;
+    background-color: rgba(15,30,70,0.28) !important;
     border-radius: 6px !important;
 }
+
+/* footer */
+footer { color: #7a96c0 !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -574,21 +613,21 @@ def keterangan(kunci):
 
 
 # ============================================================
-# FUNGSI TAMPILAN UMUM (Menggunakan properti warna adaptif)
+# FUNGSI TAMPILAN UMUM
 # ============================================================
 def tampilkan_kotak(judul, konten_html):
     return f"""
-    <div style="background: var(--background-color, rgba(30,55,100,0.15)); padding:20px; border-radius:10px;
-                border:1px dashed #e8a045; font-family:'Courier New',monospace; margin-top:15px;">
-        <p style="margin:0 0 12px 0; color:#e8a045; font-weight:600; font-size:13px;">📋 {judul}</p>
-        <div style="font-size:13px; color: var(--text-color, inherit); line-height:1.7; padding-left:5px;">
+    <div style="background:rgba(30,55,100,0.35); padding:20px; border-radius:10px;
+                border:1px dashed rgba(232,160,69,0.4); font-family:'Courier New',monospace; margin-top:15px;">
+        <p style="margin:0 0 12px 0; color:#f0c070; font-weight:600; font-size:13px;">📋 {judul}</p>
+        <div style="font-size:13px; color:#b8d0f0; line-height:1.7; padding-left:5px;">
             {konten_html}
         </div>
     </div>
     """
 
 def buat_baris(teks):
-    return f"<p style='margin:0 0 8px 0; color: inherit;'>{teks}</p>"
+    return f"<p style='margin:0 0 8px 0; color:#b8d0f0;'>{teks}</p>"
 
 def tampilkan_hasil(nama_variabel, angka, satuan=""):
     sat_html = f'<span style="font-size:15px; color:#e8a045; opacity:0.85;">{satuan}</span>' if satuan else ""
@@ -752,14 +791,12 @@ else:
             st.markdown('<div class="formula-box">C₁ × V₁ = C₂ × V₂</div>', unsafe_allow_html=True)
             keterangan("Molaritas")
             yang_dicari = st.selectbox("Variabel yang dicari:", [
-                "C₂ — Konsentrasi akhir",
-                "V₂ — Volume akhir",
-                "C₁ — Konsentrasi awal",
-                "V₁ — Volume awal"
+                "C₂ — Konsentrasi akhir", "V₂ — Volume akhir",
+                "C₁ — Konsentrasi awal",  "V₁ — Volume awal"
             ], key="cari_cv")
             satuan = st.selectbox("Satuan konsentrasi:", ["M", "mM", "µM", "mg/mL", "ppm", "ppb"], key="satuan_cv")
-
             col1, col2 = st.columns(2)
+
             if yang_dicari == "C₂ — Konsentrasi akhir":
                 with col1:
                     c1 = st.number_input("C₁", 0.0, value=1.0, format="%.5f", key="c1_c2")
@@ -780,19 +817,18 @@ else:
                 with col2:
                     c2 = st.number_input("C₂", 1e-9, value=0.1, format="%.5f", key="c2_v2")
                 jawaban = (c1 * v1) / c2
-                tampilkan_hasil("V₂ — Volume akhir", f"{jawaban:.4f}", "mL")
+                tampilkan_hasil("V₂ — Volume akhir", f"{jawaban:.5g}", "mL")
                 st.markdown(tampilkan_kotak("Penyelesaian (V₂ = C₁V₁ / C₂)",
                     buat_baris(f"V₂ = ({c1} × {v1}) / {c2}") +
-                    buat_baris(f"V₂ = <b>{jawaban:.4f} mL</b>") +
-                    buat_baris(f"Volume air penambah = V₂ - V₁ = {jawaban - v1:.4f} mL")
+                    buat_baris(f"V₂ = <b>{jawaban:.5g} mL</b>")
                 ), unsafe_allow_html=True)
 
             elif yang_dicari == "C₁ — Konsentrasi awal":
                 with col1:
-                    c2 = st.number_input("C₂", 0.0, value=0.1, format="%.5f", key="c2_c1")
-                    v2 = st.number_input("V₂ (mL)", 0.0, value=100.0, format="%.3f", key="v2_c1")
-                with col2:
                     v1 = st.number_input("V₁ (mL)", 1e-9, value=10.0, format="%.3f", key="v1_c1")
+                    c2 = st.number_input("C₂", 0.0, value=0.1, format="%.5f", key="c2_c1")
+                with col2:
+                    v2 = st.number_input("V₂ (mL)", 1e-9, value=100.0, format="%.3f", key="v2_c1")
                 jawaban = (c2 * v2) / v1
                 tampilkan_hasil("C₁ — Konsentrasi awal", f"{jawaban:.6g}", satuan)
                 st.markdown(tampilkan_kotak("Penyelesaian (C₁ = C₂V₂ / V₁)",
@@ -800,226 +836,781 @@ else:
                     buat_baris(f"C₁ = <b>{jawaban:.6g} {satuan}</b>")
                 ), unsafe_allow_html=True)
 
-            elif yang_dicari == "V₁ — Volume awal":
+            else:
                 with col1:
-                    c2 = st.number_input("C₂", 0.0, value=0.1, format="%.5f", key="c2_v1")
-                    v2 = st.number_input("V₂ (mL)", 0.0, value=100.0, format="%.3f", key="v2_v1")
-                with col2:
                     c1 = st.number_input("C₁", 1e-9, value=1.0, format="%.5f", key="c1_v1")
+                    c2 = st.number_input("C₂", 0.0, value=0.1, format="%.5f", key="c2_v1")
+                with col2:
+                    v2 = st.number_input("V₂ (mL)", 1e-9, value=100.0, format="%.3f", key="v2_v1")
                 jawaban = (c2 * v2) / c1
-                tampilkan_hasil("V₁ — Volume awal (Pipet)", f"{jawaban:.4f}", "mL")
+                tampilkan_hasil("V₁ — Volume awal", f"{jawaban:.5g}", "mL")
                 st.markdown(tampilkan_kotak("Penyelesaian (V₁ = C₂V₂ / C₁)",
                     buat_baris(f"V₁ = ({c2} × {v2}) / {c1}") +
-                    buat_baris(f"V₁ = <b>{jawaban:.4f} mL</b>") +
-                    buat_baris(f"Ambil {jawaban:.4f} mL larutan pekat, encerkan sampai wadah {v2} mL.")
+                    buat_baris(f"V₁ = <b>{jawaban:.5g} mL</b>")
                 ), unsafe_allow_html=True)
 
         with tab_serial:
-            st.markdown('<div class="formula-box">Faktor Tiap Tahap = V_total / V_pindah</div>', unsafe_allow_html=True)
-            col1, col2 = st.columns(2)
-            with col1:
-                c_awal = st.number_input("Konsentrasi awal Induk:", 0.0, value=1000.0, key="ser_c")
-                v_pindah = st.number_input("Volume yang dipindahkan (mL):", 0.001, value=1.0, key="ser_vp")
-                v_labu = st.number_input("Volume Labu Takar tujuan (mL):", 0.001, value=10.0, key="ser_vl")
-            with col2:
-                jumlah_tahap = st.number_input("Jumlah tahap pengenceran seris:", 1, 10, value=3, key="ser_n")
-                satuan_seris = st.selectbox("Satuan:", ["ppm", "ppb", "M", "mg/L"], key="ser_sat")
+            keterangan("Faktor pengenceran")
+            n_tahap = st.slider("Jumlah tahap pengenceran:", 2, 6, 3, key="n_serial")
+            c_awal = st.number_input("Konsentrasi awal C₀ (M)", 0.0, value=1.0, format="%.5f", key="c0_ser")
 
-            faktor_tahap = v_labu / v_pindah
-            st.write("##### Hasil Konsentrasi Tiap Tabung:")
-            html_tahap = ""
-            c_sekarang = c_awal
-            for i in range(int(jumlah_tahap)):
-                c_sekarang /= faktor_tahap
-                st.write(f"Tabung {i+1} : **{c_sekarang:.5g} {satuan_seris}**")
-                html_tahap += buat_baris(f"Tahap {i+1}: {c_sekarang*faktor_tahap:.4g} / {faktor_tahap:.3g} = <b>{c_sekarang:.5g}</b>")
+            c_skrg = c_awal
+            langkah_html = buat_baris(f"C₀ = {c_awal} M")
 
-            st.markdown(tampilkan_kotak("Langkah Pengenceran Bertingkat",
-                buat_baris(f"Faktor pengenceran per tabung = {v_labu} mL / {v_pindah} mL = <b>{faktor_tahap:.4g}x</b>") +
-                buat_baris(f"Total pengenceran akhir = {faktor_tahap**jumlah_tahap:.5g}x") + html_tahap
-            ), unsafe_allow_html=True)
+            for i in range(n_tahap):
+                kol_a, kol_b = st.columns(2)
+                with kol_a:
+                    v_ambil = st.number_input(f"V ambil tahap {i+1} (mL)", 0.001, value=1.0, key=f"va_{i}")
+                with kol_b:
+                    v_total = st.number_input(f"V total tahap {i+1} (mL)", 0.001, value=10.0, key=f"vt_{i}")
+                fp_tahap = v_ambil / v_total
+                c_skrg = c_skrg * fp_tahap
+                langkah_html += buat_baris(
+                    f"Tahap {i+1}: {v_ambil} mL → {v_total} mL, FP = {fp_tahap:.4f}, C = <b>{c_skrg:.4e} M</b>"
+                )
+
+            tampilkan_hasil("Konsentrasi Akhir (serial)", f"{c_skrg:.4e}", "M")
+            st.markdown(tampilkan_kotak("Penyelesaian (Pengenceran Serial)", langkah_html), unsafe_allow_html=True)
 
         with tab_fp:
-            st.markdown('<div class="formula-box">FP = V_akhir / V_awal &nbsp;|&nbsp; Kadar Sampel = Kadar Terukur × FP</div>', unsafe_allow_html=True)
             keterangan("Faktor pengenceran")
-            col1, col2 = st.columns(2)
-            with col1:
-                v_awal_fp = st.number_input("Volume sampel dipipet (mL):", 0.001, value=2.0, key="fp_v1")
-                v_akhir_fp = st.number_input("Volume akhir pengenceran (mL):", 0.001, value=50.0, key="fp_v2")
-            with col2:
-                kadar_terukur = st.number_input("Konsentrasi terukur instrumen:", 0.0, value=5.4, format="%.4f", key="fp_c")
-                sat_fp = st.selectbox("Satuan konsentrasi:", ["ppm", "ppb", "mg/L", "M"], key="fp_sat")
-
-            fp = v_akhir_fp / v_awal_fp
-            kadar_asli = kadar_terukur * fp
-            tampilkan_hasil("Faktor Pengenceran (FP)", f"{fp:.4g}", "kali")
-            tampilkan_hasil("Kadar Sampel Asli", f"{kadar_asli:.6g}", sat_fp)
-            st.markdown(tampilkan_kotak("Perhitungan Faktor Pengenceran",
-                buat_baris(f"FP = {v_akhir_fp} mL / {v_awal_fp} mL = <b>{fp:.4g}</b>") +
-                buat_baris(f"Kadar asli = {kadar_terukur} × {fp} = <b>{kadar_asli:.6g} {sat_fp}</b>")
+            kol_a, kol_b = st.columns(2)
+            with kol_a:
+                va_fp = st.number_input("Volume sampel (mL)", 0.001, value=1.0, key="fp_va")
+                ca_fp = st.number_input("Konsentrasi awal (opsional)", 0.0, value=1.0, format="%.5f", key="fp_ca")
+            with kol_b:
+                vb_fp = st.number_input("Volume akhir (mL)", 0.001, value=100.0, key="fp_vb")
+            fp = vb_fp / va_fp
+            tampilkan_hasil("Faktor Pengenceran", f"1 : {fp:.4f}")
+            tampilkan_hasil("Konsentrasi Akhir", f"{ca_fp / fp:.5g}")
+            st.markdown(tampilkan_kotak("Penyelesaian (Faktor Pengenceran)",
+                buat_baris(f"FP = {vb_fp} / {va_fp} = <b>{fp:.4f}</b>") +
+                buat_baris(f"C akhir = {ca_fp} / {fp:.4f} = <b>{ca_fp / fp:.5g}</b>")
             ), unsafe_allow_html=True)
 
     # ----------------------------------------------------------
     # STOIKIOMETRI
     # ----------------------------------------------------------
     elif st.session_state.menu_aktif == "Stoikiometri":
-        st.markdown("### 🔄 Konsentrasi & Stoikiometri")
-        tab_konv, tab_reaksi = st.tabs(["Konversi Satuan Larutan", "Stoikiometri Mol Reaksi"])
+        st.markdown("### 🔄 Satuan Konsentrasi & Stoikiometri")
+        tab_konv, tab_mol, tab_reaksi = st.tabs(["🔄 Konversi Satuan", "⚖️ Mol & Massa", "🧮 Stoikiometri Reaksi"])
 
         with tab_konv:
-            st.write("##### Konversi Molaritas ke ppm / sebaliknya")
-            mr_pilih, unsur_nama = pilih_mr("Zat Terlarut", "stoik")
-            pilihan_arah = st.radio("Pilih jenis konversi:", [
-                "Molaritas (M) ➔ ppm (mg/L)",
-                "ppm (mg/L) ➔ Molaritas (M)"
-            ], horizontal=True)
+            col1, col2 = st.columns(2)
+            with col1:
+                satuan_dari = st.selectbox("Dari satuan:", SATUAN_KONSENTRASI, index=0, key="k_dari")
+                nilai_input  = st.number_input("Nilai", 0.0, value=1.0, format="%.6f", key="k_val")
+                mr_zat_val, mr_label = pilih_mr("zat", "konv", "NaCl – Natrium klorida", 58.44)
+            with col2:
+                satuan_ke = st.selectbox("Ke satuan:", SATUAN_KONSENTRASI, index=2, key="k_ke")
+                densitas  = st.number_input("Densitas ρ (g/mL)", 0.001, value=1.0, key="k_rho")
 
-            if pilihan_arah == "Molaritas (M) ➔ ppm (mg/L)":
-                m_in = st.number_input("Konsentrasi Molaritas (M):", 0.0, value=0.01, format="%.6f", key="m_in")
-                ppm_out = m_in * mr_pilih * 1000
-                tampilkan_hasil("Hasil Konsentrasi", f"{ppm_out:.5g}", "ppm (mg/L)")
-                st.markdown(tampilkan_kotak("Rumus: ppm = M × Mr × 1000",
-                    buat_baris(f"ppm = {m_in} M × {mr_pilih} g/mol × 1000") +
-                    buat_baris(f"ppm = <b>{ppm_out:.5g} mg/L</b>")
-                ), unsafe_allow_html=True)
+            # Keterangan dinamis mengikuti satuan yang dipilih
+            KETERANGAN_SATUAN = {
+                "Molaritas (M)": ("Molaritas (M)", "Jumlah mol zat terlarut per liter larutan. Rumus: M = n / V(L). Satuan: mol/L."),
+                "% massa/volume (% m/v)": ("% massa/volume (%m/v)", "Massa zat terlarut (gram) per 100 mL larutan. Rumus: %m/v = (massa/volume) × 100%. Contoh: 5% artinya 5 g per 100 mL."),
+                "ppm (mg/L)": ("ppm — parts per million (mg/L)", "Konsentrasi 1 mg zat dalam 1 liter larutan (setara mg/L). Umum untuk analisis air dan larutan encer."),
+                "ppb (µg/L)": ("ppb — parts per billion (µg/L)", "Konsentrasi 1 µg zat dalam 1 liter larutan (setara µg/L). Digunakan untuk analisis jejak (trace analysis) pada kadar sangat rendah. 1 ppb = 0.001 ppm."),
+                "mg/mL": ("mg/mL", "Massa zat (miligram) per mL larutan. Setara dengan g/L. Sering digunakan dalam farmasi dan biokimia."),
+                "Molalitas (m)": ("Molalitas (m)", "Jumlah mol zat terlarut per kilogram pelarut (bukan larutan). Rumus: m = n / massa_pelarut(kg). Tidak bergantung pada suhu."),
+            }
+            satuan_sudah = set()
+            for sat in [satuan_dari, satuan_ke]:
+                if sat in KETERANGAN_SATUAN and sat not in satuan_sudah:
+                    nama_sat, penjelasan = KETERANGAN_SATUAN[sat]
+                    st.markdown(f'<div class="istilah-box">ℹ️ <b>{nama_sat}:</b> {penjelasan}</div>', unsafe_allow_html=True)
+                    satuan_sudah.add(sat)
+
+            if satuan_dari == satuan_ke:
+                st.warning("Pilih satuan yang berbeda.")
             else:
-                ppm_in = st.number_input("Konsentrasi ppm (mg/L):", 0.0, value=100.0, key="ppm_in")
-                m_out = ppm_in / (mr_pilih * 1000)
-                tampilkan_hasil("Hasil Molaritas", f"{m_out:.6g}", "M")
-                st.markdown(tampilkan_kotak("Rumus: M = ppm / (Mr × 1000)",
-                    buat_baris(f"M = {ppm_in} / ({mr_pilih} × 1000)") +
-                    buat_baris(f"M = <b>{m_out:.6g} mol/L</b>")
+                ke_mgL = {
+                    "Molaritas (M)":            lambda v: v * mr_zat_val * 1000,
+                    "% massa/volume (% m/v)":   lambda v: v * 10000,
+                    "ppm (mg/L)":               lambda v: v,
+                    "ppb (µg/L)":               lambda v: v / 1000,
+                    "mg/mL":                    lambda v: v * 1000,
+                    "Molalitas (m)":            lambda v: v * mr_zat_val * densitas * 1000,
+                }
+                dari_mgL = {
+                    "Molaritas (M)":            lambda v: v / (mr_zat_val * 1000),
+                    "% massa/volume (% m/v)":   lambda v: v / 10000,
+                    "ppm (mg/L)":               lambda v: v,
+                    "ppb (µg/L)":               lambda v: v * 1000,
+                    "mg/mL":                    lambda v: v / 1000,
+                    "Molalitas (m)":            lambda v: v / (mr_zat_val * densitas * 1000),
+                }
+                nilai_mgL = ke_mgL[satuan_dari](nilai_input)
+                nilai_target = dari_mgL[satuan_ke](nilai_mgL)
+                tampilkan_hasil("Hasil Konversi", f"{nilai_target:.6g}", satuan_ke)
+                st.markdown(tampilkan_kotak("Penyelesaian (via basis mg/L)",
+                    buat_baris(f"'{satuan_dari}' → mg/L: <b>{nilai_mgL:.4e} mg/L</b>") +
+                    buat_baris(f"mg/L → '{satuan_ke}': <b>{nilai_target:.6g} {satuan_ke}</b>") +
+                    buat_baris(f"<span style='color:#9e9e9e;font-size:11px'>Mr ({mr_label}) = {mr_zat_val} g/mol | ρ = {densitas} g/mL</span>")
+                ), unsafe_allow_html=True)
+
+        with tab_mol:
+            keterangan("Mr")
+            keterangan("Molaritas")
+            pilihan = st.selectbox("Cari:", [
+                "Mol (n) dari massa & Mr", "Mol (n) dari M & V",
+                "Massa (g) dari n & Mr",   "Molaritas (M) dari n & V",
+                "Volume (mL) dari n & M"
+            ], key="pilihan_mol")
+            col1, col2 = st.columns(2)
+
+            if "massa & Mr" in pilihan:
+                with col1: massa = st.number_input("Massa (gram)", 0.0, value=5.85, format="%.4f", key="mol_m")
+                with col2: mr, mr_lbl = pilih_mr("zat", "mol1", "NaCl – Natrium klorida", 58.44)
+                n = massa / mr
+                tampilkan_hasil("Mol (n)", f"{n:.5g}", "mol")
+                st.markdown(tampilkan_kotak(f"n = gram / Mr({mr_lbl})",
+                    buat_baris(f"n = {massa} / {mr} = <b>{n:.5g} mol</b>")
+                ), unsafe_allow_html=True)
+
+            elif "M & V" in pilihan:
+                with col1: M_val = st.number_input("Molaritas (M)", 0.0, value=1.0, key="mol_M")
+                with col2: V_val = st.number_input("Volume (mL)", 0.0, value=100.0, key="mol_V")
+                n = M_val * (V_val / 1000)
+                tampilkan_hasil("Mol (n)", f"{n:.5g}", "mol")
+                st.markdown(tampilkan_kotak("n = M × (V/1000)",
+                    buat_baris(f"n = {M_val} × ({V_val}/1000) = <b>{n:.5g} mol</b>")
+                ), unsafe_allow_html=True)
+
+            elif "Massa" in pilihan:
+                with col1: n_input = st.number_input("Mol (n)", 0.0, value=0.1, key="mol_n_m")
+                with col2: mr, mr_lbl = pilih_mr("zat", "mol3", "NaCl – Natrium klorida", 58.44)
+                gram = n_input * mr
+                tampilkan_hasil("Massa (m)", f"{gram:.5g}", "gram")
+                st.markdown(tampilkan_kotak(f"gram = n × Mr({mr_lbl})",
+                    buat_baris(f"gram = {n_input} × {mr} = <b>{gram:.5g} gram</b>")
+                ), unsafe_allow_html=True)
+
+            elif "Molaritas" in pilihan:
+                with col1: n_input = st.number_input("Mol (n)", 0.0, value=0.1, key="mol_n_M")
+                with col2: V_val = st.number_input("Volume (mL)", 0.001, value=100.0, key="mol_V2")
+                M_hsl = n_input / (V_val / 1000)
+                tampilkan_hasil("Molaritas (M)", f"{M_hsl:.5g}", "mol/L")
+                st.markdown(tampilkan_kotak("M = n / (V/1000)",
+                    buat_baris(f"M = {n_input} / ({V_val}/1000) = <b>{M_hsl:.5g} M</b>")
+                ), unsafe_allow_html=True)
+
+            else:
+                with col1: n_input = st.number_input("Mol (n)", 0.0, value=0.1, key="mol_n_V")
+                with col2: M_val = st.number_input("Molaritas (M)", 0.001, value=1.0, key="mol_M2")
+                V_hsl = (n_input / M_val) * 1000
+                tampilkan_hasil("Volume (V)", f"{V_hsl:.5g}", "mL")
+                st.markdown(tampilkan_kotak("V (mL) = (n/M) × 1000",
+                    buat_baris(f"V = ({n_input}/{M_val}) × 1000 = <b>{V_hsl:.5g} mL</b>")
                 ), unsafe_allow_html=True)
 
         with tab_reaksi:
-            st.markdown('<div class="formula-box">a A + b B ➔ c C + d D</div>', unsafe_allow_html=True)
+            keterangan("Stoikiometri")
             keterangan("Reaktan pembatas")
-            st.write("Masukkan koefisien reaksi dan jumlah mol masing-masing reaktan:")
-            col1, col2 = st.columns(2)
-            with col1:
-                st.write("**Reaktan A**")
-                koef_a = st.number_input("Koefisien A:", 1, value=1, key="ka")
-                mol_a = st.number_input("Mol A yang tersedia:", 0.0, value=0.5, format="%.4f", key="ma")
-            with col2:
-                st.write("**Reaktan B**")
-                koef_b = st.number_input("Koefisien B:", 1, value=2, key="kb")
-                mol_b = st.number_input("Mol B yang tersedia:", 0.0, value=0.8, format="%.4f", key="mb")
 
-            if mol_a > 0 and mol_b > 0:
-                uji_a = mol_a / koef_a
-                uji_b = mol_b / koef_b
-                if uji_a < uji_b:
-                    pembatas = "A"
-                    mol_bereaksi_a = mol_a
-                    mol_bereaksi_b = mol_a * koef_b / koef_a
-                elif uji_b < uji_a:
-                    pembatas = "B"
-                    mol_bereaksi_b = mol_b
-                    mol_bereaksi_a = mol_b * koef_a / koef_b
+            # ============================================================
+            # PRESET REAKSI LENGKAP
+            # ============================================================
+            PRESET_REAKSI = {
+                # --- Netralisasi Asam-Basa ---
+                "⚗️ HCl + NaOH → NaCl + H₂O": {
+                    "label": "Netralisasi asam kuat + basa kuat",
+                    "kA":1,"nA":"HCl","mA":36.46, "kB":1,"nB":"NaOH","mB":40.00,
+                    "kC":1,"nC":"NaCl","mC":58.44, "kD":1,"nD":"H₂O","mD":18.02,
+                },
+                "⚗️ H₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O": {
+                    "label": "Netralisasi asam sulfat + NaOH",
+                    "kA":1,"nA":"H₂SO₄","mA":98.08, "kB":2,"nB":"NaOH","mB":40.00,
+                    "kC":1,"nC":"Na₂SO₄","mC":142.04, "kD":2,"nD":"H₂O","mD":18.02,
+                },
+                "⚗️ H₃PO₄ + 3NaOH → Na₃PO₄ + 3H₂O": {
+                    "label": "Netralisasi asam fosfat + NaOH",
+                    "kA":1,"nA":"H₃PO₄","mA":97.99, "kB":3,"nB":"NaOH","mB":40.00,
+                    "kC":1,"nC":"Na₃PO₄","mC":163.94, "kD":3,"nD":"H₂O","mD":18.02,
+                },
+                "⚗️ CH₃COOH + NaOH → CH₃COONa + H₂O": {
+                    "label": "Netralisasi asam asetat (asam lemah) + basa kuat",
+                    "kA":1,"nA":"CH₃COOH","mA":60.05, "kB":1,"nB":"NaOH","mB":40.00,
+                    "kC":1,"nC":"CH₃COONa","mC":82.03, "kD":1,"nD":"H₂O","mD":18.02,
+                },
+                "⚗️ HNO₃ + KOH → KNO₃ + H₂O": {
+                    "label": "Netralisasi asam nitrat + kalium hidroksida",
+                    "kA":1,"nA":"HNO₃","mA":63.01, "kB":1,"nB":"KOH","mB":56.11,
+                    "kC":1,"nC":"KNO₃","mC":101.10, "kD":1,"nD":"H₂O","mD":18.02,
+                },
+                "⚗️ 2HCl + Ca(OH)₂ → CaCl₂ + 2H₂O": {
+                    "label": "Netralisasi HCl + kalsium hidroksida",
+                    "kA":2,"nA":"HCl","mA":36.46, "kB":1,"nB":"Ca(OH)₂","mB":74.09,
+                    "kC":1,"nC":"CaCl₂","mC":110.98, "kD":2,"nD":"H₂O","mD":18.02,
+                },
+                # --- Pengendapan ---
+                "🔵 AgNO₃ + NaCl → AgCl↓ + NaNO₃": {
+                    "label": "Pengendapan perak klorida",
+                    "kA":1,"nA":"AgNO₃","mA":169.87, "kB":1,"nB":"NaCl","mB":58.44,
+                    "kC":1,"nC":"AgCl","mC":143.32, "kD":1,"nD":"NaNO₃","mD":84.99,
+                },
+                "🔵 BaCl₂ + Na₂SO₄ → BaSO₄↓ + 2NaCl": {
+                    "label": "Pengendapan barium sulfat",
+                    "kA":1,"nA":"BaCl₂","mA":208.23, "kB":1,"nB":"Na₂SO₄","mB":142.04,
+                    "kC":1,"nC":"BaSO₄","mC":233.39, "kD":2,"nD":"NaCl","mD":58.44,
+                },
+                "🔵 Pb(NO₃)₂ + 2KI → PbI₂↓ + 2KNO₃": {
+                    "label": "Pengendapan timbal(II) iodida",
+                    "kA":1,"nA":"Pb(NO₃)₂","mA":331.21, "kB":2,"nB":"KI","mB":166.00,
+                    "kC":1,"nC":"PbI₂","mC":461.01, "kD":2,"nD":"KNO₃","mD":101.10,
+                },
+                "🔵 CaCl₂ + Na₂CO₃ → CaCO₃↓ + 2NaCl": {
+                    "label": "Pengendapan kalsium karbonat",
+                    "kA":1,"nA":"CaCl₂","mA":110.98, "kB":1,"nB":"Na₂CO₃","mB":105.99,
+                    "kC":1,"nC":"CaCO₃","mC":100.09, "kD":2,"nD":"NaCl","mD":58.44,
+                },
+                # --- Redoks ---
+                "🔴 2KMnO₄ + 16HCl → 2MnCl₂ + 5Cl₂ + 2KCl + 8H₂O": {
+                    "label": "Redoks permanganat dengan HCl",
+                    "kA":2,"nA":"KMnO₄","mA":158.03, "kB":16,"nB":"HCl","mB":36.46,
+                    "kC":2,"nC":"MnCl₂","mC":125.84, "kD":5,"nD":"Cl₂","mD":70.90,
+                },
+                "🔴 K₂Cr₂O₇ + 14HCl → 2CrCl₃ + 3Cl₂ + 2KCl + 7H₂O": {
+                    "label": "Redoks dikromat dengan HCl",
+                    "kA":1,"nA":"K₂Cr₂O₇","mA":294.18, "kB":14,"nB":"HCl","mB":36.46,
+                    "kC":2,"nC":"CrCl₃","mC":158.36, "kD":3,"nD":"Cl₂","mD":70.90,
+                },
+                "🔴 2FeCl₃ + Fe → 3FeCl₂": {
+                    "label": "Reduksi besi(III) oleh besi",
+                    "kA":2,"nA":"FeCl₃","mA":162.20, "kB":1,"nB":"Fe","mB":55.85,
+                    "kC":3,"nC":"FeCl₂","mC":126.75, "kD":0,"nD":"-","mD":1.0,
+                },
+                "🔴 MnO₂ + 4HCl → MnCl₂ + Cl₂ + 2H₂O": {
+                    "label": "Oksidasi HCl oleh MnO₂",
+                    "kA":1,"nA":"MnO₂","mA":86.94, "kB":4,"nB":"HCl","mB":36.46,
+                    "kC":1,"nC":"MnCl₂","mC":125.84, "kD":1,"nD":"Cl₂","mD":70.90,
+                },
+                # --- Logam + Asam ---
+                "🟡 Zn + H₂SO₄ → ZnSO₄ + H₂↑": {
+                    "label": "Logam seng + asam sulfat",
+                    "kA":1,"nA":"Zn","mA":65.38, "kB":1,"nB":"H₂SO₄","mB":98.08,
+                    "kC":1,"nC":"ZnSO₄","mC":161.47, "kD":1,"nD":"H₂","mD":2.016,
+                },
+                "🟡 Fe + 2HCl → FeCl₂ + H₂↑": {
+                    "label": "Logam besi + asam klorida",
+                    "kA":1,"nA":"Fe","mA":55.85, "kB":2,"nB":"HCl","mB":36.46,
+                    "kC":1,"nC":"FeCl₂","mC":126.75, "kD":1,"nD":"H₂","mD":2.016,
+                },
+                "🟡 Mg + 2HCl → MgCl₂ + H₂↑": {
+                    "label": "Logam magnesium + asam klorida",
+                    "kA":1,"nA":"Mg","mA":24.31, "kB":2,"nB":"HCl","mB":36.46,
+                    "kC":1,"nC":"MgCl₂","mC":95.21, "kD":1,"nD":"H₂","mD":2.016,
+                },
+                "🟡 2Al + 6HCl → 2AlCl₃ + 3H₂↑": {
+                    "label": "Logam aluminium + asam klorida",
+                    "kA":2,"nA":"Al","mA":26.98, "kB":6,"nB":"HCl","mB":36.46,
+                    "kC":2,"nC":"AlCl₃","mC":133.34, "kD":3,"nD":"H₂","mD":2.016,
+                },
+                "🟡 Cu + 4HNO₃(pekat) → Cu(NO₃)₂ + 2NO₂ + 2H₂O": {
+                    "label": "Tembaga + asam nitrat pekat",
+                    "kA":1,"nA":"Cu","mA":63.55, "kB":4,"nB":"HNO₃","mB":63.01,
+                    "kC":1,"nC":"Cu(NO₃)₂","mC":187.56, "kD":2,"nD":"NO₂","mD":46.01,
+                },
+                # --- Karbonat + Asam ---
+                "🟠 CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂↑": {
+                    "label": "Kalsit + asam klorida",
+                    "kA":1,"nA":"CaCO₃","mA":100.09, "kB":2,"nB":"HCl","mB":36.46,
+                    "kC":1,"nC":"CaCl₂","mC":110.98, "kD":1,"nD":"CO₂","mD":44.01,
+                },
+                "🟠 Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂↑": {
+                    "label": "Natrium karbonat + asam klorida",
+                    "kA":1,"nA":"Na₂CO₃","mA":105.99, "kB":2,"nB":"HCl","mB":36.46,
+                    "kC":2,"nC":"NaCl","mC":58.44, "kD":1,"nD":"CO₂","mD":44.01,
+                },
+                "🟠 NaHCO₃ + HCl → NaCl + H₂O + CO₂↑": {
+                    "label": "Natrium bikarbonat + asam klorida",
+                    "kA":1,"nA":"NaHCO₃","mA":84.01, "kB":1,"nB":"HCl","mB":36.46,
+                    "kC":1,"nC":"NaCl","mC":58.44, "kD":1,"nD":"CO₂","mD":44.01,
+                },
+                # --- Pembakaran ---
+                "🔥 CH₄ + 2O₂ → CO₂ + 2H₂O": {
+                    "label": "Pembakaran sempurna metana",
+                    "kA":1,"nA":"CH₄","mA":16.04, "kB":2,"nB":"O₂","mB":32.00,
+                    "kC":1,"nC":"CO₂","mC":44.01, "kD":2,"nD":"H₂O","mD":18.02,
+                },
+                "🔥 C₂H₅OH + 3O₂ → 2CO₂ + 3H₂O": {
+                    "label": "Pembakaran sempurna etanol",
+                    "kA":1,"nA":"C₂H₅OH","mA":46.07, "kB":3,"nB":"O₂","mB":32.00,
+                    "kC":2,"nC":"CO₂","mC":44.01, "kD":3,"nD":"H₂O","mD":18.02,
+                },
+                "🔥 2H₂ + O₂ → 2H₂O": {
+                    "label": "Pembakaran hidrogen",
+                    "kA":2,"nA":"H₂","mA":2.016, "kB":1,"nB":"O₂","mB":32.00,
+                    "kC":2,"nC":"H₂O","mC":18.02, "kD":0,"nD":"-","mD":1.0,
+                },
+                "🔥 C + O₂ → CO₂": {
+                    "label": "Pembakaran karbon",
+                    "kA":1,"nA":"C","mA":12.01, "kB":1,"nB":"O₂","mB":32.00,
+                    "kC":1,"nC":"CO₂","mC":44.01, "kD":0,"nD":"-","mD":1.0,
+                },
+                # --- Reduksi Oksida ---
+                "🟤 Fe₂O₃ + 3CO → 2Fe + 3CO₂": {
+                    "label": "Reduksi besi(III) oksida dengan CO (tanur tinggi)",
+                    "kA":1,"nA":"Fe₂O₃","mA":159.69, "kB":3,"nB":"CO","mB":28.01,
+                    "kC":2,"nC":"Fe","mC":55.85, "kD":3,"nD":"CO₂","mD":44.01,
+                },
+                "🟤 CuO + H₂ → Cu + H₂O": {
+                    "label": "Reduksi tembaga(II) oksida",
+                    "kA":1,"nA":"CuO","mA":79.55, "kB":1,"nB":"H₂","mB":2.016,
+                    "kC":1,"nC":"Cu","mC":63.55, "kD":1,"nD":"H₂O","mD":18.02,
+                },
+                "🟤 ZnO + C → Zn + CO": {
+                    "label": "Reduksi seng oksida dengan karbon",
+                    "kA":1,"nA":"ZnO","mA":81.38, "kB":1,"nB":"C","mB":12.01,
+                    "kC":1,"nC":"Zn","mC":65.38, "kD":1,"nD":"CO","mD":28.01,
+                },
+                # --- Sintesis/Dekomposisi ---
+                "🟢 2H₂O → 2H₂ + O₂ (Elektrolisis)": {
+                    "label": "Dekomposisi air",
+                    "kA":2,"nA":"H₂O","mA":18.02, "kB":0,"nB":"-","mB":1.0,
+                    "kC":2,"nC":"H₂","mC":2.016, "kD":1,"nD":"O₂","mD":32.00,
+                },
+                "🟢 2NaCl + 2H₂O → Cl₂ + H₂ + 2NaOH (Elektrolisis)": {
+                    "label": "Elektrolisis larutan NaCl",
+                    "kA":2,"nA":"NaCl","mA":58.44, "kB":2,"nB":"H₂O","mB":18.02,
+                    "kC":1,"nC":"Cl₂","mC":70.90, "kD":1,"nD":"H₂","mD":2.016,
+                },
+                "🟢 CaO + H₂O → Ca(OH)₂": {
+                    "label": "Reaksi kapur tohor dengan air",
+                    "kA":1,"nA":"CaO","mA":56.08, "kB":1,"nB":"H₂O","mB":18.02,
+                    "kC":1,"nC":"Ca(OH)₂","mC":74.09, "kD":0,"nD":"-","mD":1.0,
+                },
+                "🟢 N₂ + 3H₂ → 2NH₃ (Haber-Bosch)": {
+                    "label": "Sintesis amonia (proses Haber)",
+                    "kA":1,"nA":"N₂","mA":28.01, "kB":3,"nB":"H₂","mB":2.016,
+                    "kC":2,"nC":"NH₃","mC":17.03, "kD":0,"nD":"-","mD":1.0,
+                },
+                "🟢 SO₂ + ½O₂ → SO₃ (Proses Kontak)": {
+                    "label": "Oksidasi sulfur dioksida",
+                    "kA":2,"nA":"SO₂","mA":64.06, "kB":1,"nB":"O₂","mB":32.00,
+                    "kC":2,"nC":"SO₃","mC":80.06, "kD":0,"nD":"-","mD":1.0,
+                },
+                # --- Manual ---
+                "✏️ Input Reaksi Manual": None,
+            }
+
+            # Inisialisasi session state untuk stoikiometri
+            if "stok_preset" not in st.session_state:
+                st.session_state.stok_preset = list(PRESET_REAKSI.keys())[0]
+
+            # Dropdown preset
+            preset_pilih = st.selectbox(
+                "Pilih reaksi preset atau input manual:",
+                list(PRESET_REAKSI.keys()),
+                key="preset_reaksi"
+            )
+
+            p = PRESET_REAKSI[preset_pilih]
+
+            # Ambil nilai dari preset, atau gunakan nilai manual jika preset sebelumnya sudah diganti
+            if p is not None:
+                kA = p["kA"]; nA = p["nA"]; mA = p["mA"]
+                kB = p["kB"]; nB = p["nB"]; mB = p["mB"]
+                kC = p["kC"]; nC = p["nC"]; mC = p["mC"]
+                kD = p["kD"]; nD = p["nD"]; mD = p["mD"]
+                label_reaksi = p["label"]
+
+                # Tampilkan info reaksi otomatis
+                if kD > 0 and nD != "-":
+                    persamaan = f"{kA} {nA} + {kB} {nB} → {kC} {nC} + {kD} {nD}"
+                elif kB > 0 and nB != "-":
+                    persamaan = f"{kA} {nA} + {kB} {nB} → {kC} {nC}"
                 else:
-                    pembatas = "Kedua reaktan habis bersamaan (Ekuivalen)"
-                    mol_bereaksi_a = mol_a
-                    mol_bereaksi_b = mol_b
+                    persamaan = f"{kA} {nA} → {kC} {nC}"
 
-                tampilkan_hasil("Pereaksi Pembatas", pembatas)
-                st.markdown(tampilkan_kotak("Analisis Pembatas Reaksi",
-                    buat_baris(f"Uji rasio mol/koefisien A = {mol_a}/{koef_a} = <b>{uji_a:.4g}</b>") +
-                    buat_baris(f"Uji rasio mol/koefisien B = {mol_b}/{koef_b} = <b>{uji_b:.4g}</b>") +
-                    buat_baris(f"Zat pembatas diambil dari rasio terkecil yaitu reaktan <b>{pembatas}</b>.") +
-                    buat_baris(f"Mol B yang ikut bereaksi = <b>{mol_bereaksi_b:.4g} mol</b>") +
-                    buat_baris(f"Sisa reaktan B berlebih = {mol_b - mol_bereaksi_b:.4g} mol")
-                ), unsafe_allow_html=True)
+                # Kotak info reaksi
+                st.markdown(f"""
+                <div style="background:rgba(52,152,219,0.10); border:1px solid rgba(52,152,219,0.4);
+                            border-left:4px solid #3498db; border-radius:8px; padding:12px 16px; margin:0.5rem 0 1rem;">
+                    <div style="font-size:11px; color:#3498db; font-weight:700; text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px;">
+                        Reaksi Dipilih — {label_reaksi}
+                    </div>
+                    <div style="font-family:'Space Mono',monospace; font-size:15px; color:#e8a045; font-weight:600;">
+                        {persamaan}
+                    </div>
+                </div>""", unsafe_allow_html=True)
+
+                # Tampilkan tabel detail zat otomatis
+                col1, col2, col3, col4 = st.columns(4)
+                with col1:
+                    st.markdown(f"""<div style="background:rgba(232,160,69,0.07);border-radius:8px;padding:10px;border:1px solid rgba(232,160,69,0.3);">
+                    <div style="font-size:10px;color:#e8a045;font-weight:700;text-transform:uppercase;margin-bottom:4px;">⚛ Reaktan A</div>
+                    <div style="font-size:18px;font-weight:700;color:#f0f0f0;">{nA}</div>
+                    <div style="font-size:12px;color:#9e9e9e;">Koef = {kA} &nbsp;|&nbsp; Mr = {mA} g/mol</div>
+                    </div>""", unsafe_allow_html=True)
+                with col2:
+                    if nB != "-" and kB > 0:
+                        st.markdown(f"""<div style="background:rgba(79,195,247,0.07);border-radius:8px;padding:10px;border:1px solid rgba(79,195,247,0.3);">
+                        <div style="font-size:10px;color:#4fc3f7;font-weight:700;text-transform:uppercase;margin-bottom:4px;">⚛ Reaktan B</div>
+                        <div style="font-size:18px;font-weight:700;color:#f0f0f0;">{nB}</div>
+                        <div style="font-size:12px;color:#9e9e9e;">Koef = {kB} &nbsp;|&nbsp; Mr = {mB} g/mol</div>
+                        </div>""", unsafe_allow_html=True)
+                with col3:
+                    st.markdown(f"""<div style="background:rgba(129,199,132,0.07);border-radius:8px;padding:10px;border:1px solid rgba(129,199,132,0.3);">
+                    <div style="font-size:10px;color:#81c784;font-weight:700;text-transform:uppercase;margin-bottom:4px;">🧪 Produk C</div>
+                    <div style="font-size:18px;font-weight:700;color:#f0f0f0;">{nC}</div>
+                    <div style="font-size:12px;color:#9e9e9e;">Koef = {kC} &nbsp;|&nbsp; Mr = {mC} g/mol</div>
+                    </div>""", unsafe_allow_html=True)
+                with col4:
+                    if nD != "-" and kD > 0:
+                        st.markdown(f"""<div style="background:rgba(206,147,216,0.07);border-radius:8px;padding:10px;border:1px solid rgba(206,147,216,0.3);">
+                        <div style="font-size:10px;color:#ce93d8;font-weight:700;text-transform:uppercase;margin-bottom:4px;">🧪 Produk D</div>
+                        <div style="font-size:18px;font-weight:700;color:#f0f0f0;">{nD}</div>
+                        <div style="font-size:12px;color:#9e9e9e;">Koef = {kD} &nbsp;|&nbsp; Mr = {mD} g/mol</div>
+                        </div>""", unsafe_allow_html=True)
+
+                st.write("")
+                # Pilihan reaktan pembatas
+                pilihan_reaktan = [nA]
+                if nB != "-" and kB > 0:
+                    pilihan_reaktan.append(nB)
+                reaktan_pembatas = st.selectbox("Reaktan pembatas:", pilihan_reaktan, key="reaktan")
+                mol_pembatas = st.number_input("Mol Reaktan Pembatas (mol)", 0.0, value=0.1, step=0.01, key="n_pem")
+
+                k_ref = kA if reaktan_pembatas == nA else kB
+                mol_C = mol_pembatas * (kC / k_ref)
+                mol_D = mol_pembatas * (kD / k_ref) if (kD > 0 and nD != "-") else 0
+
+                st.write("")
+                col_r1, col_r2 = st.columns(2)
+                with col_r1:
+                    tampilkan_hasil(f"Hasil {nC}", f"{mol_C:.5g} mol", f"({mol_C * mC:.5g} gram)")
+                with col_r2:
+                    if mol_D > 0:
+                        tampilkan_hasil(f"Hasil {nD}", f"{mol_D:.5g} mol", f"({mol_D * mD:.5g} gram)")
+
+                # Penyelesaian langkah demi langkah
+                langkah = (
+                    buat_baris(f"Reaksi: <b>{persamaan}</b>") +
+                    buat_baris(f"Reaktan pembatas: <b>{reaktan_pembatas}</b> = {mol_pembatas} mol") +
+                    buat_baris(f"Koefisien referensi ({reaktan_pembatas}) = {k_ref}") +
+                    buat_baris(f"Mol {nC} = ({kC} / {k_ref}) × {mol_pembatas} = <b>{mol_C:.5g} mol</b>") +
+                    buat_baris(f"Massa {nC} = {mol_C:.5g} mol × {mC} g/mol = <b>{mol_C * mC:.5g} gram</b>")
+                )
+                if mol_D > 0:
+                    langkah += (
+                        buat_baris(f"Mol {nD} = ({kD} / {k_ref}) × {mol_pembatas} = <b>{mol_D:.5g} mol</b>") +
+                        buat_baris(f"Massa {nD} = {mol_D:.5g} mol × {mD} g/mol = <b>{mol_D * mD:.5g} gram</b>")
+                    )
+                st.markdown(tampilkan_kotak("Penyelesaian (perbandingan koefisien)", langkah), unsafe_allow_html=True)
+
+            else:
+                # MODE MANUAL — user isi sendiri
+                st.markdown('<div class="istilah-box">✏️ <b>Mode Manual:</b> Isi data reaksi di bawah ini secara lengkap, termasuk nama zat, koefisien, dan Mr.</div>', unsafe_allow_html=True)
+
+                col1, col2, col3, col4 = st.columns(4)
+                with col1:
+                    st.markdown("**⚛ Reaktan A**")
+                    kA_m = st.number_input("Koef A", 1, value=1, key="kA_m")
+                    nA_m = st.text_input("Nama A", "HCl", key="nA_m")
+                    # Mr dari dropdown
+                    mr_list = list(MR_DROPDOWN.keys())
+                    sel_A = st.selectbox("Mr A (pilih):", mr_list, index=mr_list.index("HCl – Asam klorida"), key="sel_mA")
+                    mA_m = st.number_input("atau input Mr A manual:", 0.001, value=MR_DROPDOWN[sel_A], key="mA_m")
+                with col2:
+                    st.markdown("**⚛ Reaktan B**")
+                    kB_m = st.number_input("Koef B", 0, value=1, key="kB_m")
+                    nB_m = st.text_input("Nama B", "NaOH", key="nB_m")
+                    sel_B = st.selectbox("Mr B (pilih):", mr_list, index=mr_list.index("NaOH – Natrium hidroksida"), key="sel_mB")
+                    mB_m = st.number_input("atau input Mr B manual:", 0.001, value=MR_DROPDOWN[sel_B], key="mB_m")
+                with col3:
+                    st.markdown("**🧪 Produk C**")
+                    kC_m = st.number_input("Koef C", 1, value=1, key="kC_m")
+                    nC_m = st.text_input("Nama C", "NaCl", key="nC_m")
+                    sel_C = st.selectbox("Mr C (pilih):", mr_list, index=mr_list.index("NaCl – Natrium klorida"), key="sel_mC")
+                    mC_m = st.number_input("atau input Mr C manual:", 0.001, value=MR_DROPDOWN[sel_C], key="mC_m")
+                with col4:
+                    st.markdown("**🧪 Produk D** *(opsional)*")
+                    kD_m = st.number_input("Koef D (0 = tidak ada)", 0, value=1, key="kD_m")
+                    nD_m = st.text_input("Nama D", "H₂O", key="nD_m")
+                    sel_D = st.selectbox("Mr D (pilih):", mr_list, index=mr_list.index("H₂O – Air"), key="sel_mD")
+                    mD_m = st.number_input("atau input Mr D manual:", 0.001, value=MR_DROPDOWN[sel_D], key="mD_m")
+
+                if kD_m > 0:
+                    persamaan_m = f"{kA_m} {nA_m} + {kB_m} {nB_m} → {kC_m} {nC_m} + {kD_m} {nD_m}"
+                else:
+                    persamaan_m = f"{kA_m} {nA_m} + {kB_m} {nB_m} → {kC_m} {nC_m}"
+
+                st.info(f"**Reaksi:** {persamaan_m}")
+
+                pilihan_m = [nA_m]
+                if kB_m > 0:
+                    pilihan_m.append(nB_m)
+                reaktan_m = st.selectbox("Reaktan pembatas:", pilihan_m, key="reaktan_m")
+                mol_m = st.number_input("Mol Reaktan Pembatas (mol)", 0.0, value=0.1, step=0.01, key="n_pem_m")
+
+                k_ref_m = kA_m if reaktan_m == nA_m else kB_m
+                mol_C_m = mol_m * (kC_m / k_ref_m) if k_ref_m > 0 else 0
+                mol_D_m = mol_m * (kD_m / k_ref_m) if (kD_m > 0 and k_ref_m > 0) else 0
+
+                col_r1, col_r2 = st.columns(2)
+                with col_r1:
+                    tampilkan_hasil(f"Hasil {nC_m}", f"{mol_C_m:.5g} mol", f"({mol_C_m * mC_m:.5g} gram)")
+                with col_r2:
+                    if mol_D_m > 0:
+                        tampilkan_hasil(f"Hasil {nD_m}", f"{mol_D_m:.5g} mol", f"({mol_D_m * mD_m:.5g} gram)")
+
+                langkah_m = (
+                    buat_baris(f"Reaksi: <b>{persamaan_m}</b>") +
+                    buat_baris(f"Reaktan pembatas: <b>{reaktan_m}</b> = {mol_m} mol") +
+                    buat_baris(f"Mol {nC_m} = ({kC_m}/{k_ref_m}) × {mol_m} = <b>{mol_C_m:.5g} mol</b>") +
+                    buat_baris(f"Massa {nC_m} = {mol_C_m:.5g} × {mC_m} = <b>{mol_C_m * mC_m:.5g} gram</b>")
+                )
+                if mol_D_m > 0:
+                    langkah_m += (
+                        buat_baris(f"Mol {nD_m} = ({kD_m}/{k_ref_m}) × {mol_m} = <b>{mol_D_m:.5g} mol</b>") +
+                        buat_baris(f"Massa {nD_m} = {mol_D_m:.5g} × {mD_m} = <b>{mol_D_m * mD_m:.5g} gram</b>")
+                    )
+                st.markdown(tampilkan_kotak("Penyelesaian (perbandingan koefisien)", langkah_m), unsafe_allow_html=True)
 
     # ----------------------------------------------------------
-    # pH KESETIMBANGAN
+    # pH & KESETIMBANGAN
     # ----------------------------------------------------------
     elif st.session_state.menu_aktif == "pH":
-        st.markdown("### 🌈 Kesetimbangan & pH")
-        jenis_zat = st.radio("Sifat Larutan:", ["Asam Kuat", "Basa Kuat", "Asam Lemah", "Basa Lemah"], horizontal=True)
+        st.markdown("### 🌈 Kesetimbangan & Perubahan pH")
+        tab_asam, tab_basa, tab_ka, tab_dilusi = st.tabs([
+            "🔴 pH Asam", "🔵 pH Basa", "🔬 Hitung Ka/Kb", "📉 ΔpH Pengenceran"
+        ])
 
-        if jenis_zat == "Asam Kuat":
-            st.markdown('<div class="formula-box">[H⁺] = Valensi × M &nbsp;|&nbsp; pH = -log[H⁺]</div>', unsafe_allow_html=True)
-            m = st.number_input("Molaritas Asam (M):", 1e-9, value=0.05, format="%.5f", key="ak_m")
-            val = st.number_input("Valensi asam (jumlah H⁺):", 1, 4, value=1, key="ak_v")
-            h_pos = val * m
-            ph = -math.log10(h_pos) if h_pos > 0 else 7
-            tampilkan_hasil("pH Larutan", f"{ph:.3f}")
-            st.markdown(tampilkan_kotak("Penyelesaian Asam Kuat",
-                buat_baris(f"[H⁺] = {val} × {m} M = <b>{h_pos:.5g} M</b>") +
-                buat_baris(f"pH = -log({h_pos:.5g}) = <b>{ph:.3f}</b>")
-            ), unsafe_allow_html=True)
-
-        elif jenis_zat == "Basa Kuat":
-            st.markdown('<div class="formula-box">[OH⁻] = Valensi × M &nbsp;|&nbsp; pOH = -log[OH⁻] &nbsp;|&nbsp; pH = 14 - pOH</div>', unsafe_allow_html=True)
-            m = st.number_input("Molaritas Basa (M):", 1e-9, value=0.02, format="%.5f", key="bk_m")
-            val = st.number_input("Valensi basa (jumlah OH⁻):", 1, 4, value=1, key="bk_v")
-            oh_neg = val * m
-            poh = -math.log10(oh_neg) if oh_neg > 0 else 7
-            ph = 14 - poh
-            tampilkan_hasil("pH Larutan", f"{ph:.3f}")
-            st.markdown(tampilkan_kotak("Penyelesaian Basa Kuat",
-                buat_baris(f"[OH⁻] = {val} × {m} M = <b>{oh_neg:.5g} M</b>") +
-                buat_baris(f"pOH = -log({oh_neg:.5g}) = <b>{poh:.3f}</b>") +
-                buat_baris(f"pH = 14 - {poh:.3f} = <b>{ph:.3f}</b>")
-            ), unsafe_allow_html=True)
-
-        elif jenis_zat == "Asam Lemah":
-            st.markdown('<div class="formula-box">[H⁺] = √(Ka × M) &nbsp;|&nbsp; pH = -log[H⁺]</div>', unsafe_allow_html=True)
+        with tab_asam:
             keterangan("Ka")
-            m = st.number_input("Molaritas Asam Lemah (M):", 1e-9, value=0.1, format="%.5f", key="al_m")
-            ka = st.number_input("Tetapan asam (Ka):", 1e-15, value=1.8e-5, format="%.2e", key="al_ka")
-            h_pos = math.sqrt(ka * m)
-            ph = -math.log10(h_pos) if h_pos > 0 else 7
-            tampilkan_hasil("pH Larutan", f"{ph:.3f}")
-            st.markdown(tampilkan_kotak("Penyelesaian Asam Lemah",
-                buat_baris(f"[H⁺] = √({ka} × {m}) = <b>{h_pos:.5e} M</b>") +
-                buat_baris(f"pH = -log({h_pos:.5e}) = <b>{ph:.3f}</b>")
-            ), unsafe_allow_html=True)
+            tipe_asam = st.radio("Jenis asam:", ["Asam Kuat", "Asam Lemah"], horizontal=True, key="jenis_asam")
+            C = st.number_input("Konsentrasi C (M)", 1e-14, value=0.1, key="C_asam")
+            if tipe_asam == "Asam Kuat":
+                pH = -math.log10(max(C, 1e-14))
+                tampilkan_hasil("pH Larutan", f"{pH:.4f}")
+                st.markdown(tampilkan_kotak("pH = -log[H⁺]",
+                    buat_baris(f"[H⁺] = {C} M") +
+                    buat_baris(f"pH = -log({C}) = <b>{pH:.4f}</b>")
+                ), unsafe_allow_html=True)
+            else:
+                Ka = st.number_input("Ka", 1e-20, value=1.8e-5, key="Ka_asam")
+                h  = math.sqrt(Ka * C)
+                pH = -math.log10(h)
+                tampilkan_hasil("pH Larutan", f"{pH:.4f}")
+                st.markdown(tampilkan_kotak("pH Asam Lemah: [H⁺] = √(Ka × C)",
+                    buat_baris(f"[H⁺] = √({Ka} × {C}) = {h:.4e} M") +
+                    buat_baris(f"pH = -log({h:.4e}) = <b>{pH:.4f}</b>")
+                ), unsafe_allow_html=True)
 
-        elif jenis_zat == "Basa Lemah":
-            st.markdown('<div class="formula-box">[OH⁻] = √(Kb × M) &nbsp;|&nbsp; pH = 14 - (-log[OH⁻])</div>', unsafe_allow_html=True)
+        with tab_basa:
             keterangan("Kb")
-            m = st.number_input("Molaritas Basa Lemah (M):", 1e-9, value=0.1, format="%.5f", key="bl_m")
-            kb = st.number_input("Tetapan basa (Kb):", 1e-15, value=1.8e-5, format="%.2e", key="bl_kb")
-            oh_neg = math.sqrt(kb * m)
-            poh = -math.log10(oh_neg) if oh_neg > 0 else 7
-            ph = 14 - poh
-            tampilkan_hasil("pH Larutan", f"{ph:.3f}")
-            st.markdown(tampilkan_kotak("Penyelesaian Basa Lemah",
-                buat_baris(f"[OH⁻] = √({kb} × {m}) = <b>{oh_neg:.5e} M</b>") +
-                buat_baris(f"pOH = -log({oh_neg:.5e}) = <b>{poh:.3f}</b>") +
-                buat_baris(f"pH = 14 - {poh:.3f} = <b>{ph:.3f}</b>")
+            tipe_basa = st.radio("Jenis basa:", ["Basa Kuat", "Basa Lemah"], horizontal=True, key="jenis_basa")
+            C = st.number_input("Konsentrasi C (M)", 1e-14, value=0.1, key="C_basa")
+            if tipe_basa == "Basa Kuat":
+                pH = 14 + math.log10(C)
+                tampilkan_hasil("pH Larutan", f"{pH:.4f}")
+                st.markdown(tampilkan_kotak("pH = 14 - pOH",
+                    buat_baris(f"pOH = -log({C}) = {-math.log10(C):.4f}") +
+                    buat_baris(f"pH = 14 - pOH = <b>{pH:.4f}</b>")
+                ), unsafe_allow_html=True)
+            else:
+                Kb = st.number_input("Kb", 1e-20, value=1.8e-5, key="Kb_basa")
+                oh = math.sqrt(Kb * C)
+                pH = 14 + math.log10(oh)
+                tampilkan_hasil("pH Larutan", f"{pH:.4f}")
+                st.markdown(tampilkan_kotak("pH Basa Lemah: [OH⁻] = √(Kb × C)",
+                    buat_baris(f"[OH⁻] = √({Kb} × {C}) = {oh:.4e} M") +
+                    buat_baris(f"pOH = -log({oh:.4e}) = {-math.log10(oh):.4f}") +
+                    buat_baris(f"pH = 14 - pOH = <b>{pH:.4f}</b>")
+                ), unsafe_allow_html=True)
+
+        with tab_ka:
+            keterangan("Ka")
+            keterangan("Kb")
+
+            sub_ka, sub_kb = st.tabs(["🔴 Hitung Ka (Asam Lemah)", "🔵 Hitung Kb (Basa Lemah)"])
+
+            with sub_ka:
+                st.markdown('<div class="istilah-box">ℹ️ Masukkan konsentrasi asam lemah dan pH terukur untuk menghitung tetapan ionisasi asam (Ka).</div>', unsafe_allow_html=True)
+                col1, col2 = st.columns(2)
+                with col1:
+                    C_ka  = st.number_input("Konsentrasi asam C (M)", 1e-10, value=0.1, key="C_ka")
+                with col2:
+                    pH_ka = st.number_input("pH terukur", 0.0, 14.0, value=2.87, key="pH_ka")
+                H_ka  = 10 ** (-pH_ka)
+                if C_ka > H_ka:
+                    Ka = H_ka**2 / (C_ka - H_ka)
+                    pKa = -math.log10(Ka)
+                    derajat = (H_ka / C_ka) * 100
+                    tampilkan_hasil("Ka Prediksi", f"{Ka:.4e}")
+                    col_a, col_b = st.columns(2)
+                    with col_a:
+                        tampilkan_hasil("pKa", f"{pKa:.4f}")
+                    with col_b:
+                        tampilkan_hasil("Derajat Ionisasi (α)", f"{derajat:.3f} %")
+                    st.markdown(tampilkan_kotak("Ka = [H⁺]² / (C - [H⁺])",
+                        buat_baris(f"[H⁺] = 10^(-{pH_ka}) = {H_ka:.4e} M") +
+                        buat_baris(f"Ka = ({H_ka:.4e})² / ({C_ka} - {H_ka:.4e}) = <b>{Ka:.4e}</b>") +
+                        buat_baris(f"pKa = -log({Ka:.4e}) = <b>{pKa:.4f}</b>") +
+                        buat_baris(f"Derajat ionisasi α = ([H⁺]/C) × 100 = ({H_ka:.4e}/{C_ka}) × 100 = <b>{derajat:.3f}%</b>")
+                    ), unsafe_allow_html=True)
+                else:
+                    st.warning("Konsentrasi C harus lebih besar dari [H⁺]. Periksa kembali nilai pH dan konsentrasi.")
+
+            with sub_kb:
+                st.markdown('<div class="istilah-box">ℹ️ Masukkan konsentrasi basa lemah dan pH terukur untuk menghitung tetapan ionisasi basa (Kb). pH basa lemah umumnya > 7.</div>', unsafe_allow_html=True)
+                col1, col2 = st.columns(2)
+                with col1:
+                    C_kb  = st.number_input("Konsentrasi basa C (M)", 1e-10, value=0.1, key="C_kb")
+                with col2:
+                    pH_kb = st.number_input("pH terukur", 0.0, 14.0, value=11.13, key="pH_kb")
+                pOH_kb = 14 - pH_kb
+                OH_kb  = 10 ** (-pOH_kb)
+                if C_kb > OH_kb:
+                    Kb = OH_kb**2 / (C_kb - OH_kb)
+                    pKb = -math.log10(Kb)
+                    Ka_konj = (10**-14) / Kb
+                    derajat_b = (OH_kb / C_kb) * 100
+                    tampilkan_hasil("Kb Prediksi", f"{Kb:.4e}")
+                    col_a, col_b = st.columns(2)
+                    with col_a:
+                        tampilkan_hasil("pKb", f"{pKb:.4f}")
+                    with col_b:
+                        tampilkan_hasil("Ka asam konjugat", f"{Ka_konj:.4e}")
+                    tampilkan_hasil("Derajat Ionisasi (α)", f"{derajat_b:.3f} %")
+                    st.markdown(tampilkan_kotak("Kb = [OH⁻]² / (C - [OH⁻])",
+                        buat_baris(f"pOH = 14 - pH = 14 - {pH_kb} = {pOH_kb:.4f}") +
+                        buat_baris(f"[OH⁻] = 10^(-{pOH_kb:.4f}) = {OH_kb:.4e} M") +
+                        buat_baris(f"Kb = ({OH_kb:.4e})² / ({C_kb} - {OH_kb:.4e}) = <b>{Kb:.4e}</b>") +
+                        buat_baris(f"pKb = -log({Kb:.4e}) = <b>{pKb:.4f}</b>") +
+                        buat_baris(f"Ka asam konjugat = Kw/Kb = 10⁻¹⁴ / {Kb:.4e} = <b>{Ka_konj:.4e}</b>") +
+                        buat_baris(f"Derajat ionisasi α = ([OH⁻]/C) × 100 = <b>{derajat_b:.3f}%</b>")
+                    ), unsafe_allow_html=True)
+                else:
+                    st.warning("Konsentrasi C harus lebih besar dari [OH⁻]. Pastikan pH > 7 untuk basa lemah.")
+
+        with tab_dilusi:
+            keterangan("Molaritas")
+            tipe_dil = st.radio("Jenis larutan:", ["Asam Kuat", "Asam Lemah", "Basa Kuat", "Basa Lemah"],
+                             horizontal=True, key="jenis_dilusi")
+            C1 = st.number_input("C₁ (M)", 1e-14, value=0.1, key="C1_dil")
+            V1 = st.number_input("V₁ (mL)", 0.001, value=10.0, key="V1_dil")
+            V2 = st.number_input("V₂ (mL)", 0.001, value=100.0, key="V2_dil")
+            K_val = st.number_input("Ka / Kb", 1e-20, value=1.8e-5, key="K_dil") if "Lemah" in tipe_dil else None
+
+            def hitung_pH_larutan(konsentrasi, tipe, K):
+                c = max(konsentrasi, 1e-14)
+                if tipe == "Asam Kuat":   return -math.log10(c)
+                if tipe == "Asam Lemah":  return -math.log10(math.sqrt(K * c))
+                if tipe == "Basa Kuat":   return 14 + math.log10(c)
+                if tipe == "Basa Lemah":  return 14 + math.log10(math.sqrt(K * c))
+
+            C2  = C1 * V1 / V2
+            pH1 = hitung_pH_larutan(C1, tipe_dil, K_val)
+            pH2 = hitung_pH_larutan(C2, tipe_dil, K_val)
+            delta_pH = abs(pH2 - pH1)
+            tampilkan_hasil("pH Akhir", f"{pH2:.4f}", f"(Awal: {pH1:.4f})")
+            st.markdown(tampilkan_kotak("Penyelesaian (Efek Dilusi terhadap pH)",
+                buat_baris(f"C₂ = ({C1} × {V1}) / {V2} = <b>{C2:.4e} M</b>") +
+                buat_baris(f"pH₁ (C₁) = <b>{pH1:.4f}</b>") +
+                buat_baris(f"pH₂ (C₂) = <b>{pH2:.4f}</b>") +
+                buat_baris(f"ΔpH = <b>{delta_pH:.4f}</b>")
             ), unsafe_allow_html=True)
 
     # ----------------------------------------------------------
-    # LARUTAN BUFFER
+    # BUFFER
     # ----------------------------------------------------------
     elif st.session_state.menu_aktif == "Buffer":
-        st.markdown("### 🧪 Larutan Buffer")
-        st.markdown('<div class="formula-box">pH = pKa + log(Mol Garam / Mol Asam Weak)</div>', unsafe_allow_html=True)
-        keterangan("Henderson")
-        col1, col2 = st.columns(2)
-        with col1:
-            ka = st.number_input("Tetapan Asam Lemah (Ka):", 1e-14, value=1.8e-5, format="%.2e", key="buf_ka")
-            mol_asam = st.number_input("Jumlah Mol Asam Lemah:", 1e-9, value=0.05, format="%.4f", key="buf_ma")
-        with col2:
-            mol_garam = st.number_input("Jumlah Mol Garam / Basa Konjugasi:", 1e-9, value=0.05, format="%.4f", key="buf_mg")
+        st.markdown("### 🧪 Pembuatan Larutan Buffer")
+        tab_ph, tab_rasio, tab_beta = st.tabs([
+            "🧮 Hitung pH Buffer", "⚖️ Hitung Rasio [A⁻]/[HA]", "📊 Kapasitas Buffer (β)"
+        ])
 
-        pka = -math.log10(ka)
-        ph_buffer = pka + math.log10(mol_garam / mol_asam)
-        tampilkan_hasil("pH Buffer Terbentuk", f"{ph_buffer:.3f}")
-        st.markdown(tampilkan_kotak("Perhitungan Nilai Keseimbangan Penyangga",
-            buat_baris(f"pKa = -log({ka}) = <b>{pka:.3f}</b>") +
-            buat_baris(f"Rasio log(garam/asam) = log({mol_garam}/{mol_asam}) = <b>{math.log10(mol_garam/mol_asam):.4f}</b>") +
-            buat_baris(f"pH = {pka:.3f} + ({math.log10(mol_garam/mol_asam):.4f}) = <b>{ph_buffer:.3f}</b>")
-        ), unsafe_allow_html=True)
+        with tab_ph:
+            keterangan("Buffer")
+            keterangan("Henderson")
+            pKa = st.number_input("pKa asam", 0.0, 14.0, value=4.74, key="pka_buf")
+            ab  = st.number_input("[A⁻] Basa Konjugat (M)", 0.0001, value=0.1, key="ab_buf")
+            ha  = st.number_input("[HA] Asam (M)", 0.0001, value=0.1, key="ha_buf")
+            pH_buf = pKa + math.log10(ab / ha)
+            tampilkan_hasil("pH Buffer", f"{pH_buf:.4f}")
+            st.markdown(tampilkan_kotak("Henderson-Hasselbalch: pH = pKa + log([A⁻]/[HA])",
+                buat_baris(f"pH = {pKa} + log({ab}/{ha})") +
+                buat_baris(f"pH = {pKa} + {math.log10(ab/ha):.4f} = <b>{pH_buf:.4f}</b>")
+            ), unsafe_allow_html=True)
+
+        with tab_rasio:
+            keterangan("pKa")
+            pH_target = st.number_input("pH target", 0.0, 14.0, value=5.0, key="pH_rasio")
+            pKa_r     = st.number_input("pKa asam", 0.0, 14.0, value=4.74, key="pka_rasio")
+            C_total   = st.number_input("Konsentrasi total (M)", 0.001, value=0.2, key="Ctot_rasio")
+            rasio = 10 ** (pH_target - pKa_r)
+            konj  = C_total * rasio / (1 + rasio)
+            asam  = C_total / (1 + rasio)
+            tampilkan_hasil("Rasio [A⁻]/[HA]", f"{rasio:.5f}", f"([A⁻]={konj:.4f}M)")
+            st.markdown(tampilkan_kotak("Rasio = 10^(pH - pKa)",
+                buat_baris(f"[A⁻]/[HA] = 10^({pH_target} - {pKa_r}) = <b>{rasio:.5f}</b>") +
+                buat_baris(f"[A⁻] = ({rasio:.5f} / (1+{rasio:.5f})) × {C_total} = <b>{konj:.4f} M</b>") +
+                buat_baris(f"[HA] = {C_total} - {konj:.4f} = <b>{asam:.4f} M</b>")
+            ), unsafe_allow_html=True)
+
+        with tab_beta:
+            keterangan("Beta")
+            C_tot = st.number_input("Konsentrasi total (M)", 0.0001, value=0.1, key="Ctot_beta")
+            Ka_b  = st.number_input("Ka", 1e-20, value=1.8e-5, key="Ka_beta")
+            pH_b  = st.number_input("pH larutan", 0.0, 14.0, value=4.74, key="pH_beta")
+            H_b   = 10 ** (-pH_b)
+            beta  = 2.303 * C_tot * (Ka_b * H_b) / (Ka_b + H_b)**2
+            tampilkan_hasil("Kapasitas Buffer (β)", f"{beta:.4e}")
+            st.markdown(tampilkan_kotak("Van Slyke: β = 2.303 × C × Ka[H⁺] / (Ka+[H⁺])²",
+                buat_baris(f"[H⁺] = 10^(-{pH_b}) = {H_b:.4e} M") +
+                buat_baris(f"β = 2.303 × {C_tot} × ({Ka_b:.2e} × {H_b:.2e}) / ({Ka_b:.2e} + {H_b:.2e})²") +
+                buat_baris(f"β = <b>{beta:.4e}</b>")
+            ), unsafe_allow_html=True)
 
     # ----------------------------------------------------------
-    # GALAT & PROPAGASI
+    # GALAT & PROPAGASI ERROR
     # ----------------------------------------------------------
     elif st.session_state.menu_aktif == "Galat":
-        st.markdown("### 📊 Galat & Propagasi Ketidakpastian")
-        tab_stat, tab_prop = st.tabs(["Statistik Deskriptif (SD & RSD)", "Propagasi Nilai"])
+        st.markdown("### 📊 Galat & Propagasi Error")
+        tab_ga, tab_prop, tab_stat = st.tabs([
+            "📏 Galat Absolut & Relatif", "⚡ Propagasi Error", "📊 Statistik (SD & RSD)"
+        ])
+
+        with tab_ga:
+            keterangan("Galat")
+            x_ukur  = st.number_input("Nilai terukur", value=9.87, key="x_ukur")
+            x_benar = st.number_input("Nilai benar / referensi", value=10.00, key="x_benar")
+            g_abs = abs(x_ukur - x_benar)
+            g_rel = (g_abs / x_benar) * 100
+            tampilkan_hasil("Galat Absolut", f"{g_abs:.5g}")
+            st.markdown(tampilkan_kotak("Galat Absolut & Relatif",
+                buat_baris(f"Galat Absolut = |{x_ukur} - {x_benar}| = <b>{g_abs:.5g}</b>") +
+                buat_baris(f"Galat Relatif = ({g_abs:.5g} / {x_benar}) × 100 = <b>{g_rel:.3f}%</b>")
+            ), unsafe_allow_html=True)
+
+        with tab_prop:
+            jenis_op = st.selectbox("Operasi:", [
+                "Penjumlahan / Pengurangan (x ± y)",
+                "Perkalian / Pembagian (x × y atau x/y)"
+            ], key="op_prop")
+            x_val  = st.number_input("Nilai x", value=10.0, key="xv")
+            dx_val = st.number_input("δx", value=0.05, key="dxv")
+            y_val  = st.number_input("Nilai y", value=5.0, key="yv")
+            dy_val = st.number_input("δy", value=0.03, key="dyv")
+
+            if "Penjumlahan" in jenis_op:
+                unc = math.sqrt(dx_val**2 + dy_val**2)
+                tampilkan_hasil("Ketidakpastian Akhir", f"± {unc:.5g}")
+                st.markdown(tampilkan_kotak("δz = √(δx² + δy²)",
+                    buat_baris(f"δz = √({dx_val}² + {dy_val}²) = √({dx_val**2:.5f} + {dy_val**2:.5f})") +
+                    buat_baris(f"δz = <b>± {unc:.5g}</b>")
+                ), unsafe_allow_html=True)
+            else:
+                z_val = x_val * y_val
+                unc   = z_val * math.sqrt((dx_val/x_val)**2 + (dy_val/y_val)**2)
+                tampilkan_hasil("Ketidakpastian Akhir", f"± {unc:.5g}")
+                st.markdown(tampilkan_kotak("δz/z = √((δx/x)² + (δy/y)²)",
+                    buat_baris(f"z = {x_val} × {y_val} = {z_val}") +
+                    buat_baris(f"δz = {z_val} × √(({dx_val}/{x_val})² + ({dy_val}/{y_val})²)") +
+                    buat_baris(f"δz = <b>± {unc:.5g}</b>")
+                ), unsafe_allow_html=True)
 
         with tab_stat:
             keterangan("SD")
@@ -1044,7 +1635,11 @@ else:
                     buat_baris(f"n = {len(angka_data)} data") +
                     buat_baris(f"Rata-rata (μ) = Σx / n = <b>{rata2:.4g}</b>") +
                     buat_baris(f"SD = √(Σ(xᵢ-μ)² / (n-1)) = <b>{sd:.4g}</b>") +
-                    buat_baris(f"RSD = (SD / μ) × 100% = <b>{rsd:.3f}%</b>")
+                    buat_baris(f"RSD = (SD/μ) × 100% = <b>{rsd:.3f}%</b>")
                 ), unsafe_allow_html=True)
-            else:
-                st.warning("Masukkan minimal 2 angka yang dipisahkan koma untuk memproses nilai presisi.")
+
+
+st.divider()
+st.markdown(
+    '<p style="text-align:center; font-size:12px; color:#9e9e9e;">⚗️ Kalkulator Analisis Kuantitatif · Kimia Analitik · Anisa · Rahma · Wewing · Abum</p>',
+    unsafe_allow_html=True
