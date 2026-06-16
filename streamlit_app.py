@@ -264,216 +264,278 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
 
-/* ==============================================
-   FONT
-   ============================================== */
 html, body, [class*="css"] { font-family: 'Space Grotesk', sans-serif; }
 
-/* ==============================================
-   DARK MODE  — [data-theme="dark"]  +  default
-   ============================================== */
-
-/* Background */
-[data-theme="dark"] .stApp,
+/* ================================================
+   BACKGROUND
+   ================================================ */
 .stApp {
     background: #111827 !important;
     background-image: radial-gradient(ellipse at top left, #0f1f3d 0%, #111827 60%, #0a1628 100%) !important;
 }
-
-/* Semua teks generik dark */
-[data-theme="dark"] p,
-[data-theme="dark"] span,
-[data-theme="dark"] li,
-[data-theme="dark"] label,
-[data-theme="dark"] h1,
-[data-theme="dark"] h2,
-[data-theme="dark"] h3,
-[data-theme="dark"] h4,
-[data-theme="dark"] small,
-[data-theme="dark"] .stMarkdown,
-[data-theme="dark"] [data-testid="stMarkdownContainer"] p,
-[data-theme="dark"] [data-testid="stMarkdownContainer"] span,
-[data-theme="dark"] [data-testid="stWidgetLabel"] p,
-[data-theme="dark"] [data-testid="stWidgetLabel"] label,
-[data-theme="dark"] div[data-baseweb="checkbox"] label,
-p, span, li, label,
-.stMarkdown,
-[data-testid="stMarkdownContainer"] p,
-[data-testid="stMarkdownContainer"] span,
-[data-testid="stWidgetLabel"] p,
-[data-testid="stWidgetLabel"] label {
-    color: #e2eaf8 !important;
-}
-
-/* Radio labels dark */
-[data-theme="dark"] div[data-testid="stRadio"] span,
-[data-theme="dark"] div[data-testid="stRadio"] p,
-[data-theme="dark"] div[data-testid="stRadio"] label,
-div[data-testid="stRadio"] span,
-div[data-testid="stRadio"] p,
-div[data-testid="stRadio"] label { color: #e2eaf8 !important; }
-
-/* Slider dark */
-[data-theme="dark"] div[data-testid="stSlider"] span,
-[data-theme="dark"] div[data-testid="stSlider"] p,
-[data-theme="dark"] div[data-testid="stSlider"] label,
-div[data-testid="stSlider"] span,
-div[data-testid="stSlider"] p,
-div[data-testid="stSlider"] label { color: #e2eaf8 !important; }
-
-/* Number / text input  — teks DALAM kotak input harus gelap di atas background terang */
-[data-theme="dark"] input[type="number"],
-[data-theme="dark"] input[type="text"],
-[data-theme="dark"] textarea,
-input[type="number"],
-input[type="text"],
-textarea {
-    color: #0d1428 !important;
-    background-color: #c2d8f0 !important;
-    font-weight: 600 !important;
-    caret-color: #0d1428 !important;
-}
-
-/* Selectbox — teks yang tampil di kotak pilih */
-[data-theme="dark"] div[data-baseweb="select"] div[class*="ValueContainer"] span,
-[data-theme="dark"] div[data-baseweb="select"] div[class*="singleValue"],
-[data-theme="dark"] div[data-baseweb="select"] div[class*="placeholder"],
-[data-theme="dark"] div[data-baseweb="select"] input,
-div[data-baseweb="select"] div[class*="ValueContainer"] span,
-div[data-baseweb="select"] div[class*="singleValue"],
-div[data-baseweb="select"] div[class*="placeholder"],
-div[data-baseweb="select"] input {
-    color: #0d1428 !important;
-    font-weight: 600 !important;
-}
-
-/* Selectbox dropdown list items */
-[data-theme="dark"] ul[role="listbox"] li,
-[data-theme="dark"] ul[role="listbox"] span,
-[data-theme="dark"] li[role="option"],
-[data-theme="dark"] li[role="option"] span,
-[data-theme="dark"] li[role="option"] p,
-[data-theme="dark"] [data-testid="stSelectboxVirtualDropdown"] *,
-ul[role="listbox"] li,
-ul[role="listbox"] span,
-li[role="option"],
-li[role="option"] span,
-li[role="option"] p,
-[data-testid="stSelectboxVirtualDropdown"] * {
-    color: #0d1428 !important;
-    font-weight: 500 !important;
-}
-
-/* Tabs */
-[data-theme="dark"] button[data-baseweb="tab"] p,
-[data-theme="dark"] button[data-baseweb="tab"] span,
-button[data-baseweb="tab"] p,
-button[data-baseweb="tab"] span { color: #7a96c0 !important; font-weight: 500 !important; }
-
-[data-theme="dark"] button[data-baseweb="tab"][aria-selected="true"] p,
-[data-theme="dark"] button[data-baseweb="tab"][aria-selected="true"] span,
-button[data-baseweb="tab"][aria-selected="true"] p,
-button[data-baseweb="tab"][aria-selected="true"] span {
-    color: #e8a045 !important; font-weight: 700 !important;
-}
-
-/* st.info / st.warning */
-[data-theme="dark"] [data-testid="stAlert"] p,
-[data-theme="dark"] [data-testid="stAlert"] span,
-[data-testid="stAlert"] p,
-[data-testid="stAlert"] span { color: #0d1428 !important; font-weight: 500 !important; }
-
-/* ==============================================
-   LIGHT MODE  — [data-theme="light"]
-   ============================================== */
 [data-theme="light"] .stApp {
     background: #e4edf8 !important;
     background-image: radial-gradient(ellipse at top, #ccdff5 0%, #e4edf8 70%) !important;
 }
 
+/* ================================================
+   TEKS UMUM — DARK MODE (default)
+   ================================================ */
+body, p, span, div, li, h1, h2, h3, h4, h5, h6,
+label, small, strong, em, b, i,
+.stMarkdown,
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] span,
+[data-testid="stMarkdownContainer"] div,
+[data-testid="stWidgetLabel"],
+[data-testid="stWidgetLabel"] p,
+[data-testid="stWidgetLabel"] label,
+[data-testid="stWidgetLabel"] span,
+[data-testid="stText"],
+[data-testid="stCaptionContainer"],
+div[class*="st-"] {
+    color: #dce8ff !important;
+}
+
+/* ================================================
+   INPUT FIELDS — DARK MODE
+   ================================================ */
+input, textarea,
+input[type="number"],
+input[type="text"],
+div[data-testid="stNumberInput"] input,
+div[data-testid="stTextInput"] input,
+div[data-testid="stTextArea"] textarea {
+    color: #0a1428 !important;
+    background-color: #b8d0ec !important;
+    font-weight: 700 !important;
+    caret-color: #0a1428 !important;
+    border-radius: 5px !important;
+}
+
+/* ================================================
+   SELECTBOX — DARK MODE
+   Ini yang bermasalah: teks tidak terlihat
+   ================================================ */
+
+/* Kotak yang tampil (selected value) */
+div[data-baseweb="select"] div,
+div[data-baseweb="select"] span,
+div[data-baseweb="select"] p,
+div[data-baseweb="select"] input,
+[data-baseweb="select"] * {
+    color: #0a1428 !important;
+    font-weight: 700 !important;
+}
+
+/* Background kotak selectbox supaya teks terlihat */
+div[data-baseweb="select"] > div:first-child {
+    background-color: #b8d0ec !important;
+    border-color: #6090c0 !important;
+}
+
+/* Dropdown list popup */
+div[data-baseweb="popover"] *,
+div[data-baseweb="popover"] div,
+div[data-baseweb="popover"] span,
+div[data-baseweb="popover"] p,
+div[data-baseweb="popover"] li,
+[role="listbox"],
+[role="listbox"] *,
+[role="option"],
+[role="option"] *,
+ul[role="listbox"],
+ul[role="listbox"] *,
+li[role="option"],
+li[role="option"] span,
+li[role="option"] p,
+li[role="option"] div {
+    color: #0a1428 !important;
+    font-weight: 600 !important;
+}
+
+/* Background dropdown popup */
+div[data-baseweb="popover"] > div,
+div[data-baseweb="menu"] {
+    background-color: #c8ddf0 !important;
+}
+
+/* Hover item di dropdown */
+li[role="option"]:hover,
+li[role="option"]:hover * {
+    background-color: #90b8e0 !important;
+    color: #050e1e !important;
+}
+
+/* ================================================
+   RADIO BUTTONS — DARK MODE
+   ================================================ */
+div[data-testid="stRadio"] label,
+div[data-testid="stRadio"] label span,
+div[data-testid="stRadio"] label p,
+div[data-testid="stRadio"] div,
+div[data-testid="stRadio"] p,
+div[role="radiogroup"] label,
+div[role="radiogroup"] span {
+    color: #dce8ff !important;
+    font-weight: 500 !important;
+}
+
+/* ================================================
+   SLIDER — DARK MODE
+   ================================================ */
+div[data-testid="stSlider"] label,
+div[data-testid="stSlider"] p,
+div[data-testid="stSlider"] span,
+div[data-testid="stSlider"] div {
+    color: #dce8ff !important;
+}
+
+/* ================================================
+   CHECKBOX — DARK MODE
+   ================================================ */
+div[data-testid="stCheckbox"] label,
+div[data-testid="stCheckbox"] span,
+div[data-testid="stCheckbox"] p {
+    color: #dce8ff !important;
+}
+
+/* ================================================
+   TABS — DARK MODE
+   ================================================ */
+button[data-baseweb="tab"] p,
+button[data-baseweb="tab"] span,
+button[data-baseweb="tab"] div {
+    color: #7a96c0 !important;
+    font-weight: 500 !important;
+}
+button[data-baseweb="tab"][aria-selected="true"] p,
+button[data-baseweb="tab"][aria-selected="true"] span,
+button[data-baseweb="tab"][aria-selected="true"] div {
+    color: #e8a045 !important;
+    font-weight: 700 !important;
+}
+
+/* ================================================
+   ALERT BOXES (st.info, st.warning, st.success)
+   ================================================ */
+[data-testid="stAlert"],
+[data-testid="stAlert"] *,
+[data-testid="stAlert"] p,
+[data-testid="stAlert"] span {
+    color: #0a1428 !important;
+    font-weight: 500 !important;
+}
+
+/* ================================================
+   LIGHT MODE — [data-theme="light"]
+   ================================================ */
+[data-theme="light"] body,
 [data-theme="light"] p,
 [data-theme="light"] span,
+[data-theme="light"] div,
 [data-theme="light"] li,
-[data-theme="light"] label,
 [data-theme="light"] h1,
 [data-theme="light"] h2,
 [data-theme="light"] h3,
 [data-theme="light"] h4,
-[data-theme="light"] small,
+[data-theme="light"] label,
 [data-theme="light"] .stMarkdown,
 [data-theme="light"] [data-testid="stMarkdownContainer"] p,
 [data-theme="light"] [data-testid="stMarkdownContainer"] span,
 [data-theme="light"] [data-testid="stWidgetLabel"] p,
 [data-theme="light"] [data-testid="stWidgetLabel"] label,
-[data-theme="light"] div[data-baseweb="checkbox"] label {
-    color: #0d1428 !important;
+[data-theme="light"] div[class*="st-"] {
+    color: #0a1428 !important;
 }
 
-[data-theme="light"] div[data-testid="stRadio"] span,
-[data-theme="light"] div[data-testid="stRadio"] p,
-[data-theme="light"] div[data-testid="stRadio"] label { color: #0d1428 !important; }
-
-[data-theme="light"] div[data-testid="stSlider"] span,
-[data-theme="light"] div[data-testid="stSlider"] p,
-[data-theme="light"] div[data-testid="stSlider"] label { color: #0d1428 !important; }
-
+[data-theme="light"] input,
+[data-theme="light"] textarea,
 [data-theme="light"] input[type="number"],
 [data-theme="light"] input[type="text"],
-[data-theme="light"] textarea {
-    color: #0d1428 !important;
+[data-theme="light"] div[data-testid="stNumberInput"] input,
+[data-theme="light"] div[data-testid="stTextInput"] input,
+[data-theme="light"] div[data-testid="stTextArea"] textarea {
+    color: #0a1428 !important;
     background-color: #ffffff !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
 }
 
-[data-theme="light"] div[data-baseweb="select"] div[class*="ValueContainer"] span,
-[data-theme="light"] div[data-baseweb="select"] div[class*="singleValue"],
-[data-theme="light"] div[data-baseweb="select"] div[class*="placeholder"],
-[data-theme="light"] div[data-baseweb="select"] input,
-[data-theme="light"] ul[role="listbox"] li,
-[data-theme="light"] ul[role="listbox"] span,
-[data-theme="light"] li[role="option"],
-[data-theme="light"] li[role="option"] span { color: #0d1428 !important; font-weight: 600 !important; }
+[data-theme="light"] div[data-baseweb="select"] div,
+[data-theme="light"] div[data-baseweb="select"] span,
+[data-theme="light"] div[data-baseweb="select"] p,
+[data-theme="light"] [data-baseweb="select"] * {
+    color: #0a1428 !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] div[data-baseweb="select"] > div:first-child {
+    background-color: #ffffff !important;
+    border-color: #90b0d0 !important;
+}
+
+[data-theme="light"] div[data-baseweb="popover"] *,
+[data-theme="light"] [role="listbox"] *,
+[data-theme="light"] [role="option"] * {
+    color: #0a1428 !important;
+}
+
+[data-theme="light"] div[data-baseweb="popover"] > div,
+[data-theme="light"] div[data-baseweb="menu"] {
+    background-color: #ffffff !important;
+}
+
+[data-theme="light"] div[data-testid="stRadio"] label,
+[data-theme="light"] div[data-testid="stRadio"] span,
+[data-theme="light"] div[data-testid="stRadio"] p,
+[data-theme="light"] div[data-testid="stSlider"] label,
+[data-theme="light"] div[data-testid="stSlider"] span,
+[data-theme="light"] div[data-testid="stSlider"] p,
+[data-theme="light"] div[data-testid="stCheckbox"] label,
+[data-theme="light"] div[data-testid="stCheckbox"] span {
+    color: #0a1428 !important;
+}
 
 [data-theme="light"] button[data-baseweb="tab"] p,
-[data-theme="light"] button[data-baseweb="tab"] span { color: #2a3a5a !important; }
+[data-theme="light"] button[data-baseweb="tab"] span { color: #2a3a6a !important; }
 [data-theme="light"] button[data-baseweb="tab"][aria-selected="true"] p,
 [data-theme="light"] button[data-baseweb="tab"][aria-selected="true"] span { color: #b37010 !important; font-weight: 700 !important; }
 
-[data-theme="light"] .main-title { color: #0d1428 !important; }
+/* Light mode komponen */
+[data-theme="light"] .main-title { color: #0a1428 !important; }
 [data-theme="light"] .main-title em { color: #b37010 !important; }
-[data-theme="light"] .subtitle { color: #2a3a5a !important; }
+[data-theme="light"] .subtitle { color: #2a3a6a !important; }
 [data-theme="light"] .badge { color: #b37010 !important; border-color: #b37010 !important; background: rgba(180,120,20,0.10) !important; }
 [data-theme="light"] .formula-box { color: #7a4e00 !important; background: rgba(180,120,20,0.09) !important; border-color: rgba(180,120,20,0.45) !important; }
-[data-theme="light"] .menu-card { background: #ccdaee !important; border-color: #99bbdd !important; }
-[data-theme="light"] .menu-card:hover { background: #b8cce4 !important; }
-[data-theme="light"] .menu-title { color: #0d1428 !important; }
-[data-theme="light"] .menu-desc { color: #2a3a5a !important; }
-[data-theme="light"] .info-card { background: #ccdaee !important; border-color: #99bbdd !important; }
+[data-theme="light"] .menu-card { background: #c8daf0 !important; border-color: #90b0d0 !important; }
+[data-theme="light"] .menu-card:hover { background: #b0c8e8 !important; }
+[data-theme="light"] .menu-title { color: #0a1428 !important; }
+[data-theme="light"] .menu-desc  { color: #2a3a6a !important; }
+[data-theme="light"] .info-card { background: #c8daf0 !important; border-color: #90b0d0 !important; }
 [data-theme="light"] .info-card h4 { color: #b37010 !important; }
-[data-theme="light"] .info-card ul, [data-theme="light"] .info-card li { color: #0d1428 !important; }
+[data-theme="light"] .info-card ul,
+[data-theme="light"] .info-card li { color: #0a1428 !important; }
 [data-theme="light"] .result-card { background: rgba(180,120,20,0.12) !important; border-color: rgba(180,120,20,0.45) !important; }
-[data-theme="light"] .result-label { color: #2a3a5a !important; }
+[data-theme="light"] .result-label { color: #2a3a6a !important; }
 [data-theme="light"] .result-value { color: #7a4e00 !important; }
-[data-theme="light"] .istilah-box { background: #bbddf5 !important; border-color: #2980b9 !important; border-left-color: #1a6fa0 !important; color: #0a1e38 !important; }
-[data-theme="light"] .istilah-box b { color: #0a1e38 !important; }
-[data-theme="light"] .welcome-outer { background: #d8e8f8 !important; border-color: #99bbd8 !important; }
-[data-theme="light"] .welcome-body { background: #d8e8f8 !important; }
-[data-theme="light"] .welcome-desc { color: #0d1428 !important; }
-[data-theme="light"] [data-testid="stAlert"] p,
-[data-theme="light"] [data-testid="stAlert"] span { color: #0d1428 !important; }
+[data-theme="light"] .istilah-box { background: #bbddf5 !important; border-left-color: #1a6fa0 !important; color: #081828 !important; }
+[data-theme="light"] .istilah-box b { color: #081828 !important; }
+[data-theme="light"] .welcome-outer { background: #d0e4f8 !important; border-color: #90b0d0 !important; }
+[data-theme="light"] .welcome-desc { color: #0a1428 !important; }
+[data-theme="light"] [data-testid="stAlert"] * { color: #0a1428 !important; }
 
-/* ==============================================
-   KOMPONEN BERSAMA (dark + light)
-   ============================================== */
+/* ================================================
+   SHARED COMPONENTS
+   ================================================ */
 .badge {
-    display: inline-block;
-    font-family: 'Space Mono', monospace;
-    font-size: 10px; font-weight: 700;
-    letter-spacing: .1em; text-transform: uppercase;
-    color: #e8a045; border: 1.5px solid #e8a045;
-    border-radius: 4px; padding: 3px 12px;
-    margin-bottom: 1rem; background: rgba(232,160,69,0.10);
+    display: inline-block; font-family: 'Space Mono', monospace;
+    font-size: 10px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: #e8a045;
+    border: 1.5px solid #e8a045; border-radius: 4px;
+    padding: 3px 12px; margin-bottom: 1rem;
+    background: rgba(232,160,69,0.10);
 }
+
 .main-title { font-size: 38px; font-weight: 600; line-height: 1.2; color: #dce8ff; margin: 0 0 .4rem; }
 .main-title em { font-style: normal; color: #e8a045; }
 .subtitle { font-size: 14px; color: #7a96c0; line-height: 1.6; max-width: 560px; margin-bottom: 1.5rem; }
@@ -482,80 +544,74 @@ button[data-baseweb="tab"][aria-selected="true"] span {
     background: rgba(232,160,69,0.08); border: 1px solid rgba(232,160,69,0.5);
     border-radius: 8px; padding: 10px 16px;
     font-family: 'Space Mono', monospace; font-size: 13px;
-    color: #f0c070; text-align: center; margin: 1rem 0;
+    color: #f0c070 !important; text-align: center; margin: 1rem 0;
 }
 
-/* IDENTITAS */
 .identitas-box {
     max-width: 360px; margin: 1.2rem auto 1.6rem;
     background: linear-gradient(135deg, #0e2558, #161636);
-    border: 1.5px solid rgba(232,160,69,0.55);
-    border-radius: 14px; padding: 1.4rem 2rem 1.6rem;
-    text-align: center; box-shadow: 0 4px 24px rgba(0,0,0,0.45);
+    border: 1.5px solid rgba(232,160,69,0.55); border-radius: 14px;
+    padding: 1.4rem 2rem 1.6rem; text-align: center;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.45);
 }
 .identitas-title {
     font-size: 11px; font-family: 'Space Mono', monospace;
     text-transform: uppercase; letter-spacing: .14em;
-    color: #e8a045; margin-bottom: 0.5rem;
+    color: #e8a045 !important; margin-bottom: 0.5rem;
 }
 .identitas-divider {
     width: 40px; height: 2px;
     background: linear-gradient(90deg, transparent, #e8a045, transparent);
     margin: 0.4rem auto 0.9rem;
 }
-.identitas-name { font-size: 15px; font-weight: 500; color: #d0e4ff; line-height: 2.2; letter-spacing: 0.03em; }
+.identitas-name { font-size: 15px; font-weight: 500; color: #d0e4ff !important; line-height: 2.2; }
 
-/* KETERANGAN ISTILAH */
 .istilah-box {
-    background: rgba(40,130,210,0.14); border: 1px solid rgba(60,150,220,0.40);
+    background: rgba(40,130,210,0.16); border: 1px solid rgba(60,150,220,0.40);
     border-left: 4px solid #4aa8e8; border-radius: 6px;
-    padding: 10px 14px; font-size: 12.5px; color: #a8d4f0;
+    padding: 10px 14px; font-size: 12.5px; color: #a8d8f8 !important;
     margin: 0.5rem 0 1rem; line-height: 1.7;
 }
 
-/* WELCOME */
 .welcome-outer {
     max-width: 680px; margin: 2rem auto;
-    background: rgba(15,28,58,0.65); border-radius: 18px;
+    background: rgba(12,22,50,0.70); border-radius: 18px;
     overflow: hidden; border: 1px solid rgba(232,160,69,0.28);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
 }
 .welcome-header {
     background: linear-gradient(135deg, #0f3460, #16213e);
     padding: 2.5rem; text-align: center; border-bottom: 2px solid #e8a045;
 }
-.welcome-header h1 { font-size: 34px; font-weight: 600; margin: 0; color: #dce8ff; }
+.welcome-header h1 { font-size: 34px; font-weight: 600; margin: 0; color: #dce8ff !important; }
 .welcome-body { padding: 1.8rem 2rem; text-align: center; }
-.welcome-desc { font-size: 16px; line-height: 1.6; color: #a8c4e0; margin: 0 auto; max-width: 500px; }
+.welcome-desc { font-size: 16px; line-height: 1.6; color: #a8c4e8 !important; margin: 0 auto; max-width: 500px; }
 
-/* INFO CARDS */
 .info-card {
-    background: rgba(20,40,88,0.58); border-radius: 12px; padding: 1.4rem;
-    height: 100%; border: 1px solid rgba(90,130,210,0.28); border-top: 4px solid #e8a045;
+    background: rgba(18,38,85,0.60); border-radius: 12px; padding: 1.4rem;
+    height: 100%; border: 1px solid rgba(90,130,210,0.30); border-top: 4px solid #e8a045;
 }
-.info-card h4 { margin-top: 0; font-size: 15px; margin-bottom: 0.6rem; color: #e8a045; }
-.info-card ul { margin: 0; padding-left: 1.2rem; font-size: 13.5px; color: #a8c4e0; line-height: 1.8; }
-.info-card li { color: #a8c4e0 !important; }
+.info-card h4 { margin-top: 0; font-size: 15px; margin-bottom: 0.6rem; color: #e8a045 !important; }
+.info-card ul { margin: 0; padding-left: 1.2rem; font-size: 13.5px; color: #a8c4e8 !important; line-height: 1.8; }
+.info-card li { color: #a8c4e8 !important; }
 
-/* MENU CARDS */
 .menu-card {
-    background: rgba(20,40,88,0.52); border-radius: 10px; padding: 1.4rem;
-    min-height: 180px; border: 1px solid rgba(90,130,210,0.22);
+    background: rgba(18,38,85,0.55); border-radius: 10px; padding: 1.4rem;
+    min-height: 180px; border: 1px solid rgba(90,130,210,0.25);
     transition: background 0.2s ease, transform 0.15s ease;
 }
-.menu-card:hover { background: rgba(30,60,120,0.75); transform: translateY(-2px); }
+.menu-card:hover { background: rgba(28,58,115,0.78); transform: translateY(-2px); }
 .card-p1 { border-left: 4px solid #e8a045; }
 .card-p2 { border-left: 4px solid #4fc3f7; }
 .card-p3 { border-left: 4px solid #81c784; }
 .card-p4 { border-left: 4px solid #ce93d8; }
 .card-p5 { border-left: 4px solid #ef9a9a; }
 .menu-icon { font-size: 22px; margin-bottom: 0.4rem; }
-.menu-title { font-size: 15px; font-weight: 600; margin: 0.2rem 0 0.4rem; color: #d8eaff; }
-.menu-desc  { font-size: 12px; color: #7a98c0; line-height: 1.5; }
+.menu-title { font-size: 15px; font-weight: 600; margin: 0.2rem 0 0.4rem; color: #d8eaff !important; }
+.menu-desc  { font-size: 12px; color: #7a9ac0 !important; line-height: 1.5; }
 
-/* BUTTON */
 div.stButton > button {
-    background: #e8a045 !important; color: #0d1428 !important;
+    background: #e8a045 !important; color: #0a1020 !important;
     border: none !important; border-radius: 6px !important;
     padding: 0.55rem 1.4rem !important; font-weight: 700 !important;
     font-family: 'Space Grotesk', sans-serif !important;
@@ -563,26 +619,29 @@ div.stButton > button {
 }
 div.stButton > button:hover { opacity: 0.85; }
 
-/* RESULT CARD */
 .result-card {
-    background: rgba(232,160,69,0.09); border-radius: 10px;
+    background: rgba(232,160,69,0.10); border-radius: 10px;
     padding: 1rem 1.4rem; margin-top: .75rem;
-    border: 1px solid rgba(232,160,69,0.38);
+    border: 1px solid rgba(232,160,69,0.40);
 }
-.result-label { font-size: 10px; font-family: 'Space Mono', monospace; text-transform: uppercase; letter-spacing: .1em; margin: 0 0 4px; color: #7a96c0; }
-.result-value { font-size: 24px; font-weight: 600; margin: 0; font-family: 'Space Mono', monospace; color: #f0c070; }
+.result-label {
+    font-size: 10px; font-family: 'Space Mono', monospace;
+    text-transform: uppercase; letter-spacing: .1em;
+    margin: 0 0 4px; color: #7a96c0 !important;
+}
+.result-value {
+    font-size: 24px; font-weight: 600; margin: 0;
+    font-family: 'Space Mono', monospace; color: #f0c070 !important;
+}
 
-/* INPUT containers */
 div[data-testid="stNumberInput"],
 div[data-testid="stSelectbox"],
 div[data-testid="stTextInput"],
 div[data-testid="stTextArea"] {
-    background-color: rgba(15,30,70,0.28) !important;
     border-radius: 6px !important;
 }
 
-/* footer */
-footer { color: #7a96c0 !important; }
+footer, footer * { color: #7a96c0 !important; }
 </style>
 """, unsafe_allow_html=True)
 
