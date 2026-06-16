@@ -1643,3 +1643,4 @@ st.divider()
 st.markdown(
     '<p style="text-align:center; font-size:12px; color:#9e9e9e;">⚗️ Kalkulator Analisis Kuantitatif · Kimia Analitik · Anisa · Rahma · Wewing · Abum</p>',
     unsafe_allow_html=True
+)
