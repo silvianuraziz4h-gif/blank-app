@@ -259,70 +259,106 @@ KETERANGAN_ISTILAH = {
     "Beta": "**Kapasitas Buffer (β)** — Ukuran kemampuan larutan buffer menahan perubahan pH. Dihitung dengan persamaan Van Slyke: β = 2.303 × C × Ka[H⁺]/(Ka+[H⁺])².",
 }
 
-# styling custom (light & dark mode compatible)
+# styling custom (dark & light mode)
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
 
-/* ============ DARK MODE (default) ============ */
+/* ===== BASE / DARK MODE ===== */
+html, body, [class*="css"] { font-family: 'Space Grotesk', sans-serif; }
+
 .stApp {
     background: #1a1a2e !important;
     background-image: radial-gradient(ellipse at top left, #16213e 0%, #1a1a2e 60%, #0f3460 100%) !important;
     background-attachment: fixed;
-    color: #f0f0f0 !important;
 }
-html, body, [class*="css"] { font-family: 'Space Grotesk', sans-serif; }
 
-.stMarkdown, p, label, .stSlider, .stRadio,
-div[data-baseweb="checkbox"] { color: #f0f0f0 !important; }
+/* Teks umum dark mode */
+.stMarkdown, p, label, .stSlider label, .stRadio label,
+div[data-baseweb="checkbox"] label,
+[data-testid="stMarkdownContainer"] p {
+    color: #e8e8e8 !important;
+}
 
+/* Input fields dark */
 div[data-testid="stNumberInput"] input,
 div[data-testid="stTextInput"] input,
-div[data-testid="stTextArea"] textarea,
-div[data-baseweb="select"] div { color: #1a1a2e !important; font-weight: 500 !important; }
-
+div[data-testid="stTextArea"] textarea {
+    color: #1a1a2e !important;
+    background: #d8e4f0 !important;
+    font-weight: 600 !important;
+}
+div[data-baseweb="select"] div { color: #1a1a2e !important; font-weight: 600 !important; }
 div[data-shaded="true"], ul[role="listbox"] li { color: #1a1a2e !important; }
 
-button[data-baseweb="tab"] p { color: #9e9e9e !important; }
+/* Tabs dark */
+button[data-baseweb="tab"] p { color: #aaa !important; }
 button[data-baseweb="tab"][aria-selected="true"] p {
     color: #e8a045 !important;
     font-weight: 700 !important;
 }
 
-/* ============ LIGHT MODE OVERRIDES ============ */
+/* ===== LIGHT MODE ===== */
 @media (prefers-color-scheme: light) {
     .stApp {
-        background: #f5f7fa !important;
-        background-image: none !important;
-        color: #1a1a2e !important;
+        background: #eef2f7 !important;
+        background-image: radial-gradient(ellipse at top, #dce8f5 0%, #eef2f7 60%, #e0eaf5 100%) !important;
     }
-    .stMarkdown, p, label, .stSlider, .stRadio,
-    div[data-baseweb="checkbox"] { color: #1a1a2e !important; }
-    .menu-title { color: #1a1a2e !important; }
-    .menu-desc  { color: #444 !important; }
-    .welcome-outer { background: #fff !important; border: 1px solid #ddd !important; }
-    .welcome-body { color: #333 !important; }
-    .welcome-desc { color: #444 !important; }
-    .result-value { color: #b37010 !important; }
-    .result-label { color: #555 !important; }
-    .result-card { background: rgba(232,160,69,0.12) !important; border-color: rgba(232,160,69,0.5) !important; }
-    .info-card { background: #fff !important; border: 1px solid #ddd !important; }
-    .info-card ul { color: #444 !important; }
-    .menu-card { background: #fff !important; border: 1px solid #e0e0e0 !important; }
-    .menu-card:hover { background: #f0f4ff !important; }
-    .badge { color: #b37010 !important; border-color: #b37010 !important; background: rgba(180,120,20,0.08) !important; }
-    .main-title { color: #1a1a2e !important; }
-    .main-title em { color: #b37010 !important; }
-    .subtitle { color: #555 !important; }
-    .formula-box { color: #b37010 !important; background: rgba(180,120,20,0.07) !important; border-color: rgba(180,120,20,0.4) !important; }
-    .istilah-box { background: #eaf2fb !important; border-color: #3498db !important; color: #1a3a5c !important; }
-    .istilah-box b { color: #1a3a5c !important; }
+    .stMarkdown, p, label, .stSlider label, .stRadio label,
+    div[data-baseweb="checkbox"] label,
+    [data-testid="stMarkdownContainer"] p { color: #1a2744 !important; }
+
     div[data-testid="stNumberInput"] input,
     div[data-testid="stTextInput"] input,
-    div[data-testid="stTextArea"] textarea { color: #1a1a2e !important; }
+    div[data-testid="stTextArea"] textarea {
+        color: #0d1a33 !important;
+        background: #fff !important;
+        font-weight: 600 !important;
+    }
+    div[data-baseweb="select"] div { color: #0d1a33 !important; }
+    div[data-shaded="true"], ul[role="listbox"] li { color: #0d1a33 !important; }
+
+    button[data-baseweb="tab"] p { color: #557 !important; }
+    button[data-baseweb="tab"][aria-selected="true"] p { color: #b37010 !important; }
+
+    .main-title { color: #0d1a33 !important; }
+    .main-title em { color: #b37010 !important; }
+    .subtitle { color: #3a4a6a !important; }
+    .badge { color: #b37010 !important; border-color: #b37010 !important; background: rgba(180,120,20,0.10) !important; }
+    .formula-box { color: #7a4e00 !important; background: rgba(180,120,20,0.09) !important; border-color: rgba(180,120,20,0.45) !important; }
+
+    .identitas-box { background: linear-gradient(135deg, #2a4080, #1a2e6a) !important; border-color: rgba(232,160,69,0.6) !important; }
+    .identitas-title { color: #f8d48a !important; }
+    .identitas-name { color: #e8f0ff !important; }
+
+    .welcome-outer { background: #f0f5ff !important; border-color: #c0cce0 !important; }
+    .welcome-header { background: linear-gradient(135deg, #1a3a7a, #0f2460) !important; }
+    .welcome-body { color: #2a3a5a !important; }
+    .welcome-desc { color: #2a3a5a !important; }
+
+    .info-card { background: #dce8f7 !important; border-color: #b0c8e0 !important; }
+    .info-card h4 { color: #b37010 !important; }
+    .info-card ul { color: #1a2744 !important; }
+
+    .menu-card { background: #dce8f7 !important; border-color: #b0c8e0 !important; }
+    .menu-card:hover { background: #ccdaee !important; }
+    .menu-title { color: #0d1a33 !important; }
+    .menu-desc { color: #3a4a6a !important; }
+
+    .result-card { background: rgba(180,120,20,0.10) !important; border-color: rgba(180,120,20,0.4) !important; }
+    .result-label { color: #3a4a6a !important; }
+    .result-value { color: #7a4e00 !important; }
+
+    .istilah-box { background: #d0e8fa !important; border-color: #2980b9 !important; border-left-color: #1a6fa0 !important; color: #0a2a4a !important; }
+    .istilah-box b { color: #0a2a4a !important; }
+
+    div[data-testid="stNumberInput"],
+    div[data-testid="stSelectbox"],
+    div[data-testid="stTextInput"],
+    div[data-testid="stTextArea"] { background: rgba(0,30,80,0.05) !important; }
 }
 
-/* ============ SHARED COMPONENTS ============ */
+/* ===== SHARED COMPONENTS ===== */
 .badge {
     display: inline-block;
     font-family: 'Space Mono', monospace;
@@ -335,79 +371,86 @@ button[data-baseweb="tab"][aria-selected="true"] p {
     border-radius: 4px;
     padding: 3px 12px;
     margin-bottom: 1rem;
-    background: rgba(232,160,69,0.08);
+    background: rgba(232,160,69,0.10);
 }
+
 .main-title {
     font-size: 38px;
     font-weight: 600;
     line-height: 1.2;
-    color: #fff;
+    color: #e8e8e8;
     margin: 0 0 .4rem;
 }
 .main-title em { font-style: normal; color: #e8a045; }
-.subtitle { font-size: 14px; color: #9e9e9e; line-height: 1.6; max-width: 560px; margin-bottom: 1.5rem; }
+.subtitle { font-size: 14px; color: #8aa0c0; line-height: 1.6; max-width: 560px; margin-bottom: 1.5rem; }
 
 .formula-box {
-    background: rgba(232,160,69,0.07);
+    background: rgba(232,160,69,0.08);
     border: 1px solid rgba(232,160,69,0.5);
     border-radius: 8px;
     padding: 10px 16px;
     font-family: 'Space Mono', monospace;
     font-size: 13px;
-    color: #e8a045;
+    color: #f0c070;
     text-align: center;
     margin: 1rem 0;
 }
 
-/* identitas tim */
+/* ===== IDENTITAS TIM ===== */
 .identitas-box {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(232,160,69,0.35);
-    border-radius: 10px;
-    padding: 1rem 1.4rem;
-    margin-bottom: 1.2rem;
+    max-width: 420px;
+    margin: 1.2rem auto 1.5rem;
+    background: linear-gradient(135deg, #0f2a60, #1a1a3e);
+    border: 1.5px solid rgba(232,160,69,0.5);
+    border-radius: 14px;
+    padding: 1.4rem 2rem 1.6rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35);
 }
 .identitas-title {
-    font-size: 12px;
+    font-size: 11px;
     font-family: 'Space Mono', monospace;
     text-transform: uppercase;
-    letter-spacing: .1em;
+    letter-spacing: .14em;
     color: #e8a045;
-    margin-bottom: 0.4rem;
+    margin-bottom: 1rem;
 }
-.identitas-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.identitas-divider {
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #e8a045, transparent);
+    margin: 0.5rem auto 1rem;
 }
-.identitas-list li {
-    font-size: 14px;
-    color: #cfcfcf;
+.identitas-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #d8e8ff;
+    line-height: 2;
+    letter-spacing: 0.03em;
 }
 
-/* keterangan istilah */
+/* ===== KETERANGAN ISTILAH ===== */
 .istilah-box {
-    background: rgba(52,152,219,0.10);
-    border: 1px solid rgba(52,152,219,0.45);
+    background: rgba(52,152,219,0.12);
+    border: 1px solid rgba(52,152,219,0.40);
     border-left: 4px solid #3498db;
     border-radius: 6px;
     padding: 10px 14px;
     font-size: 12.5px;
-    color: #c0dff5;
+    color: #a8d4f0;
     margin: 0.5rem 0 1rem;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
+/* ===== WELCOME PAGE ===== */
 .welcome-outer {
-    max-width: 700px;
-    margin: 2.5rem auto 2rem;
+    max-width: 680px;
+    margin: 2rem auto 2rem;
     background: rgba(255,255,255,0.03);
-    border-radius: 16px;
+    border-radius: 18px;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(232,160,69,0.25);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
 .welcome-header {
     background: linear-gradient(135deg, #0f3460, #16213e);
@@ -415,39 +458,42 @@ button[data-baseweb="tab"][aria-selected="true"] p {
     text-align: center;
     border-bottom: 2px solid #e8a045;
 }
-.welcome-header h1 { font-size: 36px; font-weight: 600; margin: 0; color: #fff; }
-.welcome-body { padding: 2rem; text-align: center; color: #cfcfcf; }
-.welcome-desc { font-size: 18px; line-height: 1.5; margin: 0 auto; max-width: 560px; }
+.welcome-header h1 { font-size: 34px; font-weight: 600; margin: 0; color: #f0f0f0; }
+.welcome-body { padding: 1.8rem 2rem; text-align: center; }
+.welcome-desc { font-size: 16px; line-height: 1.6; color: #b0c8e0; margin: 0 auto; max-width: 500px; }
 
+/* ===== INFO CARDS ===== */
 .info-card {
-    background: rgba(255,255,255,0.04);
+    background: rgba(30,50,90,0.5);
     border-radius: 12px;
     padding: 1.4rem;
     height: 100%;
-    border: 1px solid rgba(255,255,255,0.07);
+    border: 1px solid rgba(100,140,200,0.25);
     border-top: 4px solid #e8a045;
 }
-.info-card h4 { margin-top: 0; font-size: 16px; margin-bottom: 0.6rem; color: #e8a045; }
-.info-card ul { margin: 0; padding-left: 1.2rem; font-size: 14px; color: #b0b0b0; line-height: 1.7; }
+.info-card h4 { margin-top: 0; font-size: 15px; margin-bottom: 0.6rem; color: #e8a045; }
+.info-card ul { margin: 0; padding-left: 1.2rem; font-size: 13.5px; color: #b0c8e0; line-height: 1.8; }
 
+/* ===== MENU CARDS ===== */
 .menu-card {
-    background: rgba(255,255,255,0.04);
+    background: rgba(30,50,90,0.45);
     border-radius: 10px;
     padding: 1.4rem;
     min-height: 180px;
-    border: 1px solid rgba(255,255,255,0.06);
+    border: 1px solid rgba(100,140,200,0.20);
     transition: background 0.2s ease, transform 0.15s ease;
 }
-.menu-card:hover { background: rgba(255,255,255,0.07); transform: translateY(-2px); }
+.menu-card:hover { background: rgba(40,70,120,0.65); transform: translateY(-2px); }
 .card-p1 { border-left: 4px solid #e8a045; }
 .card-p2 { border-left: 4px solid #4fc3f7; }
 .card-p3 { border-left: 4px solid #81c784; }
 .card-p4 { border-left: 4px solid #ce93d8; }
 .card-p5 { border-left: 4px solid #ef9a9a; }
 .menu-icon  { font-size: 22px; margin-bottom: 0.4rem; }
-.menu-title { font-size: 16px; font-weight: 600; margin: 0.2rem 0 0.4rem; color: #f0f0f0; }
-.menu-desc  { font-size: 12px; color: #9e9e9e; line-height: 1.5; }
+.menu-title { font-size: 15px; font-weight: 600; margin: 0.2rem 0 0.4rem; color: #d8e8ff; }
+.menu-desc  { font-size: 12px; color: #8aa0c0; line-height: 1.5; }
 
+/* ===== BUTTON ===== */
 div.stButton > button {
     background: #e8a045 !important;
     color: #1a1a2e !important;
@@ -459,14 +505,15 @@ div.stButton > button {
     letter-spacing: 0.02em !important;
     transition: opacity 0.15s;
 }
-div.stButton > button:hover { opacity: 0.88; }
+div.stButton > button:hover { opacity: 0.85; }
 
+/* ===== RESULT CARD ===== */
 .result-card {
-    background: rgba(232,160,69,0.07);
+    background: rgba(232,160,69,0.09);
     border-radius: 10px;
     padding: 1rem 1.4rem;
     margin-top: .75rem;
-    border: 1px solid rgba(232,160,69,0.3);
+    border: 1px solid rgba(232,160,69,0.35);
 }
 .result-label {
     font-size: 10px;
@@ -474,24 +521,24 @@ div.stButton > button:hover { opacity: 0.88; }
     text-transform: uppercase;
     letter-spacing: .1em;
     margin: 0 0 4px;
-    color: #9e9e9e;
+    color: #8aa0c0;
 }
 .result-value {
     font-size: 24px;
     font-weight: 600;
     margin: 0;
     font-family: 'Space Mono', monospace;
-    color: #e8a045;
+    color: #f0c070;
 }
 
+/* ===== INPUT CONTAINERS ===== */
 div[data-testid="stNumberInput"],
 div[data-testid="stSelectbox"],
 div[data-testid="stTextInput"],
 div[data-testid="stTextArea"] {
-    background-color: rgba(255,255,255,0.04) !important;
+    background-color: rgba(20,40,80,0.35) !important;
     border-radius: 6px !important;
 }
-input, select, textarea { color: white !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -503,12 +550,11 @@ def tampilkan_identitas():
     st.markdown("""
     <div class="identitas-box">
         <div class="identitas-title">👥 Tim Penyusun</div>
-        <ul class="identitas-list">
-            <li>1. Anisa</li>
-            <li>2. Rahma</li>
-            <li>3. Wewing</li>
-            <li>4. Abum</li>
-        </ul>
+        <div class="identitas-divider"></div>
+        <div class="identitas-name">1. &nbsp; Anisa</div>
+        <div class="identitas-name">2. &nbsp; Rahma</div>
+        <div class="identitas-name">3. &nbsp; Wewing</div>
+        <div class="identitas-name">4. &nbsp; Abum</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -527,20 +573,20 @@ def keterangan(kunci):
 # ============================================================
 def tampilkan_kotak(judul, konten_html):
     return f"""
-    <div style="background:rgba(255,255,255,0.04); padding:20px; border-radius:10px;
+    <div style="background:rgba(30,55,100,0.35); padding:20px; border-radius:10px;
                 border:1px dashed rgba(232,160,69,0.4); font-family:'Courier New',monospace; margin-top:15px;">
-        <p style="margin:0 0 12px 0; color:#e8a045; font-weight:600; font-size:13px;">📋 {judul}</p>
-        <div style="font-size:13px; color:#cfcfcf; line-height:1.7; padding-left:5px;">
+        <p style="margin:0 0 12px 0; color:#f0c070; font-weight:600; font-size:13px;">📋 {judul}</p>
+        <div style="font-size:13px; color:#b8d0f0; line-height:1.7; padding-left:5px;">
             {konten_html}
         </div>
     </div>
     """
 
 def buat_baris(teks):
-    return f"<p style='margin:0 0 8px 0;'>{teks}</p>"
+    return f"<p style='margin:0 0 8px 0; color:#b8d0f0;'>{teks}</p>"
 
 def tampilkan_hasil(nama_variabel, angka, satuan=""):
-    sat_html = f'<span style="font-size:16px; color:#e8a045;">{satuan}</span>' if satuan else ""
+    sat_html = f'<span style="font-size:15px; color:#e8a045; opacity:0.85;">{satuan}</span>' if satuan else ""
     st.markdown(
         f'<div class="result-card">'
         f'<p class="result-label">{nama_variabel}</p>'
@@ -623,7 +669,6 @@ if st.session_state.menu_aktif == "Start":
 # DASHBOARD
 # =============================================================
 elif st.session_state.menu_aktif == "Dashboard":
-    tampilkan_identitas()
     st.markdown('<div class="badge">🧪 Kimia Analitik</div>', unsafe_allow_html=True)
     st.markdown("""
     <h1 class="main-title">Kalkulator <em>Analisis</em> Kuantitatif</h1>
@@ -695,7 +740,6 @@ else:
     # PENGENCERAN
     # ----------------------------------------------------------
     if st.session_state.menu_aktif == "Pengenceran":
-        tampilkan_identitas()
         st.markdown("### 💧 Pengenceran Larutan")
         tab_cv, tab_serial, tab_fp = st.tabs(["C₁V₁ = C₂V₂", "Serial / Bertingkat", "Faktor Pengenceran"])
 
@@ -804,7 +848,6 @@ else:
     # STOIKIOMETRI
     # ----------------------------------------------------------
     elif st.session_state.menu_aktif == "Stoikiometri":
-        tampilkan_identitas()
         st.markdown("### 🔄 Satuan Konsentrasi & Stoikiometri")
         tab_konv, tab_mol, tab_reaksi = st.tabs(["🔄 Konversi Satuan", "⚖️ Mol & Massa", "🧮 Stoikiometri Reaksi"])
 
@@ -1285,7 +1328,6 @@ else:
     # pH & KESETIMBANGAN
     # ----------------------------------------------------------
     elif st.session_state.menu_aktif == "pH":
-        tampilkan_identitas()
         st.markdown("### 🌈 Kesetimbangan & Perubahan pH")
         tab_asam, tab_basa, tab_ka, tab_dilusi = st.tabs([
             "🔴 pH Asam", "🔵 pH Basa", "🔬 Hitung Ka/Kb", "📉 ΔpH Pengenceran"
@@ -1431,7 +1473,6 @@ else:
     # BUFFER
     # ----------------------------------------------------------
     elif st.session_state.menu_aktif == "Buffer":
-        tampilkan_identitas()
         st.markdown("### 🧪 Pembuatan Larutan Buffer")
         tab_ph, tab_rasio, tab_beta = st.tabs([
             "🧮 Hitung pH Buffer", "⚖️ Hitung Rasio [A⁻]/[HA]", "📊 Kapasitas Buffer (β)"
@@ -1483,7 +1524,6 @@ else:
     # GALAT & PROPAGASI ERROR
     # ----------------------------------------------------------
     elif st.session_state.menu_aktif == "Galat":
-        tampilkan_identitas()
         st.markdown("### 📊 Galat & Propagasi Error")
         tab_ga, tab_prop, tab_stat = st.tabs([
             "📏 Galat Absolut & Relatif", "⚡ Propagasi Error", "📊 Statistik (SD & RSD)"
