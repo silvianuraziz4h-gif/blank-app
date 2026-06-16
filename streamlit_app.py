@@ -907,136 +907,365 @@ else:
             keterangan("Stoikiometri")
             keterangan("Reaktan pembatas")
 
-            # === Pilihan reaksi preset ===
+            # ============================================================
+            # PRESET REAKSI LENGKAP
+            # ============================================================
             PRESET_REAKSI = {
-                "HCl + NaOH → NaCl + H₂O (Netralisasi asam-basa)": {
-                    "kA": 1, "nA": "HCl",  "mA": 36.46,
-                    "kB": 1, "nB": "NaOH", "mB": 40.00,
-                    "kC": 1, "nC": "NaCl", "mC": 58.44,
-                    "kD": 1, "nD": "H₂O",  "mD": 18.02,
+                # --- Netralisasi Asam-Basa ---
+                "⚗️ HCl + NaOH → NaCl + H₂O": {
+                    "label": "Netralisasi asam kuat + basa kuat",
+                    "kA":1,"nA":"HCl","mA":36.46, "kB":1,"nB":"NaOH","mB":40.00,
+                    "kC":1,"nC":"NaCl","mC":58.44, "kD":1,"nD":"H₂O","mD":18.02,
                 },
-                "H₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O": {
-                    "kA": 1, "nA": "H₂SO₄",  "mA": 98.08,
-                    "kB": 2, "nB": "NaOH",    "mB": 40.00,
-                    "kC": 1, "nC": "Na₂SO₄",  "mC": 142.04,
-                    "kD": 2, "nD": "H₂O",     "mD": 18.02,
+                "⚗️ H₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O": {
+                    "label": "Netralisasi asam sulfat + NaOH",
+                    "kA":1,"nA":"H₂SO₄","mA":98.08, "kB":2,"nB":"NaOH","mB":40.00,
+                    "kC":1,"nC":"Na₂SO₄","mC":142.04, "kD":2,"nD":"H₂O","mD":18.02,
                 },
-                "2HCl + CaCO₃ → CaCl₂ + H₂O + CO₂": {
-                    "kA": 2, "nA": "HCl",    "mA": 36.46,
-                    "kB": 1, "nB": "CaCO₃",  "mB": 100.09,
-                    "kC": 1, "nC": "CaCl₂",  "mC": 110.98,
-                    "kD": 1, "nD": "H₂O",    "mD": 18.02,
+                "⚗️ H₃PO₄ + 3NaOH → Na₃PO₄ + 3H₂O": {
+                    "label": "Netralisasi asam fosfat + NaOH",
+                    "kA":1,"nA":"H₃PO₄","mA":97.99, "kB":3,"nB":"NaOH","mB":40.00,
+                    "kC":1,"nC":"Na₃PO₄","mC":163.94, "kD":3,"nD":"H₂O","mD":18.02,
                 },
-                "Fe₂O₃ + 3CO → 2Fe + 3CO₂ (Reduksi besi)": {
-                    "kA": 1, "nA": "Fe₂O₃", "mA": 159.69,
-                    "kB": 3, "nB": "CO",     "mB": 28.01,
-                    "kC": 2, "nC": "Fe",     "mC": 55.85,
-                    "kD": 3, "nD": "CO₂",    "mD": 44.01,
+                "⚗️ CH₃COOH + NaOH → CH₃COONa + H₂O": {
+                    "label": "Netralisasi asam asetat (asam lemah) + basa kuat",
+                    "kA":1,"nA":"CH₃COOH","mA":60.05, "kB":1,"nB":"NaOH","mB":40.00,
+                    "kC":1,"nC":"CH₃COONa","mC":82.03, "kD":1,"nD":"H₂O","mD":18.02,
                 },
-                "2H₂ + O₂ → 2H₂O (Pembakaran hidrogen)": {
-                    "kA": 2, "nA": "H₂",  "mA": 2.016,
-                    "kB": 1, "nB": "O₂",  "mB": 32.00,
-                    "kC": 2, "nC": "H₂O", "mC": 18.02,
-                    "kD": 0, "nD": "-",    "mD": 1.0,
+                "⚗️ HNO₃ + KOH → KNO₃ + H₂O": {
+                    "label": "Netralisasi asam nitrat + kalium hidroksida",
+                    "kA":1,"nA":"HNO₃","mA":63.01, "kB":1,"nB":"KOH","mB":56.11,
+                    "kC":1,"nC":"KNO₃","mC":101.10, "kD":1,"nD":"H₂O","mD":18.02,
                 },
-                "CH₄ + 2O₂ → CO₂ + 2H₂O (Pembakaran metana)": {
-                    "kA": 1, "nA": "CH₄", "mA": 16.04,
-                    "kB": 2, "nB": "O₂",  "mB": 32.00,
-                    "kC": 1, "nC": "CO₂", "mC": 44.01,
-                    "kD": 2, "nD": "H₂O", "mD": 18.02,
+                "⚗️ 2HCl + Ca(OH)₂ → CaCl₂ + 2H₂O": {
+                    "label": "Netralisasi HCl + kalsium hidroksida",
+                    "kA":2,"nA":"HCl","mA":36.46, "kB":1,"nB":"Ca(OH)₂","mB":74.09,
+                    "kC":1,"nC":"CaCl₂","mC":110.98, "kD":2,"nD":"H₂O","mD":18.02,
                 },
-                "AgNO₃ + NaCl → AgCl + NaNO₃ (Pengendapan)": {
-                    "kA": 1, "nA": "AgNO₃", "mA": 169.87,
-                    "kB": 1, "nB": "NaCl",  "mB": 58.44,
-                    "kC": 1, "nC": "AgCl",  "mC": 143.32,
-                    "kD": 1, "nD": "NaNO₃", "mD": 84.99,
+                # --- Pengendapan ---
+                "🔵 AgNO₃ + NaCl → AgCl↓ + NaNO₃": {
+                    "label": "Pengendapan perak klorida",
+                    "kA":1,"nA":"AgNO₃","mA":169.87, "kB":1,"nB":"NaCl","mB":58.44,
+                    "kC":1,"nC":"AgCl","mC":143.32, "kD":1,"nD":"NaNO₃","mD":84.99,
                 },
-                "KMnO₄ + HCl → MnCl₂ + Cl₂ + KCl + H₂O (Redoks)": {
-                    "kA": 2, "nA": "KMnO₄", "mA": 158.03,
-                    "kB": 16,"nB": "HCl",   "mB": 36.46,
-                    "kC": 2, "nC": "MnCl₂", "mC": 125.84,
-                    "kD": 5, "nD": "Cl₂",   "mD": 70.90,
+                "🔵 BaCl₂ + Na₂SO₄ → BaSO₄↓ + 2NaCl": {
+                    "label": "Pengendapan barium sulfat",
+                    "kA":1,"nA":"BaCl₂","mA":208.23, "kB":1,"nB":"Na₂SO₄","mB":142.04,
+                    "kC":1,"nC":"BaSO₄","mC":233.39, "kD":2,"nD":"NaCl","mD":58.44,
                 },
-                "Zn + H₂SO₄ → ZnSO₄ + H₂ (Logam + asam)": {
-                    "kA": 1, "nA": "Zn",    "mA": 65.38,
-                    "kB": 1, "nB": "H₂SO₄","mB": 98.08,
-                    "kC": 1, "nC": "ZnSO₄", "mC": 161.47,
-                    "kD": 1, "nD": "H₂",    "mD": 2.016,
+                "🔵 Pb(NO₃)₂ + 2KI → PbI₂↓ + 2KNO₃": {
+                    "label": "Pengendapan timbal(II) iodida",
+                    "kA":1,"nA":"Pb(NO₃)₂","mA":331.21, "kB":2,"nB":"KI","mB":166.00,
+                    "kC":1,"nC":"PbI₂","mC":461.01, "kD":2,"nD":"KNO₃","mD":101.10,
                 },
-                "Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂": {
-                    "kA": 1, "nA": "Na₂CO₃","mA": 105.99,
-                    "kB": 2, "nB": "HCl",   "mB": 36.46,
-                    "kC": 2, "nC": "NaCl",  "mC": 58.44,
-                    "kD": 1, "nD": "CO₂",   "mD": 44.01,
+                "🔵 CaCl₂ + Na₂CO₃ → CaCO₃↓ + 2NaCl": {
+                    "label": "Pengendapan kalsium karbonat",
+                    "kA":1,"nA":"CaCl₂","mA":110.98, "kB":1,"nB":"Na₂CO₃","mB":105.99,
+                    "kC":1,"nC":"CaCO₃","mC":100.09, "kD":2,"nD":"NaCl","mD":58.44,
                 },
-                "Input Reaksi Manual": None,
+                # --- Redoks ---
+                "🔴 2KMnO₄ + 16HCl → 2MnCl₂ + 5Cl₂ + 2KCl + 8H₂O": {
+                    "label": "Redoks permanganat dengan HCl",
+                    "kA":2,"nA":"KMnO₄","mA":158.03, "kB":16,"nB":"HCl","mB":36.46,
+                    "kC":2,"nC":"MnCl₂","mC":125.84, "kD":5,"nD":"Cl₂","mD":70.90,
+                },
+                "🔴 K₂Cr₂O₇ + 14HCl → 2CrCl₃ + 3Cl₂ + 2KCl + 7H₂O": {
+                    "label": "Redoks dikromat dengan HCl",
+                    "kA":1,"nA":"K₂Cr₂O₇","mA":294.18, "kB":14,"nB":"HCl","mB":36.46,
+                    "kC":2,"nC":"CrCl₃","mC":158.36, "kD":3,"nD":"Cl₂","mD":70.90,
+                },
+                "🔴 2FeCl₃ + Fe → 3FeCl₂": {
+                    "label": "Reduksi besi(III) oleh besi",
+                    "kA":2,"nA":"FeCl₃","mA":162.20, "kB":1,"nB":"Fe","mB":55.85,
+                    "kC":3,"nC":"FeCl₂","mC":126.75, "kD":0,"nD":"-","mD":1.0,
+                },
+                "🔴 MnO₂ + 4HCl → MnCl₂ + Cl₂ + 2H₂O": {
+                    "label": "Oksidasi HCl oleh MnO₂",
+                    "kA":1,"nA":"MnO₂","mA":86.94, "kB":4,"nB":"HCl","mB":36.46,
+                    "kC":1,"nC":"MnCl₂","mC":125.84, "kD":1,"nD":"Cl₂","mD":70.90,
+                },
+                # --- Logam + Asam ---
+                "🟡 Zn + H₂SO₄ → ZnSO₄ + H₂↑": {
+                    "label": "Logam seng + asam sulfat",
+                    "kA":1,"nA":"Zn","mA":65.38, "kB":1,"nB":"H₂SO₄","mB":98.08,
+                    "kC":1,"nC":"ZnSO₄","mC":161.47, "kD":1,"nD":"H₂","mD":2.016,
+                },
+                "🟡 Fe + 2HCl → FeCl₂ + H₂↑": {
+                    "label": "Logam besi + asam klorida",
+                    "kA":1,"nA":"Fe","mA":55.85, "kB":2,"nB":"HCl","mB":36.46,
+                    "kC":1,"nC":"FeCl₂","mC":126.75, "kD":1,"nD":"H₂","mD":2.016,
+                },
+                "🟡 Mg + 2HCl → MgCl₂ + H₂↑": {
+                    "label": "Logam magnesium + asam klorida",
+                    "kA":1,"nA":"Mg","mA":24.31, "kB":2,"nB":"HCl","mB":36.46,
+                    "kC":1,"nC":"MgCl₂","mC":95.21, "kD":1,"nD":"H₂","mD":2.016,
+                },
+                "🟡 2Al + 6HCl → 2AlCl₃ + 3H₂↑": {
+                    "label": "Logam aluminium + asam klorida",
+                    "kA":2,"nA":"Al","mA":26.98, "kB":6,"nB":"HCl","mB":36.46,
+                    "kC":2,"nC":"AlCl₃","mC":133.34, "kD":3,"nD":"H₂","mD":2.016,
+                },
+                "🟡 Cu + 4HNO₃(pekat) → Cu(NO₃)₂ + 2NO₂ + 2H₂O": {
+                    "label": "Tembaga + asam nitrat pekat",
+                    "kA":1,"nA":"Cu","mA":63.55, "kB":4,"nB":"HNO₃","mB":63.01,
+                    "kC":1,"nC":"Cu(NO₃)₂","mC":187.56, "kD":2,"nD":"NO₂","mD":46.01,
+                },
+                # --- Karbonat + Asam ---
+                "🟠 CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂↑": {
+                    "label": "Kalsit + asam klorida",
+                    "kA":1,"nA":"CaCO₃","mA":100.09, "kB":2,"nB":"HCl","mB":36.46,
+                    "kC":1,"nC":"CaCl₂","mC":110.98, "kD":1,"nD":"CO₂","mD":44.01,
+                },
+                "🟠 Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂↑": {
+                    "label": "Natrium karbonat + asam klorida",
+                    "kA":1,"nA":"Na₂CO₃","mA":105.99, "kB":2,"nB":"HCl","mB":36.46,
+                    "kC":2,"nC":"NaCl","mC":58.44, "kD":1,"nD":"CO₂","mD":44.01,
+                },
+                "🟠 NaHCO₃ + HCl → NaCl + H₂O + CO₂↑": {
+                    "label": "Natrium bikarbonat + asam klorida",
+                    "kA":1,"nA":"NaHCO₃","mA":84.01, "kB":1,"nB":"HCl","mB":36.46,
+                    "kC":1,"nC":"NaCl","mC":58.44, "kD":1,"nD":"CO₂","mD":44.01,
+                },
+                # --- Pembakaran ---
+                "🔥 CH₄ + 2O₂ → CO₂ + 2H₂O": {
+                    "label": "Pembakaran sempurna metana",
+                    "kA":1,"nA":"CH₄","mA":16.04, "kB":2,"nB":"O₂","mB":32.00,
+                    "kC":1,"nC":"CO₂","mC":44.01, "kD":2,"nD":"H₂O","mD":18.02,
+                },
+                "🔥 C₂H₅OH + 3O₂ → 2CO₂ + 3H₂O": {
+                    "label": "Pembakaran sempurna etanol",
+                    "kA":1,"nA":"C₂H₅OH","mA":46.07, "kB":3,"nB":"O₂","mB":32.00,
+                    "kC":2,"nC":"CO₂","mC":44.01, "kD":3,"nD":"H₂O","mD":18.02,
+                },
+                "🔥 2H₂ + O₂ → 2H₂O": {
+                    "label": "Pembakaran hidrogen",
+                    "kA":2,"nA":"H₂","mA":2.016, "kB":1,"nB":"O₂","mB":32.00,
+                    "kC":2,"nC":"H₂O","mC":18.02, "kD":0,"nD":"-","mD":1.0,
+                },
+                "🔥 C + O₂ → CO₂": {
+                    "label": "Pembakaran karbon",
+                    "kA":1,"nA":"C","mA":12.01, "kB":1,"nB":"O₂","mB":32.00,
+                    "kC":1,"nC":"CO₂","mC":44.01, "kD":0,"nD":"-","mD":1.0,
+                },
+                # --- Reduksi Oksida ---
+                "🟤 Fe₂O₃ + 3CO → 2Fe + 3CO₂": {
+                    "label": "Reduksi besi(III) oksida dengan CO (tanur tinggi)",
+                    "kA":1,"nA":"Fe₂O₃","mA":159.69, "kB":3,"nB":"CO","mB":28.01,
+                    "kC":2,"nC":"Fe","mC":55.85, "kD":3,"nD":"CO₂","mD":44.01,
+                },
+                "🟤 CuO + H₂ → Cu + H₂O": {
+                    "label": "Reduksi tembaga(II) oksida",
+                    "kA":1,"nA":"CuO","mA":79.55, "kB":1,"nB":"H₂","mB":2.016,
+                    "kC":1,"nC":"Cu","mC":63.55, "kD":1,"nD":"H₂O","mD":18.02,
+                },
+                "🟤 ZnO + C → Zn + CO": {
+                    "label": "Reduksi seng oksida dengan karbon",
+                    "kA":1,"nA":"ZnO","mA":81.38, "kB":1,"nB":"C","mB":12.01,
+                    "kC":1,"nC":"Zn","mC":65.38, "kD":1,"nD":"CO","mD":28.01,
+                },
+                # --- Sintesis/Dekomposisi ---
+                "🟢 2H₂O → 2H₂ + O₂ (Elektrolisis)": {
+                    "label": "Dekomposisi air",
+                    "kA":2,"nA":"H₂O","mA":18.02, "kB":0,"nB":"-","mB":1.0,
+                    "kC":2,"nC":"H₂","mC":2.016, "kD":1,"nD":"O₂","mD":32.00,
+                },
+                "🟢 2NaCl + 2H₂O → Cl₂ + H₂ + 2NaOH (Elektrolisis)": {
+                    "label": "Elektrolisis larutan NaCl",
+                    "kA":2,"nA":"NaCl","mA":58.44, "kB":2,"nB":"H₂O","mB":18.02,
+                    "kC":1,"nC":"Cl₂","mC":70.90, "kD":1,"nD":"H₂","mD":2.016,
+                },
+                "🟢 CaO + H₂O → Ca(OH)₂": {
+                    "label": "Reaksi kapur tohor dengan air",
+                    "kA":1,"nA":"CaO","mA":56.08, "kB":1,"nB":"H₂O","mB":18.02,
+                    "kC":1,"nC":"Ca(OH)₂","mC":74.09, "kD":0,"nD":"-","mD":1.0,
+                },
+                "🟢 N₂ + 3H₂ → 2NH₃ (Haber-Bosch)": {
+                    "label": "Sintesis amonia (proses Haber)",
+                    "kA":1,"nA":"N₂","mA":28.01, "kB":3,"nB":"H₂","mB":2.016,
+                    "kC":2,"nC":"NH₃","mC":17.03, "kD":0,"nD":"-","mD":1.0,
+                },
+                "🟢 SO₂ + ½O₂ → SO₃ (Proses Kontak)": {
+                    "label": "Oksidasi sulfur dioksida",
+                    "kA":2,"nA":"SO₂","mA":64.06, "kB":1,"nB":"O₂","mB":32.00,
+                    "kC":2,"nC":"SO₃","mC":80.06, "kD":0,"nD":"-","mD":1.0,
+                },
+                # --- Manual ---
+                "✏️ Input Reaksi Manual": None,
             }
 
-            preset_pilih = st.selectbox("Pilih reaksi preset atau input manual:", list(PRESET_REAKSI.keys()), key="preset_reaksi")
+            # Inisialisasi session state untuk stoikiometri
+            if "stok_preset" not in st.session_state:
+                st.session_state.stok_preset = list(PRESET_REAKSI.keys())[0]
+
+            # Dropdown preset
+            preset_pilih = st.selectbox(
+                "Pilih reaksi preset atau input manual:",
+                list(PRESET_REAKSI.keys()),
+                key="preset_reaksi"
+            )
+
             p = PRESET_REAKSI[preset_pilih]
 
+            # Ambil nilai dari preset, atau gunakan nilai manual jika preset sebelumnya sudah diganti
             if p is not None:
-                kA_def, nA_def, mA_def = p["kA"], p["nA"], p["mA"]
-                kB_def, nB_def, mB_def = p["kB"], p["nB"], p["mB"]
-                kC_def, nC_def, mC_def = p["kC"], p["nC"], p["mC"]
-                kD_def, nD_def, mD_def = p["kD"], p["nD"], p["mD"]
-            else:
-                kA_def, nA_def, mA_def = 1, "A", 36.46
-                kB_def, nB_def, mB_def = 1, "B", 40.00
-                kC_def, nC_def, mC_def = 1, "C", 58.44
-                kD_def, nD_def, mD_def = 1, "D", 18.02
+                kA = p["kA"]; nA = p["nA"]; mA = p["mA"]
+                kB = p["kB"]; nB = p["nB"]; mB = p["mB"]
+                kC = p["kC"]; nC = p["nC"]; mC = p["mC"]
+                kD = p["kD"]; nD = p["nD"]; mD = p["mD"]
+                label_reaksi = p["label"]
 
-            col1, col2, col3, col4 = st.columns(4)
-            with col1:
-                st.markdown("**Reaktan A**")
-                kA = st.number_input("Koef A", 1, value=kA_def, key="kA")
-                nA = st.text_input("Nama A", nA_def, key="nA")
-                mA = st.number_input("Mr A (g/mol)", 0.001, value=float(mA_def), key="mA")
-            with col2:
-                st.markdown("**Reaktan B**")
-                kB = st.number_input("Koef B", 1, value=kB_def, key="kB")
-                nB = st.text_input("Nama B", nB_def, key="nB")
-                mB = st.number_input("Mr B (g/mol)", 0.001, value=float(mB_def), key="mB")
-            with col3:
-                st.markdown("**Produk C**")
-                kC = st.number_input("Koef C", 1, value=kC_def, key="kC")
-                nC = st.text_input("Nama C", nC_def, key="nC")
-                mC = st.number_input("Mr C (g/mol)", 0.001, value=float(mC_def), key="mC")
-            with col4:
-                st.markdown("**Produk D**")
-                kD = st.number_input("Koef D", 0, value=kD_def, key="kD")
-                nD = st.text_input("Nama D", nD_def, key="nD")
-                mD = st.number_input("Mr D (g/mol)", 0.001, value=float(mD_def), key="mD")
+                # Tampilkan info reaksi otomatis
+                if kD > 0 and nD != "-":
+                    persamaan = f"{kA} {nA} + {kB} {nB} → {kC} {nC} + {kD} {nD}"
+                elif kB > 0 and nB != "-":
+                    persamaan = f"{kA} {nA} + {kB} {nB} → {kC} {nC}"
+                else:
+                    persamaan = f"{kA} {nA} → {kC} {nC}"
 
-            if kD > 0:
-                persamaan = f"{kA} {nA} + {kB} {nB} → {kC} {nC} + {kD} {nD}"
-            else:
-                persamaan = f"{kA} {nA} + {kB} {nB} → {kC} {nC}"
-            st.info(f"**Reaksi:** {persamaan}")
+                # Kotak info reaksi
+                st.markdown(f"""
+                <div style="background:rgba(52,152,219,0.10); border:1px solid rgba(52,152,219,0.4);
+                            border-left:4px solid #3498db; border-radius:8px; padding:12px 16px; margin:0.5rem 0 1rem;">
+                    <div style="font-size:11px; color:#3498db; font-weight:700; text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px;">
+                        Reaksi Dipilih — {label_reaksi}
+                    </div>
+                    <div style="font-family:'Space Mono',monospace; font-size:15px; color:#e8a045; font-weight:600;">
+                        {persamaan}
+                    </div>
+                </div>""", unsafe_allow_html=True)
 
-            reaktan_pembatas = st.selectbox("Reaktan pembatas:", [nA, nB], key="reaktan")
-            mol_pembatas = st.number_input("Mol Reaktan Pembatas", 0.0, value=0.1, key="n_pem")
+                # Tampilkan tabel detail zat otomatis
+                col1, col2, col3, col4 = st.columns(4)
+                with col1:
+                    st.markdown(f"""<div style="background:rgba(232,160,69,0.07);border-radius:8px;padding:10px;border:1px solid rgba(232,160,69,0.3);">
+                    <div style="font-size:10px;color:#e8a045;font-weight:700;text-transform:uppercase;margin-bottom:4px;">⚛ Reaktan A</div>
+                    <div style="font-size:18px;font-weight:700;color:#f0f0f0;">{nA}</div>
+                    <div style="font-size:12px;color:#9e9e9e;">Koef = {kA} &nbsp;|&nbsp; Mr = {mA} g/mol</div>
+                    </div>""", unsafe_allow_html=True)
+                with col2:
+                    if nB != "-" and kB > 0:
+                        st.markdown(f"""<div style="background:rgba(79,195,247,0.07);border-radius:8px;padding:10px;border:1px solid rgba(79,195,247,0.3);">
+                        <div style="font-size:10px;color:#4fc3f7;font-weight:700;text-transform:uppercase;margin-bottom:4px;">⚛ Reaktan B</div>
+                        <div style="font-size:18px;font-weight:700;color:#f0f0f0;">{nB}</div>
+                        <div style="font-size:12px;color:#9e9e9e;">Koef = {kB} &nbsp;|&nbsp; Mr = {mB} g/mol</div>
+                        </div>""", unsafe_allow_html=True)
+                with col3:
+                    st.markdown(f"""<div style="background:rgba(129,199,132,0.07);border-radius:8px;padding:10px;border:1px solid rgba(129,199,132,0.3);">
+                    <div style="font-size:10px;color:#81c784;font-weight:700;text-transform:uppercase;margin-bottom:4px;">🧪 Produk C</div>
+                    <div style="font-size:18px;font-weight:700;color:#f0f0f0;">{nC}</div>
+                    <div style="font-size:12px;color:#9e9e9e;">Koef = {kC} &nbsp;|&nbsp; Mr = {mC} g/mol</div>
+                    </div>""", unsafe_allow_html=True)
+                with col4:
+                    if nD != "-" and kD > 0:
+                        st.markdown(f"""<div style="background:rgba(206,147,216,0.07);border-radius:8px;padding:10px;border:1px solid rgba(206,147,216,0.3);">
+                        <div style="font-size:10px;color:#ce93d8;font-weight:700;text-transform:uppercase;margin-bottom:4px;">🧪 Produk D</div>
+                        <div style="font-size:18px;font-weight:700;color:#f0f0f0;">{nD}</div>
+                        <div style="font-size:12px;color:#9e9e9e;">Koef = {kD} &nbsp;|&nbsp; Mr = {mD} g/mol</div>
+                        </div>""", unsafe_allow_html=True)
 
-            k_ref = kA if reaktan_pembatas == nA else kB
-            mol_C = mol_pembatas * (kC / k_ref)
-            mol_D = mol_pembatas * (kD / k_ref) if kD > 0 else 0
+                st.write("")
+                # Pilihan reaktan pembatas
+                pilihan_reaktan = [nA]
+                if nB != "-" and kB > 0:
+                    pilihan_reaktan.append(nB)
+                reaktan_pembatas = st.selectbox("Reaktan pembatas:", pilihan_reaktan, key="reaktan")
+                mol_pembatas = st.number_input("Mol Reaktan Pembatas (mol)", 0.0, value=0.1, step=0.01, key="n_pem")
 
-            tampilkan_hasil(f"Hasil {nC}", f"{mol_C:.5g} mol ({mol_C * mC:.5g} g)")
-            if kD > 0:
-                tampilkan_hasil(f"Hasil {nD}", f"{mol_D:.5g} mol ({mol_D * mD:.5g} g)")
+                k_ref = kA if reaktan_pembatas == nA else kB
+                mol_C = mol_pembatas * (kC / k_ref)
+                mol_D = mol_pembatas * (kD / k_ref) if (kD > 0 and nD != "-") else 0
 
-            langkah = (
-                buat_baris(f"Reaksi: {persamaan}") +
-                buat_baris(f"Reaktan pembatas: <b>{reaktan_pembatas}</b> = {mol_pembatas} mol") +
-                buat_baris(f"Mol {nC} = ({kC}/{k_ref}) × {mol_pembatas} = <b>{mol_C:.5g} mol</b>") +
-                buat_baris(f"Massa {nC} = {mol_C:.5g} × {mC} = <b>{mol_C * mC:.5g} gram</b>")
-            )
-            if kD > 0:
-                langkah += (
-                    buat_baris(f"Mol {nD} = ({kD}/{k_ref}) × {mol_pembatas} = <b>{mol_D:.5g} mol</b>") +
-                    buat_baris(f"Massa {nD} = {mol_D:.5g} × {mD} = <b>{mol_D * mD:.5g} gram</b>")
+                st.write("")
+                col_r1, col_r2 = st.columns(2)
+                with col_r1:
+                    tampilkan_hasil(f"Hasil {nC}", f"{mol_C:.5g} mol", f"({mol_C * mC:.5g} gram)")
+                with col_r2:
+                    if mol_D > 0:
+                        tampilkan_hasil(f"Hasil {nD}", f"{mol_D:.5g} mol", f"({mol_D * mD:.5g} gram)")
+
+                # Penyelesaian langkah demi langkah
+                langkah = (
+                    buat_baris(f"Reaksi: <b>{persamaan}</b>") +
+                    buat_baris(f"Reaktan pembatas: <b>{reaktan_pembatas}</b> = {mol_pembatas} mol") +
+                    buat_baris(f"Koefisien referensi ({reaktan_pembatas}) = {k_ref}") +
+                    buat_baris(f"Mol {nC} = ({kC} / {k_ref}) × {mol_pembatas} = <b>{mol_C:.5g} mol</b>") +
+                    buat_baris(f"Massa {nC} = {mol_C:.5g} mol × {mC} g/mol = <b>{mol_C * mC:.5g} gram</b>")
                 )
-            st.markdown(tampilkan_kotak("Penyelesaian (perbandingan koefisien)", langkah), unsafe_allow_html=True)
+                if mol_D > 0:
+                    langkah += (
+                        buat_baris(f"Mol {nD} = ({kD} / {k_ref}) × {mol_pembatas} = <b>{mol_D:.5g} mol</b>") +
+                        buat_baris(f"Massa {nD} = {mol_D:.5g} mol × {mD} g/mol = <b>{mol_D * mD:.5g} gram</b>")
+                    )
+                st.markdown(tampilkan_kotak("Penyelesaian (perbandingan koefisien)", langkah), unsafe_allow_html=True)
+
+            else:
+                # MODE MANUAL — user isi sendiri
+                st.markdown('<div class="istilah-box">✏️ <b>Mode Manual:</b> Isi data reaksi di bawah ini secara lengkap, termasuk nama zat, koefisien, dan Mr.</div>', unsafe_allow_html=True)
+
+                col1, col2, col3, col4 = st.columns(4)
+                with col1:
+                    st.markdown("**⚛ Reaktan A**")
+                    kA_m = st.number_input("Koef A", 1, value=1, key="kA_m")
+                    nA_m = st.text_input("Nama A", "HCl", key="nA_m")
+                    # Mr dari dropdown
+                    mr_list = list(MR_DROPDOWN.keys())
+                    sel_A = st.selectbox("Mr A (pilih):", mr_list, index=mr_list.index("HCl – Asam klorida"), key="sel_mA")
+                    mA_m = st.number_input("atau input Mr A manual:", 0.001, value=MR_DROPDOWN[sel_A], key="mA_m")
+                with col2:
+                    st.markdown("**⚛ Reaktan B**")
+                    kB_m = st.number_input("Koef B", 0, value=1, key="kB_m")
+                    nB_m = st.text_input("Nama B", "NaOH", key="nB_m")
+                    sel_B = st.selectbox("Mr B (pilih):", mr_list, index=mr_list.index("NaOH – Natrium hidroksida"), key="sel_mB")
+                    mB_m = st.number_input("atau input Mr B manual:", 0.001, value=MR_DROPDOWN[sel_B], key="mB_m")
+                with col3:
+                    st.markdown("**🧪 Produk C**")
+                    kC_m = st.number_input("Koef C", 1, value=1, key="kC_m")
+                    nC_m = st.text_input("Nama C", "NaCl", key="nC_m")
+                    sel_C = st.selectbox("Mr C (pilih):", mr_list, index=mr_list.index("NaCl – Natrium klorida"), key="sel_mC")
+                    mC_m = st.number_input("atau input Mr C manual:", 0.001, value=MR_DROPDOWN[sel_C], key="mC_m")
+                with col4:
+                    st.markdown("**🧪 Produk D** *(opsional)*")
+                    kD_m = st.number_input("Koef D (0 = tidak ada)", 0, value=1, key="kD_m")
+                    nD_m = st.text_input("Nama D", "H₂O", key="nD_m")
+                    sel_D = st.selectbox("Mr D (pilih):", mr_list, index=mr_list.index("H₂O – Air"), key="sel_mD")
+                    mD_m = st.number_input("atau input Mr D manual:", 0.001, value=MR_DROPDOWN[sel_D], key="mD_m")
+
+                if kD_m > 0:
+                    persamaan_m = f"{kA_m} {nA_m} + {kB_m} {nB_m} → {kC_m} {nC_m} + {kD_m} {nD_m}"
+                else:
+                    persamaan_m = f"{kA_m} {nA_m} + {kB_m} {nB_m} → {kC_m} {nC_m}"
+
+                st.info(f"**Reaksi:** {persamaan_m}")
+
+                pilihan_m = [nA_m]
+                if kB_m > 0:
+                    pilihan_m.append(nB_m)
+                reaktan_m = st.selectbox("Reaktan pembatas:", pilihan_m, key="reaktan_m")
+                mol_m = st.number_input("Mol Reaktan Pembatas (mol)", 0.0, value=0.1, step=0.01, key="n_pem_m")
+
+                k_ref_m = kA_m if reaktan_m == nA_m else kB_m
+                mol_C_m = mol_m * (kC_m / k_ref_m) if k_ref_m > 0 else 0
+                mol_D_m = mol_m * (kD_m / k_ref_m) if (kD_m > 0 and k_ref_m > 0) else 0
+
+                col_r1, col_r2 = st.columns(2)
+                with col_r1:
+                    tampilkan_hasil(f"Hasil {nC_m}", f"{mol_C_m:.5g} mol", f"({mol_C_m * mC_m:.5g} gram)")
+                with col_r2:
+                    if mol_D_m > 0:
+                        tampilkan_hasil(f"Hasil {nD_m}", f"{mol_D_m:.5g} mol", f"({mol_D_m * mD_m:.5g} gram)")
+
+                langkah_m = (
+                    buat_baris(f"Reaksi: <b>{persamaan_m}</b>") +
+                    buat_baris(f"Reaktan pembatas: <b>{reaktan_m}</b> = {mol_m} mol") +
+                    buat_baris(f"Mol {nC_m} = ({kC_m}/{k_ref_m}) × {mol_m} = <b>{mol_C_m:.5g} mol</b>") +
+                    buat_baris(f"Massa {nC_m} = {mol_C_m:.5g} × {mC_m} = <b>{mol_C_m * mC_m:.5g} gram</b>")
+                )
+                if mol_D_m > 0:
+                    langkah_m += (
+                        buat_baris(f"Mol {nD_m} = ({kD_m}/{k_ref_m}) × {mol_m} = <b>{mol_D_m:.5g} mol</b>") +
+                        buat_baris(f"Massa {nD_m} = {mol_D_m:.5g} × {mD_m} = <b>{mol_D_m * mD_m:.5g} gram</b>")
+                    )
+                st.markdown(tampilkan_kotak("Penyelesaian (perbandingan koefisien)", langkah_m), unsafe_allow_html=True)
 
     # ----------------------------------------------------------
     # pH & KESETIMBANGAN
