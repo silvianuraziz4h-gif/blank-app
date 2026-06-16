@@ -809,8 +809,6 @@ else:
         tab_konv, tab_mol, tab_reaksi = st.tabs(["🔄 Konversi Satuan", "⚖️ Mol & Massa", "🧮 Stoikiometri Reaksi"])
 
         with tab_konv:
-            keterangan("Molaritas")
-            keterangan("ppm")
             col1, col2 = st.columns(2)
             with col1:
                 satuan_dari = st.selectbox("Dari satuan:", SATUAN_KONSENTRASI, index=0, key="k_dari")
@@ -819,6 +817,22 @@ else:
             with col2:
                 satuan_ke = st.selectbox("Ke satuan:", SATUAN_KONSENTRASI, index=2, key="k_ke")
                 densitas  = st.number_input("Densitas ρ (g/mL)", 0.001, value=1.0, key="k_rho")
+
+            # Keterangan dinamis mengikuti satuan yang dipilih
+            KETERANGAN_SATUAN = {
+                "Molaritas (M)": ("Molaritas (M)", "Jumlah mol zat terlarut per liter larutan. Rumus: M = n / V(L). Satuan: mol/L."),
+                "% massa/volume (% m/v)": ("% massa/volume (%m/v)", "Massa zat terlarut (gram) per 100 mL larutan. Rumus: %m/v = (massa/volume) × 100%. Contoh: 5% artinya 5 g per 100 mL."),
+                "ppm (mg/L)": ("ppm — parts per million (mg/L)", "Konsentrasi 1 mg zat dalam 1 liter larutan (setara mg/L). Umum untuk analisis air dan larutan encer."),
+                "ppb (µg/L)": ("ppb — parts per billion (µg/L)", "Konsentrasi 1 µg zat dalam 1 liter larutan (setara µg/L). Digunakan untuk analisis jejak (trace analysis) pada kadar sangat rendah. 1 ppb = 0.001 ppm."),
+                "mg/mL": ("mg/mL", "Massa zat (miligram) per mL larutan. Setara dengan g/L. Sering digunakan dalam farmasi dan biokimia."),
+                "Molalitas (m)": ("Molalitas (m)", "Jumlah mol zat terlarut per kilogram pelarut (bukan larutan). Rumus: m = n / massa_pelarut(kg). Tidak bergantung pada suhu."),
+            }
+            satuan_sudah = set()
+            for sat in [satuan_dari, satuan_ke]:
+                if sat in KETERANGAN_SATUAN and sat not in satuan_sudah:
+                    nama_sat, penjelasan = KETERANGAN_SATUAN[sat]
+                    st.markdown(f'<div class="istilah-box">ℹ️ <b>{nama_sat}:</b> {penjelasan}</div>', unsafe_allow_html=True)
+                    satuan_sudah.add(sat)
 
             if satuan_dari == satuan_ke:
                 st.warning("Pilih satuan yang berbeda.")
@@ -1322,16 +1336,68 @@ else:
 
         with tab_ka:
             keterangan("Ka")
-            C  = st.number_input("Konsentrasi C (M)", 1e-10, value=0.1, key="C_ka")
-            pH = st.number_input("pH terukur", 0.0, 14.0, value=2.87, key="pH_ka")
-            H  = 10 ** (-pH)
-            if C > H:
-                Ka = H**2 / (C - H)
-                tampilkan_hasil("Ka Prediksi", f"{Ka:.4e}")
-                st.markdown(tampilkan_kotak("Ka = [H⁺]² / (C - [H⁺])",
-                    buat_baris(f"[H⁺] = 10^(-{pH}) = {H:.4e} M") +
-                    buat_baris(f"Ka = ({H:.4e})² / ({C} - {H:.4e}) = <b>{Ka:.4e}</b>")
-                ), unsafe_allow_html=True)
+            keterangan("Kb")
+
+            sub_ka, sub_kb = st.tabs(["🔴 Hitung Ka (Asam Lemah)", "🔵 Hitung Kb (Basa Lemah)"])
+
+            with sub_ka:
+                st.markdown('<div class="istilah-box">ℹ️ Masukkan konsentrasi asam lemah dan pH terukur untuk menghitung tetapan ionisasi asam (Ka).</div>', unsafe_allow_html=True)
+                col1, col2 = st.columns(2)
+                with col1:
+                    C_ka  = st.number_input("Konsentrasi asam C (M)", 1e-10, value=0.1, key="C_ka")
+                with col2:
+                    pH_ka = st.number_input("pH terukur", 0.0, 14.0, value=2.87, key="pH_ka")
+                H_ka  = 10 ** (-pH_ka)
+                if C_ka > H_ka:
+                    Ka = H_ka**2 / (C_ka - H_ka)
+                    pKa = -math.log10(Ka)
+                    derajat = (H_ka / C_ka) * 100
+                    tampilkan_hasil("Ka Prediksi", f"{Ka:.4e}")
+                    col_a, col_b = st.columns(2)
+                    with col_a:
+                        tampilkan_hasil("pKa", f"{pKa:.4f}")
+                    with col_b:
+                        tampilkan_hasil("Derajat Ionisasi (α)", f"{derajat:.3f} %")
+                    st.markdown(tampilkan_kotak("Ka = [H⁺]² / (C - [H⁺])",
+                        buat_baris(f"[H⁺] = 10^(-{pH_ka}) = {H_ka:.4e} M") +
+                        buat_baris(f"Ka = ({H_ka:.4e})² / ({C_ka} - {H_ka:.4e}) = <b>{Ka:.4e}</b>") +
+                        buat_baris(f"pKa = -log({Ka:.4e}) = <b>{pKa:.4f}</b>") +
+                        buat_baris(f"Derajat ionisasi α = ([H⁺]/C) × 100 = ({H_ka:.4e}/{C_ka}) × 100 = <b>{derajat:.3f}%</b>")
+                    ), unsafe_allow_html=True)
+                else:
+                    st.warning("Konsentrasi C harus lebih besar dari [H⁺]. Periksa kembali nilai pH dan konsentrasi.")
+
+            with sub_kb:
+                st.markdown('<div class="istilah-box">ℹ️ Masukkan konsentrasi basa lemah dan pH terukur untuk menghitung tetapan ionisasi basa (Kb). pH basa lemah umumnya > 7.</div>', unsafe_allow_html=True)
+                col1, col2 = st.columns(2)
+                with col1:
+                    C_kb  = st.number_input("Konsentrasi basa C (M)", 1e-10, value=0.1, key="C_kb")
+                with col2:
+                    pH_kb = st.number_input("pH terukur", 0.0, 14.0, value=11.13, key="pH_kb")
+                pOH_kb = 14 - pH_kb
+                OH_kb  = 10 ** (-pOH_kb)
+                if C_kb > OH_kb:
+                    Kb = OH_kb**2 / (C_kb - OH_kb)
+                    pKb = -math.log10(Kb)
+                    Ka_konj = (10**-14) / Kb
+                    derajat_b = (OH_kb / C_kb) * 100
+                    tampilkan_hasil("Kb Prediksi", f"{Kb:.4e}")
+                    col_a, col_b = st.columns(2)
+                    with col_a:
+                        tampilkan_hasil("pKb", f"{pKb:.4f}")
+                    with col_b:
+                        tampilkan_hasil("Ka asam konjugat", f"{Ka_konj:.4e}")
+                    tampilkan_hasil("Derajat Ionisasi (α)", f"{derajat_b:.3f} %")
+                    st.markdown(tampilkan_kotak("Kb = [OH⁻]² / (C - [OH⁻])",
+                        buat_baris(f"pOH = 14 - pH = 14 - {pH_kb} = {pOH_kb:.4f}") +
+                        buat_baris(f"[OH⁻] = 10^(-{pOH_kb:.4f}) = {OH_kb:.4e} M") +
+                        buat_baris(f"Kb = ({OH_kb:.4e})² / ({C_kb} - {OH_kb:.4e}) = <b>{Kb:.4e}</b>") +
+                        buat_baris(f"pKb = -log({Kb:.4e}) = <b>{pKb:.4f}</b>") +
+                        buat_baris(f"Ka asam konjugat = Kw/Kb = 10⁻¹⁴ / {Kb:.4e} = <b>{Ka_konj:.4e}</b>") +
+                        buat_baris(f"Derajat ionisasi α = ([OH⁻]/C) × 100 = <b>{derajat_b:.3f}%</b>")
+                    ), unsafe_allow_html=True)
+                else:
+                    st.warning("Konsentrasi C harus lebih besar dari [OH⁻]. Pastikan pH > 7 untuk basa lemah.")
 
         with tab_dilusi:
             keterangan("Molaritas")
